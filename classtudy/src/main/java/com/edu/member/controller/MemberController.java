@@ -37,22 +37,8 @@ public class MemberController {
 	
 	// 회원가입 POST : 회원가입에 필요한 자료를 가지고 회원가입 요청이 들어오면
 	@RequestMapping(value="/register", method=RequestMethod.POST)
-	public String postRegister(MemberDTO memberDTO, HttpServletRequest request, Model model) throws Exception {
+	public String postRegister(MemberDTO memberDTO, Model model) throws Exception {
 		LOGGER.info("MemberController postRegister().....");
-		
-		// 생년월일 XXXXXXXX 형식으로 변환
-		String birthYear = request.getParameter("birthYear");
-		String birthMonth = request.getParameter("birthMonth");
-		String birthDay = request.getParameter("birthDay");
-		String dateOfBirth = birthYear + birthMonth + birthDay;
-		memberDTO.setDateOfBirth(dateOfBirth);
-		
-		// 전화번호 01X-XXXX-XXXX 형식으로 변환
-		String tel1 = request.getParameter("tel1");
-		String tel2 = request.getParameter("tel2");
-		String tel3 = request.getParameter("tel3");
-		String tel = tel1 + "-" + tel2 + "-" + tel3;
-		memberDTO.setTel(tel);
 		
 		// 회원아이디가 존재하는지 검사한다.
 		// 데이터가 존재하면 1을 리턴하고 아니면 0을 리턴하는 idCheck메서드를 MemberService에 만든다.
@@ -185,8 +171,10 @@ public class MemberController {
 		memberService.memberDelete(memberDTO);
 		session.invalidate();
 		
-		return "redirect:/member/login";
+		return "redirect:/member/login";		
 	}
+	
+	
 
 	//게시글 삭제
 	//삭제할 게시번호를 받아서 서비스한테 게시번호를 주고 삭제작업을 의뢰한다.
@@ -196,5 +184,20 @@ public class MemberController {
 //		boardService.boardDelete(b_no);
 //		return "redirect:/board/list";
 //	}
+	
+
 
 } // End - public class BoardController
+
+
+
+
+
+
+
+
+
+
+
+
+
