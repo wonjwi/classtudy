@@ -6,9 +6,7 @@
 - Spring Boot
 - Java
 - JavaScript
-- MyBatis
 - MySQL
-- Tomcat 9.0
+- Tomcat
 - Lombok
-- JSTL
 - Maven
