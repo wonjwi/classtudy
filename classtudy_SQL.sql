@@ -111,11 +111,15 @@ CREATE TABLE freeboard (
 	writer 		VARCHAR(16) 	NOT NULL,
 	title 		VARCHAR(50) 	NOT NULL,
 	content 	TEXT 		NOT NULL,
-	category 	SET('공지사항', '질문', '정보', '이야기') NOT NULL,
+	category 	SET('공지사항', '질문', '정보', '이야기', '그룹홍보') NOT NULL,
 	views 		INT 		NOT NULL DEFAULT 0,
 	likes 		INT 		NOT NULL DEFAULT 0,
 	writeDate 	TIMESTAMP 	NOT NULL,
-	tags 		SET('Java', 'Python', 'JavaScript', 'Back-End', '웹 개발', '앱 개발', 'HTML/CSS', 'Front-End', '데이터베이스', '게임 개발', 'Android', 'Spring', 'Node.js', '알고리즘', 'React', '머신러닝', 'SQL', '인공지능', '정보보안', '블록체인', 'DevOps', '클라우드', 'Linux', 'iOS', 'Swift'),
+	tags 		SET('Java', 'Python', 'JavaScript', 'Back-End', '웹 개발', '앱 개발', 'HTML/CSS', 'Front-End', '데이터베이스', 
+			    '게임 개발', 'Android', 'Spring', 'Node.js', '알고리즘', 'React', '머신러닝', 'SQL', '인공지능', '정보보안', 
+			    '블록체인', 'DevOps', '클라우드', 'Linux', 'iOS', 'Swift', 'Spring Boot', 'Bootstrap', 'jQuery', 'Git', 
+			    'Django', 'UI/UX', '3D 모델링', 'Flask', 'After Effects', 'Premiere Pro', 'Photoshop', 'Illustrator', 
+			    'R', '편집 디자인', 'Unity', 'JSP', 'JDBC', 'JSTL', '해킹', 'InDesign'),
 	FOREIGN KEY (writer) REFERENCES member(memberId)	
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -129,7 +133,11 @@ CREATE TABLE groupboard (
 	likes 		INT 		NOT NULL DEFAULT 0,
 	writeDate 	TIMESTAMP 	NOT NULL,
 	groupId 	INT 		NOT NULL,
-	tags 		SET('Java', 'Python', 'JavaScript', 'Back-End', '웹 개발', '앱 개발', 'HTML/CSS', 'Front-End', '데이터베이스', '게임 개발', 'Android', 'Spring', 'Node.js', '알고리즘', 'React', '머신러닝', 'SQL', '인공지능', '정보보안', '블록체인', 'DevOps', '클라우드', 'Linux', 'iOS', 'Swift'),
+	tags 		SET('Java', 'Python', 'JavaScript', 'Back-End', '웹 개발', '앱 개발', 'HTML/CSS', 'Front-End', '데이터베이스', 
+			    '게임 개발', 'Android', 'Spring', 'Node.js', '알고리즘', 'React', '머신러닝', 'SQL', '인공지능', '정보보안', 
+			    '블록체인', 'DevOps', '클라우드', 'Linux', 'iOS', 'Swift' 'Spring Boot', 'Bootstrap', 'jQuery', 'Git', 
+			    'Django', 'UI/UX', '3D 모델링', 'Flask', 'After Effects', 'Premiere Pro', 'Photoshop', 'Illustrator', 
+			    'R', '편집 디자인', 'Unity', 'JSP', 'JDBC', 'JSTL', '해킹', 'InDesign'),
 	FOREIGN KEY (writer) REFERENCES member(memberId),
 	FOREIGN KEY (groupId) REFERENCES grouplist(groupId)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
