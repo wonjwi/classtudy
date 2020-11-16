@@ -1,4 +1,4 @@
-package com.edu.member.controller;
+package com.edu.controller;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -11,8 +11,8 @@ import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.edu.member.domain.MemberDTO;
-import com.edu.member.service.MemberService;
+import com.edu.domain.MemberDTO;
+import com.edu.service.MemberService;
 
 @Controller // 컨트롤러 빈으로 등록하는 어노테이션
 @RequestMapping("/member/*") // MemberController에서 공통적으로 사용될 url mapping
@@ -108,18 +108,18 @@ public class MemberController {
 		//////////////////////////////////////////////////////////
 		// 해당하는 회원의 정보가 없으면
 		if(login == null) {
-		session.setAttribute("member", null);
-		
-		//rttr.addAttribute("msg", false)를 사용하면, 변수명과 값이 주소에 노출된다.
-		//rttr.addAttribute("msg", false);
-		
-		//RedirectAttributes를 사용하여 변수명과 주소값을 노출시키지 않고 사용한다.
-		rttr.addFlashAttribute("msg", false);
+			session.setAttribute("member", null);
+			
+			//rttr.addAttribute("msg", false)를 사용하면, 변수명과 값이 주소에 노출된다.
+			//rttr.addAttribute("msg", false);
+			
+			//RedirectAttributes를 사용하여 변수명과 주소값을 노출시키지 않고 사용한다.
+			rttr.addFlashAttribute("msg", false);
 		} else {
-		//해당하는 회원의 정보가 있으면
-		session.setAttribute("member", login);
+			//해당하는 회원의 정보가 있으면
+			session.setAttribute("member", login);
 		}
-		return "redirect:/";
+		return "redirect:/member/login";
 	}
 	
 	// 로그아웃

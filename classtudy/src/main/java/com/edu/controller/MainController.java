@@ -1,4 +1,4 @@
-package com.edu;
+package com.edu.controller;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -8,15 +8,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.edu.member.controller.MemberController;
-import com.edu.member.domain.MemberDTO;
+import com.edu.domain.MemberDTO;
 
 @Controller // 컨트롤러 빈으로 등록하는 어노테이션
 public class MainController {
 	
 	// 로깅을 위한 변수 logger를 선언한다.
 	private static final Logger LOGGER
-		= LoggerFactory.getLogger(MemberController.class);
+		= LoggerFactory.getLogger(MainController.class);
 
 	// 메인 화면 => http://localhost:8071/로 들어왔을 때
 	@RequestMapping(value="/", method=RequestMethod.GET)
