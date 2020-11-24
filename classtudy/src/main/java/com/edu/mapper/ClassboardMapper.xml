@@ -31,14 +31,14 @@
 	AND 	category = 'TIL' 
 	AND 	writer = #{memberId} 
 	</select>
-	
-	<!-- 마지막 TIL 게시글 번호 추출 -->
-	<select id="getNextTILNum" resultType="Integer">
-	SELECT 	MAX(boardNo) 
+	<!-- 화면에 보여줄 TIL 게시글 개수 추출 (검색시) -->
+	<select id="getTILSearchCount" resultType="Integer">
+	SELECT 	COUNT(boardNo) 
 	FROM 	classboard 
 	WHERE 	lectureNo = #{lectureNo} 
 	AND 	category = 'TIL' 
 	AND 	writer = #{memberId} 
+	AND 	(title LIKE #{keyword} OR content LIKE #{keyword}) 
 	</select>
 	
 	<!-- TIL 게시글 검색 -->
@@ -49,7 +49,7 @@
 	AND 	category = 'TIL' 
 	AND 	writer = #{memberId} 
 	AND 	(title LIKE #{keyword} OR content LIKE #{keyword}) 
-	ORDER BY boardNo DESC 
+	ORDER BY boardNo DESC LIMIT #{startNo}, #{numOfPage} 
 	</select>
 	
 	<!-- 게시글 작성 -->
@@ -88,19 +88,20 @@
 	WHERE 	lectureNo = #{lectureNo} 
 	AND 	category = #{viewCategory} 
 	</select>
-	
-	<!-- 마지막 게시글 번호 추출 -->
-	<select id="getNextNum" resultType="Integer">
-	SELECT 	MAX(boardNo) 
+	<!-- 화면에 보여줄 게시글 개수 추출 (검색시) -->
+	<select id="getSearchCount" resultType="Integer">
+	SELECT 	COUNT(boardNo) 
 	FROM 	classboard 
 	WHERE 	lectureNo = #{lectureNo} 
+	AND 	(title LIKE #{keyword} OR content LIKE #{keyword}) 
 	</select>
-	<!-- 마지막 게시글 번호 추출2 -->
-	<select id="getNextNum2" resultType="Integer">
-	SELECT 	MAX(boardNo) 
+	<!-- 화면에 보여줄 게시글 개수 추출2 (검색시) -->
+	<select id="getSearchCount2" resultType="Integer">
+	SELECT 	COUNT(boardNo) 
 	FROM 	classboard 
 	WHERE 	lectureNo = #{lectureNo} 
 	AND 	category = #{viewCategory} 
+	AND 	(title LIKE #{keyword} OR content LIKE #{keyword}) 
 	</select>
 	
 	<!-- 게시글 상세 보기 -->
@@ -144,7 +145,7 @@
 	FROM 	classboard c INNER JOIN member m ON c.writer = m.memberId 
 	AND 	c.lectureNo = #{lectureNo} 
 	AND 	(c.title LIKE #{keyword} OR c.content LIKE #{keyword}) 
-	ORDER BY boardNo DESC 
+	ORDER BY boardNo DESC LIMIT #{startNo}, #{numOfPage} 
 	</select>
 	
 	<!-- 게시글 검색2 -->
@@ -154,7 +155,7 @@
 	AND 	c.lectureNo = #{lectureNo} 
 	AND 	c.category = #{viewCategory} 
 	AND 	(c.title LIKE #{keyword} OR c.content LIKE #{keyword}) 
-	ORDER BY boardNo DESC 
+	ORDER BY boardNo DESC LIMIT #{startNo}, #{numOfPage} 
 	</select>
 	
 </mapper>

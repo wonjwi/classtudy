@@ -91,8 +91,8 @@ public class ClassboardController {
 	
 	// TIL 게시글 검색
 	// 제목 또는 내용에 키워드가 들어간 글 찾기
-	@RequestMapping(value="/searchTIL/{keyword}")
-	public String searchTIL(@PathVariable String keyword, HttpSession session, Model model) throws Exception {
+	@RequestMapping(value={"/searchTIL/{keyword}", "/searchTIL/{keyword}/{pageNum}"})
+	public String searchTIL(@PathVariable String keyword, @PathVariable Optional<Integer> pageNum, HttpSession session, Model model) throws Exception {
 		logger.info("ClassboardController search()....");
 		logger.info("ClassboardController search() : " + keyword);
 		// session에서 memberDTO를 저장한다.
@@ -103,18 +103,23 @@ public class ClassboardController {
 		String memberId = member.getMemberId();
 		logger.info("ClassboardController classroom() lectureNo : " + lectureNo + ", " + memberId);
 		// 현재 페이지의 번호를 저장하는 변수
-		int pageNumber = 1;
+		// pageNum에 값이 없으면 1, 있으면 해당하는 페이지를 가져온다.
+		int pageNumber = pageNum.isPresent() ? (int)pageNum.get() : 1;
 		// 화면에 보여줄 전체 게시글 건수를 구하기. 
 		// 말머리가 있으면 해당하는 게시글만 카운트한다.
-		int totalCount = classboardService.getTILCount(lectureNo, memberId);
+		int totalCount = classboardService.getTILSearchCount(lectureNo, memberId, "%" + keyword + "%");
 		// 화면에 보여줄 게시글의 수
 		int numOfPage = 5;
 		// 구한 값을 뷰 페이지로 보내준다.
 		model.addAttribute("pageNumber", pageNumber);
-		model.addAttribute("totalCount", 0); //임시값. 내일 수정할 것!!!!!!!!!
+		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("numOfPage", numOfPage);
+		// 검색한 키워드를 뷰 페이지로 보내준다.
+		model.addAttribute("nowKeyword", keyword);
+		// 현재 페이지 번호를 이용해서 출력될 페이지의 시작 번호를 구한다.
+		int startNo = (pageNumber-1) * 5;
 		// 클래스게시판 목록 화면에 보여줄 데이터를 검색해와서 담는다.
-		model.addAttribute("list", classboardService.searchTIL(lectureNo, memberId, "%" + keyword + "%"));
+		model.addAttribute("list", classboardService.searchTIL(lectureNo, memberId, "%" + keyword + "%", startNo, numOfPage));
 		return "/classboard/listTIL";
 	}
 	
@@ -237,8 +242,8 @@ public class ClassboardController {
 	
 	// 게시글 검색
 	// 제목 또는 내용에 키워드가 들어간 글 찾기
-	@RequestMapping(value="/search/{keyword}/{viewCategory}")
-	public String search(@PathVariable String keyword, @PathVariable String viewCategory, HttpSession session, Model model) throws Exception {
+	@RequestMapping(value={"/search/{keyword}/{viewCategory}", "/search/{keyword}/{viewCategory}/{pageNum}"})
+	public String search(@PathVariable String keyword, @PathVariable String viewCategory, @PathVariable Optional<Integer> pageNum, HttpSession session, Model model) throws Exception {
 		logger.info("ClassboardController search()....");
 		logger.info("ClassboardController search() : " + keyword);
 		// session에서 memberDTO를 저장한다.
@@ -246,23 +251,26 @@ public class ClassboardController {
 		// memberDTO에서 강의번호를 찾아 저장한다.
 		int lectureNo = member.getLectureNo();
 		// 현재 페이지의 번호를 저장하는 변수
-		int pageNumber = 1;
+		// pageNum에 값이 없으면 1, 있으면 해당하는 페이지를 가져온다.
+		int pageNumber = pageNum.isPresent() ? (int)pageNum.get() : 1;
 		// 화면에 보여줄 전체 게시글 건수를 구하기. 
 		// 말머리가 있으면 해당하는 게시글만 카운트한다.
-		int totalCount = viewCategory.equals("all") ? classboardService.getBoardCount(lectureNo) : classboardService.getBoardCount2(lectureNo, viewCategory);
+		int totalCount = viewCategory.equals("all") ? classboardService.getSearchCount(lectureNo, "%" + keyword + "%") : classboardService.getSearchCount2(lectureNo, viewCategory, "%" + keyword + "%");
 		// 화면에 보여줄 게시글의 수
 		int numOfPage = 5;
 		// 구한 값을 뷰 페이지로 보내준다.
 		model.addAttribute("pageNumber", pageNumber);
-		model.addAttribute("totalCount", 0); //임시값. 내일 수정할 것!!!!!!!!!
+		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("numOfPage", numOfPage);
 		// 검색한 키워드를 뷰 페이지로 보내준다.
 		model.addAttribute("nowKeyword", keyword);
+		// 현재 페이지 번호를 이용해서 출력될 페이지의 시작 번호를 구한다.
+		int startNo = (pageNumber-1) * 5;
 		// 클래스게시판 목록 화면에 보여줄 데이터를 검색해와서 담는다.
 		if (viewCategory.equals("all")) {
-			model.addAttribute("list", classboardService.search(lectureNo, "%" + keyword + "%"));
+			model.addAttribute("list", classboardService.search(lectureNo, "%" + keyword + "%", startNo, numOfPage));
 		} else { // 말머리가 선택되면 선택된 말머리의 게시글만 검색한다.
-			model.addAttribute("list", classboardService.search2(lectureNo, "%" + keyword + "%", viewCategory));
+			model.addAttribute("list", classboardService.search2(lectureNo, "%" + keyword + "%", viewCategory, startNo, numOfPage));
 		}
 		return "/classboard/list";
 	}
