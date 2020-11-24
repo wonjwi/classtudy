@@ -29,8 +29,8 @@ public class ClassboardService {
 	}
 	
 	// TIL 게시글 목록 보기
-	public List<ClassboardDTO> boardListTIL(int lectureNo, String memberId, int maxNo) throws Exception {
-		return classboardMapper.boardListTIL(lectureNo, memberId, maxNo);
+	public List<ClassboardDTO> boardListTIL(int lectureNo, String memberId, int startNo, int numOfPage) throws Exception {
+		return classboardMapper.boardListTIL(lectureNo, memberId, startNo, numOfPage);
 	}
 	
 	// 화면에 보여줄 TIL 게시글 개수 추출
@@ -55,12 +55,12 @@ public class ClassboardService {
 	}
 	
 	// 게시판 목록 보기
-	public List<ClassboardDTO> boardList(int lectureNo, int maxNo) throws Exception {
-		return classboardMapper.boardList(lectureNo, maxNo);
+	public List<ClassboardDTO> boardList(int lectureNo, int startNo, int numOfPage) throws Exception {
+		return classboardMapper.boardList(lectureNo, startNo, numOfPage);
 	}
 	// 게시판 목록 보기 - 정해진 말머리만
-	public List<ClassboardDTO> boardList2(int lectureNo, String viewCategory, int maxNo) throws Exception {
-		return classboardMapper.boardList2(lectureNo, viewCategory, maxNo);
+	public List<ClassboardDTO> boardList2(int lectureNo, String viewCategory, int startNo, int numOfPage) throws Exception {
+		return classboardMapper.boardList2(lectureNo, viewCategory, startNo, numOfPage);
 	}
 	
 	// 화면에 보여줄 게시글 개수 추출

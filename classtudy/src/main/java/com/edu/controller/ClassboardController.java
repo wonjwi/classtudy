@@ -76,13 +76,16 @@ public class ClassboardController {
 		// 화면에 보여줄 전체 게시글 건수를 구하기. 
 		// 말머리가 있으면 해당하는 게시글만 카운트한다.
 		int totalCount = classboardService.getTILCount(lectureNo, memberId);
+		// 화면에 보여줄 게시글의 수
+		int numOfPage = 5;
 		// 구한 값을 뷰 페이지로 보내준다.
 		model.addAttribute("pageNumber", pageNumber);
 		model.addAttribute("totalCount", totalCount);
-		// 현재 게시글 번호를 이용해서 출력될 페이지의 최대 boardNo을 구한다.
-		int maxNo = classboardService.getNextTILNum(lectureNo, memberId) - (pageNumber-1) * 5;
+		model.addAttribute("numOfPage", numOfPage);
+		// 현재 페이지 번호를 이용해서 출력될 페이지의 시작 번호를 구한다.
+		int startNo = (pageNumber-1) * 5;
 		// 클래스게시판 목록 보기 화면에 보여줄 데이터를 가져와서 담는다.
-		model.addAttribute("list", classboardService.boardListTIL(lectureNo, memberId, maxNo));
+		model.addAttribute("list", classboardService.boardListTIL(lectureNo, memberId, startNo, numOfPage));
 		return "/classboard/listTIL";
 	}
 	
@@ -104,9 +107,12 @@ public class ClassboardController {
 		// 화면에 보여줄 전체 게시글 건수를 구하기. 
 		// 말머리가 있으면 해당하는 게시글만 카운트한다.
 		int totalCount = classboardService.getTILCount(lectureNo, memberId);
+		// 화면에 보여줄 게시글의 수
+		int numOfPage = 5;
 		// 구한 값을 뷰 페이지로 보내준다.
 		model.addAttribute("pageNumber", pageNumber);
 		model.addAttribute("totalCount", 0); //임시값. 내일 수정할 것!!!!!!!!!
+		model.addAttribute("numOfPage", numOfPage);
 		// 클래스게시판 목록 화면에 보여줄 데이터를 검색해와서 담는다.
 		model.addAttribute("list", classboardService.searchTIL(lectureNo, memberId, "%" + keyword + "%"));
 		return "/classboard/listTIL";
@@ -159,20 +165,20 @@ public class ClassboardController {
 		int pageNumber = pageNum.isPresent() ? (int)pageNum.get() : 1;
 		// 화면에 보여줄 전체 게시글 건수를 구하기. 
 		// 말머리가 있으면 해당하는 게시글만 카운트한다.
-		int totalCount = viewCategory.equals("all") ? 
-				classboardService.getBoardCount(lectureNo) : classboardService.getBoardCount2(lectureNo, viewCategory);
+		int totalCount = viewCategory.equals("all") ? classboardService.getBoardCount(lectureNo) : classboardService.getBoardCount2(lectureNo, viewCategory);
+		// 화면에 보여줄 게시글의 수
+		int numOfPage = 5;
 		// 구한 값을 뷰 페이지로 보내준다.
 		model.addAttribute("pageNumber", pageNumber);
 		model.addAttribute("totalCount", totalCount);
+		model.addAttribute("numOfPage", numOfPage);
+		// 현재 페이지 번호를 이용해서 출력될 페이지의 시작 번호를 구한다.
+		int startNo = (pageNumber-1) * 5;
 		// 클래스게시판 목록 보기 화면에 보여줄 데이터를 가져와서 담는다.
 		if (viewCategory.equals("all")) {
-			// 현재 게시글 번호를 이용해서 출력될 페이지의 최대 boardNo을 구한다.
-			int maxNo = classboardService.getNextNum(lectureNo) - (pageNumber-1) * 5;
-			model.addAttribute("list", classboardService.boardList(lectureNo, maxNo));
+			model.addAttribute("list", classboardService.boardList(lectureNo, startNo, numOfPage));
 		} else { // 말머리가 선택되면 선택된 말머리의 게시글만 보여준다.
-			// 현재 게시글 번호를 이용해서 출력될 페이지의 최대 boardNo을 구한다.
-			int maxNo = classboardService.getNextNum2(lectureNo, viewCategory) - (pageNumber-1) * 10;
-			model.addAttribute("list", classboardService.boardList2(lectureNo, viewCategory, maxNo));
+			model.addAttribute("list", classboardService.boardList2(lectureNo, viewCategory, startNo, numOfPage));
 		}
 		return "/classboard/list";
 	}
@@ -243,11 +249,15 @@ public class ClassboardController {
 		int pageNumber = 1;
 		// 화면에 보여줄 전체 게시글 건수를 구하기. 
 		// 말머리가 있으면 해당하는 게시글만 카운트한다.
-		int totalCount = viewCategory.equals("all") ? 
-				classboardService.getBoardCount(lectureNo) : classboardService.getBoardCount2(lectureNo, viewCategory);
+		int totalCount = viewCategory.equals("all") ? classboardService.getBoardCount(lectureNo) : classboardService.getBoardCount2(lectureNo, viewCategory);
+		// 화면에 보여줄 게시글의 수
+		int numOfPage = 5;
 		// 구한 값을 뷰 페이지로 보내준다.
 		model.addAttribute("pageNumber", pageNumber);
 		model.addAttribute("totalCount", 0); //임시값. 내일 수정할 것!!!!!!!!!
+		model.addAttribute("numOfPage", numOfPage);
+		// 검색한 키워드를 뷰 페이지로 보내준다.
+		model.addAttribute("nowKeyword", keyword);
 		// 클래스게시판 목록 화면에 보여줄 데이터를 검색해와서 담는다.
 		if (viewCategory.equals("all")) {
 			model.addAttribute("list", classboardService.search(lectureNo, "%" + keyword + "%"));

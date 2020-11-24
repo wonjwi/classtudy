@@ -13,7 +13,7 @@ public interface ClassboardMapper {
 	public int writeTIL(ClassboardDTO cbDTO) throws Exception;
 
 	// TIL 게시글 목록 보기
-	public List<ClassboardDTO> boardListTIL(int lectureNo, String memberId, int maxNo) throws Exception;
+	public List<ClassboardDTO> boardListTIL(int lectureNo, String memberId, int startNo, int numOfPage) throws Exception;
 	
 	// 화면에 보여줄 TIL 게시글 개수 추출
 	public int getTILCount(int lectureNo, String memberId) throws Exception;
@@ -28,9 +28,9 @@ public interface ClassboardMapper {
 	public int write(ClassboardDTO cbDTO) throws Exception;
 	
 	// 게시판 목록 보기
-	public List<ClassboardDTO> boardList(int lectureNo, int maxNo) throws Exception;
+	public List<ClassboardDTO> boardList(int lectureNo, int startNo, int numOfPage) throws Exception;
 	// 게시판 목록 보기 - 정해진 말머리만
-	public List<ClassboardDTO> boardList2(int lectureNo, String viewCategory, int maxNo) throws Exception;
+	public List<ClassboardDTO> boardList2(int lectureNo, String viewCategory, int startNo, int numOfPage) throws Exception;
 	
 	// 화면에 보여줄 게시글 개수 추출
 	public int getBoardCount(int lectureNo) throws Exception;

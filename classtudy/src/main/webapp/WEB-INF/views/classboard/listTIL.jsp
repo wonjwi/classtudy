@@ -18,10 +18,10 @@
 	//화면에 보여줄 전체 게시글 건
 	int totalCount = (int)request.getAttribute("totalCount");
 	// 한 페이지에서 보여줄 게시글의 개수
-	final int NUM_OF_PAGE = 5;
+	int numOfPage = (int)request.getAttribute("numOfPage");
 	// pageCount : 보여져야하는 페이지의 수
 	// 말머리에 따른 전체 게시글 수를 나누어 나머지가 생기면 1페이지를 추가한다.
-	int pageCount = totalCount / NUM_OF_PAGE + (totalCount % NUM_OF_PAGE == 0 ? 0 : 1);
+	int pageCount = totalCount / numOfPage + (totalCount % numOfPage == 0 ? 0 : 1);
 	// 화면 하단에 보여지는 페이지의 개수
 	int pageBlock = 3;
 	// 선택한 페이지번호가 pageBlock 내에 있으면 startPage를 하단에 보여줄 번호의 맨 앞 번호로 한다.
@@ -41,7 +41,7 @@
 			<td align=left style="padding-bottom: 15px; padding-left: 20px;">
 				<div class="btn-group">	
 					<!-- 말머리 선택 불가, TIL 고정 -->
-					<select class="form-control" name="viewCategory" onchange="location.href=this.value" disabled>
+					<select class="form-control" name="viewCategory" onchange="location.href='/class/classroom/' + this.value" disabled>
 						<option value="all">전체</option>
 						<option value="TIL" selected>TIL</option>
 						<option value="클래스">클래스</option>
@@ -100,18 +100,21 @@
 	</table>
 	<!-- 페이지 이동 -->
 	<footer>
+		<div class="btn-group" role="group">
 		<%
 		//이전 페이지로 갈 수 있도록 한다.
 		//startPage가 pageBlock보다 큰 경우에만 << 버튼을 보여준다.
 		if(startPage > pageBlock) {
 			%>
-			<a href="/class/TIL/<%= startPage - 1 %>">&lt;&lt;</a>&nbsp;
+			<button type="button" class="btn btn-default" onclick="location.href='/class/TIL/<%=startPage - 1%>'">&lt;&lt;</button>
+			<%-- <a href="/class/TIL/<%= startPage - 1 %>">&lt;&lt;</a>&nbsp; --%>
 			<%
 		}
 		//pageNumber가 1보다 큰 경우에만 < 버튼을 보여준다.
 		if(pageNumber > 1) {
 			%>
-			<a href="/class/TIL/<%= pageNumber - 1 %>">[이전]</a>
+			<button type="button" class="btn btn-default" onclick="location.href='/class/TIL/<%=pageNumber - 1%>'">&lt;</button>
+			<%-- <a href="/class/TIL/<%= pageNumber - 1 %>">[이전]</a>&nbsp; --%>
 			<%
 		}
 		
@@ -119,11 +122,13 @@
 		for(int num = startPage; num <= endPage; num++) {
 			if (num == pageNumber) {
 			%>
-			<a style="color: #33ee33;" href="/class/TIL/<%= num %>">[<%= num %>]</a>
+			<button type="button" class="btn btn-success" onclick="location.href='/class/TIL/<%=num%>'"><%=num%></button>
+			<%-- <a style="color: #33ee33;" href="/class/TIL/<%=num%>">[<%=num%>]</a> --%>
 			<%
 			} else {
 			%>
-			<a href="/class/TIL/<%= num %>">[<%= num %>]</a>
+			<button type="button" class="btn btn-default" onclick="location.href='/class/TIL/<%=num%>'"><%=num%></button>
+			<%-- <a href="/class/TIL/<%= num %>">[<%= num %>]</a> --%>
 			<%
 			}
 		}
@@ -132,16 +137,19 @@
 		//pageNumber가 pageCount보다 작은 경우에만 > 버튼을 보여준다.
 		if(pageNumber < pageCount) {
 			%>
-			<a href="/class/TIL/<%= pageNumber + 1 %>">[다음]</a>&nbsp;
+			<button type="button" class="btn btn-default" onclick="location.href='/class/TIL/<%=pageNumber + 1%>'">&gt;</button>
+			<%-- <a href="/class/TIL/<%= pageNumber + 1 %>">[다음]</a>&nbsp; --%>
 			<%
 		}
 		//endPage가 pageCount보다 작은 경우에만 >> 버튼을 보여준다.
 		if(endPage < pageCount) {
 			%>
-			<a href="/class/TIL/<%= endPage + 1 %>">&gt;&gt;</a>
+			<button type="button" class="btn btn-default" onclick="location.href='/class/TIL/<%=endPage + 1%>'">&gt;&gt;</button>
+			<%-- <a href="/class/TIL/<%= endPage + 1 %>">&gt;&gt;</a> --%>
 			<%
 		}
 		%>
+		</div>
 	</footer>
 </div>
 	
