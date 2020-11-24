@@ -2,8 +2,7 @@
 // 각종 검사
 //---------------------------------------------------------------------
 // 최상위 체크 로직(chars로 넘긴 값이 있다면 false)
-function containsChars(input, chars) 
-{
+function containsChars(input, chars) {
 	for (var inx = 0; inx < input.length; inx++) {
 		if (chars.indexOf(input.charAt(inx)) != -1)
 			return true;
@@ -11,8 +10,7 @@ function containsChars(input, chars)
 	return false;
 }
 // 최상위 체크 로직(chars로 넘긴 값이 있다면 true)
-function containsCharsOnly(input, chars) 
-{
+function containsCharsOnly(input, chars) {
 	for (var inx = 0; inx < input.length; inx++) {
 		if (chars.indexOf(input.charAt(inx)) == -1)
 			return false;
@@ -20,30 +18,56 @@ function containsCharsOnly(input, chars)
 	return true;
 }
 // 숫자 체크
-function isNumberCheck ( inputVal ) 
-{
+function isNumberCheck ( inputVal ) {
 	var var_normalize = /[^0-9]/gi; //정규식
 	if (var_normalize.test(inputVal) == true) return false;
 	else return true;
 }
-function isNum(input) 
-{
+function isNum(input) {
 	var chars = "0123456789";
 	return containsCharsOnly(input, chars);
 }
 // 영대소문자 및 숫자 체크
-function isAlphaNumCheck(input) 
-{ 
+function isAlphaNumCheck(input) { 
 	var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 	return containsCharsOnly(input, chars);
 }
 // 숫자 및 특수문자 체크
-function isNameCheck(input) 
-{
+function isNameCheck(input) {
 	var chars = "0123456789~!@#$%^&*()_-+=|{}[]<>,./?";
 	return containsChars(input, chars);
 }
-
+// 생년월일에 대한 유효성 검사
+// max : 현재 날짜, min : 1900-01-01
+function dateValidCheck(input, max) {
+	// input에서 년, 월, 일 분리
+	var birthSplit 	= input.split('-');
+	var maxSplit 	= max.split('-');
+	// 문자열을 숫자로 바꿔서 저장
+	var year 	= Number(birthSplit[0]); //년
+	var month 	= Number(birthSplit[1]); //월
+	var day 	= Number(birthSplit[2]); //일
+	// 윤년 여부 검사
+	var isLeap = false;
+	if(year % 4 == 0) {
+		isLeap = true;
+		if(year % 100 == 0) { isLeap = false; }
+		if(year % 400 == 0) { isLeap = true;  }
+	}
+	// 년월일 범위 검사
+	var dayOfMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+	if(year < 1900 || year > maxSplit[0]) { return false; }
+	if(year == maxSplit[0] && month > maxSplit[1]) { return false; }
+	if(year == maxSplit[0] && month == maxSplit[1] && day > maxSplit[2]) { return false; }
+	if(month < 1 || month > 12) { return false; }
+	// 윤년일 때
+	if(isLeap && month == 2) {
+		if(day < 1 || day > dayOfMonth[month-1] + 1) { return false; }
+	} else {
+		if(day < 1 || day > dayOfMonth[month-1]) { return false; }
+	}
+	return true;
+}
 //---------------------------------------------------------------------
 // 아이디 중복 검사
 // 입력한 아이디에 해당하는 정보가 있는지 검사하고, 결과값(정수)을 리턴받는다.
@@ -158,10 +182,22 @@ function registerCheckForm(memberForm)
 	}
 	// 생년월일 검사
 	if(memberForm.dateOfBirth.value == "") {
-		alert("생년월일을 모두 선택하세요.");
+		alert("생년월일을 입력하세요.");
 		memberForm.dateOfBirth.focus();
 		return false;
 	}
+	// 입력 받은 생년월일 값이 정해진 양식과 일치하는지 검사
+	var bf = /[0-9]{4}-[0-9]{2}-[0-9]{2}/; //지정된 양식(XXXX-XX-XX)
+	if( !(bf.test(memberForm.dateOfBirth.value)) ) {
+		alert("생년월일을 형식에 맞게 입력해주세요.\n<예시> 1990-01-01");
+		return false;
+	}
+	// 생년월일 유효성 검사
+	if( !(dateValidCheck(memberForm.dateOfBirth.value, memberForm.dateOfBirth.max)) ) {
+		alert("생년월일이 유효하지 않습니다.");
+		return false;
+	}
+	/*
 	// 입력 받은 생년월일 값이 정해진 양식과 일치하는지 검사
 	var birthSplit = (memberForm.dateOfBirth.value).split('-');
 	// 문자열을 숫자로 바꿔서 저장
@@ -173,6 +209,7 @@ function registerCheckForm(memberForm)
 		alert("생년월일을 지정된 형식으로 입력해주세요.\n<예시> 1990-01-01");
 		return false;
 	}
+	*/
 	/*
 	if(memberForm.birthYear.value == "" ||
 		memberForm.birthMonth.value == "" ||
