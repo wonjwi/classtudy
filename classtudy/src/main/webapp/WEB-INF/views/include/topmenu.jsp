@@ -27,8 +27,7 @@
 					<span class="icon-bar"></span>	
 				</button>
 				<a class="navbar-brand" href="/${path}">
-					<span class="glyphicon glyphicon-education"></span> 
-					<span style="font-size: 24px;"><strong>클래스터디</strong></span>
+					<span class="glyphicon glyphicon-education"></span>&nbsp;<span>클래스터디</span>
 				</a>
 			</div>
 			<div>
@@ -93,8 +92,7 @@
 					<span class="icon-bar"></span>	
 				</button>
 				<a class="navbar-brand" href="/${path}">
-					<span class="glyphicon glyphicon-education"></span> 
-					<span style="font-size: 24px;"><strong>클래스터디</strong></span>
+					<span class="glyphicon glyphicon-education"></span>&nbsp;<span>클래스터디</span>
 				</a>
 			</div>
 			<div>

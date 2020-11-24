@@ -10,24 +10,42 @@
 <!-- Bootstrap -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Poor+Story&display=swap" rel="stylesheet">
 <!-- 
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR&display=swap" rel="stylesheet">
  -->
 <style>
-div {
-	font-family: 'Nanum Gothic', sans-serif;
+@font-face {
+	font-family: 'MaplestoryOTFBold';
+	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/MaplestoryOTFBold.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+    font-family: 'IBMPlexSansKR-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/IBMPlexSansKR-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+.container {
+	font-family: 'IBMPlexSansKR-Regular', sans-serif;
+	font-size: 1.1em;
 	<%--
+	font-family: 'Nanum Gothic', sans-serif;
 	font-family: 'Noto Sans KR', sans-serif;
 	font-family: 'Noto Serif KR', serif;
 	--%>
 }
 .navbar-brand {
-	font-family: 'Poor Story', cursive;
+	font-family: 'MaplestoryOTFBold', sans-serif;
+	font-size: 28px;
+	padding-top: 6px;
 }
-
+.navbar-nav {
+	font-family: 'IBMPlexSansKR-Regular', sans-serif;
+	font-size: 1.15em;
+}
 .dropdown-submenu {
 	position: relative;
 }
