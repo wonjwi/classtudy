@@ -54,16 +54,16 @@
 				<textarea style="display:none;" id="content" name="content">${detail.content}</textarea>
 			</div>
 		</div>
-		<div class="form-group">
+		<footer>
 			<div class="col-sm-12" style="text-align: center; padding-bottom: 25px;">
-				<button type="button" class="btn btn-lg btn-default" id="likeBtn" 
-					><span class="glyphicon glyphicon-thumbs-up"></span><br>좋아요</button><br><br>
+				<button type="button" class="btn btn-lg btn-default" id="likeBtn" value="N" onclick="likeBoard(this.form)"
+					><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;좋아요&nbsp;${detail.likes}</button><br><br>
 				<!-- <button type="button" class="btn btn-info" id="previewBtn">preview</button> -->
 				<button type="button" class="btn btn-success" id="updateBtn">수정</button>&nbsp;
 				<button type="button" class="btn btn-danger" id="deleteBtn">삭제</button>&nbsp;
 				<button type="button" class="btn btn-primary" onclick="location.href='/class/classroom/${detail.category}'">목록</button>
 			</div>
-		</div>
+		</footer>
 	</form>
 </div>
 	
@@ -101,30 +101,6 @@
 				alert("삭제할 수 있는 권한이 없습니다.");
 				return false;
 			}
-		});
-		// 좋아요 버튼이 눌렸을 경우
-		$("#likeBtn").on("click", function() {
-			// 자신이 작성한 글은 좋아요를 누를 수 없다.
-			if($("#writer").val() == $("#memberId").val()) {
-				alert("본인의 글은 추천할 수 없습니다.");
-				return false;
-			}
-			// 해당 게시글의 좋아요수를 올린다.
-			$.ajax({
-				url: "/class/like/",
-				type: "post",
-				dataType: "json",
-				data: {"boardNo" : $("#boardNo").val()},
-			});
-			/*
-			// 해당 게시글에 좋아요를 이미 눌렀는지 확인
-			if(false){
-				
-			} else {
-				alert("이미 좋아요를 누른 게시글입니다.");
-				return false;
-			}
-			*/
 		});
 		
 		/*

@@ -138,6 +138,12 @@
 	SET 	likes = likes + 1 
 	WHERE 	boardNo = #{boardNo} 
 	</update>
+	<!-- 게시글 좋아요수 가져오기 -->
+	<select id="getLikes" resultType="int">
+	SELECT 	likes 
+	FROM 	classboard 
+	WHERE 	boardNo = #{boardNo} 
+	</select>
 	
 	<!-- 게시글 검색 -->
 	<select id="search" resultType="com.edu.domain.ClassboardDTO">

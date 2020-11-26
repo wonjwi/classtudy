@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.edu.domain.ClassboardDTO;
@@ -83,7 +84,7 @@ public class ClassboardController {
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("numOfPage", numOfPage);
 		// 현재 페이지 번호를 이용해서 출력될 페이지의 시작 번호를 구한다.
-		int startNo = (pageNumber-1) * 5;
+		int startNo = (pageNumber-1) * numOfPage;
 		// 클래스게시판 목록 보기 화면에 보여줄 데이터를 가져와서 담는다.
 		model.addAttribute("list", classboardService.boardListTIL(lectureNo, memberId, startNo, numOfPage));
 		return "/classboard/listTIL";
@@ -117,7 +118,7 @@ public class ClassboardController {
 		// 검색한 키워드를 뷰 페이지로 보내준다.
 		model.addAttribute("nowKeyword", keyword);
 		// 현재 페이지 번호를 이용해서 출력될 페이지의 시작 번호를 구한다.
-		int startNo = (pageNumber-1) * 5;
+		int startNo = (pageNumber-1) * numOfPage;
 		// 클래스게시판 목록 화면에 보여줄 데이터를 검색해와서 담는다.
 		model.addAttribute("list", classboardService.searchTIL(lectureNo, memberId, "%" + keyword + "%", startNo, numOfPage));
 		return "/classboard/listTIL";
@@ -178,7 +179,7 @@ public class ClassboardController {
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("numOfPage", numOfPage);
 		// 현재 페이지 번호를 이용해서 출력될 페이지의 시작 번호를 구한다.
-		int startNo = (pageNumber-1) * 5;
+		int startNo = (pageNumber-1) * numOfPage;
 		// 클래스게시판 목록 보기 화면에 보여줄 데이터를 가져와서 담는다.
 		if (viewCategory.equals("all")) {
 			model.addAttribute("list", classboardService.boardList(lectureNo, startNo, numOfPage));
@@ -232,11 +233,17 @@ public class ClassboardController {
 	}
 	
 	// 게시글 좋아요
+	@ResponseBody
 	@RequestMapping(value="/like", method=RequestMethod.POST)
 	public int like(int boardNo) throws Exception {
 		logger.info("ClassboardController like()....");
+		
 		// 게시글 좋아요를 하기 위해 게시글 번호를 Service에게 넘겨준다.
-		int result = classboardService.addLikes(boardNo);
+		classboardService.addLikes(boardNo);
+		// 좋아요 후의 좋아요수를 가져와서 보낸다.
+		int result = classboardService.getLikes(boardNo);
+		logger.info("ClassboardController Return Value [" + result + "]");
+		
 		return result;
 	}
 	
@@ -265,7 +272,7 @@ public class ClassboardController {
 		// 검색한 키워드를 뷰 페이지로 보내준다.
 		model.addAttribute("nowKeyword", keyword);
 		// 현재 페이지 번호를 이용해서 출력될 페이지의 시작 번호를 구한다.
-		int startNo = (pageNumber-1) * 5;
+		int startNo = (pageNumber-1) * numOfPage;
 		// 클래스게시판 목록 화면에 보여줄 데이터를 검색해와서 담는다.
 		if (viewCategory.equals("all")) {
 			model.addAttribute("list", classboardService.search(lectureNo, "%" + keyword + "%", startNo, numOfPage));

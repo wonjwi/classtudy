@@ -99,10 +99,16 @@ public class ClassboardService {
 	public int delete(int boardNo) throws Exception {
 		return classboardMapper.delete(boardNo);
 	}
+	
 	// 게시글 좋아요수 증가
 	public int addLikes(int boardNo) throws Exception {
 		return classboardMapper.addLikes(boardNo);
 	}
+	// 게시글 좋아요수 가져오기
+	public int getLikes(int boardNo) throws Exception {
+		return classboardMapper.getLikes(boardNo);
+	}
+	
 	// 게시글 검색
 	public List<ClassboardDTO> search(int lectureNo, String keyword, int startNo, int numOfPage) throws Exception {
 		return classboardMapper.search(lectureNo, keyword, startNo, numOfPage);

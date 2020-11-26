@@ -54,6 +54,8 @@ public interface ClassboardMapper {
 	
 	// 게시글 좋아요수 증가
 	public int addLikes(int boardNo) throws Exception;
+	// 게시글 좋아요수 가져오기
+	public int getLikes(int boardNo) throws Exception;
 	
 	// 게시글 검색
 	public List<ClassboardDTO> search(int lectureNo, String keyword, int startNo, int numOfPage) throws Exception;

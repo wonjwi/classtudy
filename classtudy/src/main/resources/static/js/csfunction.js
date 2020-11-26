@@ -481,3 +481,34 @@ function classboardCheckForm(classboardForm)
 	}
 	classboardForm.submit();
 }
+
+//---------------------------------------------------------------------
+// 게시글 좋아요 - 좋아요 버튼이 눌렸을 경우
+//---------------------------------------------------------------------
+function likeBoard(boardForm) {
+	// 자신이 작성한 글은 좋아요를 누를 수 없다.
+	// 게시글의 작성자와 로그인한 사람의 아이디 확인
+	if(boardForm.writer.value == boardForm.memberId.value) {
+		alert("본인의 글은 좋아요를 누를 수 없습니다.");
+		return false;
+	}
+	// 해당 게시글에 좋아요를 이미 눌렀는지 확인
+	if(document.getElementById("likeBtn").value == "Y"){
+		alert("이미 좋아요를 누른 게시글입니다.");
+		return false;
+	}
+	// 해당 게시글의 좋아요수를 올린다.
+	$.ajax({
+		url: 	"/class/like/",
+		type: 	"post",
+		dataType: "json",
+		data: 	{"boardNo" : boardForm.boardNo.value},	
+		success: function(data) {
+				document.getElementById("likeBtn").value = "Y";
+				document.getElementById("likeBtn").style.backgroundColor = "#888888";
+				document.getElementById("likeBtn").style.color = "#ffffff";
+				document.getElementById("likeBtn").innerHTML
+					= '<span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;좋아요&nbsp;' + data + '';
+			}
+	});
+}
