@@ -73,7 +73,7 @@
 				<th style="text-align: center; width: 100px;">작성자</th>
 				<th style="text-align: center; width: 100px;">작성일</th>
 				<th style="text-align: center; width: 60px;" >조회</th>
-				<th style="text-align: center; width: 60px;" >추천</th>
+				<th style="text-align: center; width: 60px;" ><span class="glyphicon glyphicon-thumbs-up"></span></th>
 			</tr>
 		</thead>
 		<tbody>

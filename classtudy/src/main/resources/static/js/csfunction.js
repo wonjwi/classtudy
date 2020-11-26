@@ -494,21 +494,64 @@ function likeBoard(boardForm) {
 	}
 	// 해당 게시글에 좋아요를 이미 눌렀는지 확인
 	if(document.getElementById("likeBtn").value == "Y"){
-		alert("이미 좋아요를 누른 게시글입니다.");
-		return false;
+		//alert("이미 좋아요를 누른 게시글입니다.");
+		if(confirm("이미 좋아요를 누른 게시글입니다.\n좋아요를 취소하시겠습니까?") == false){
+			return false;
+		} else {
+			// 해당 게시글의 좋아요를 취소한다.
+			alert("좋아요 취소");
+			$.ajax({
+				url: 	"/class/deleteLike/",
+				type: 	"post",
+				dataType: "json",
+				data: 	{"boardNo" : boardForm.boardNo.value, "memberId" : boardForm.memberId.value},
+				success: function(data) {
+						document.getElementById("likeBtn").value = "N";
+						document.getElementById("likeBtn").style.backgroundColor = "#ffffff";
+						document.getElementById("likeBtn").style.color = "#000000";
+						document.getElementById("likeBtn").innerHTML
+							= '<span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;좋아요&nbsp;' + data + '';
+					}
+			});
+		}
+	} else if(document.getElementById("likeBtn").value == "N"){
+		// 해당 게시글의 좋아요수를 올린다.
+		$.ajax({
+			url: 	"/class/like/",
+			type: 	"post",
+			dataType: "json",
+			data: 	{"boardNo" : boardForm.boardNo.value, "memberId" : boardForm.memberId.value},
+			success: function(data) {
+					document.getElementById("likeBtn").value = "Y";
+					document.getElementById("likeBtn").style.backgroundColor = "#888888";
+					document.getElementById("likeBtn").style.color = "#ffffff";
+					document.getElementById("likeBtn").innerHTML
+						= '<span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;좋아요&nbsp;' + data + '';
+				}
+		});
 	}
-	// 해당 게시글의 좋아요수를 올린다.
+}
+
+//---------------------------------------------------------------------
+// 게시글 좋아요 여부 확인
+//---------------------------------------------------------------------
+function checkLikes(boardNo, memberId) {
+	// 좋아요 테이블에 좋아요 목록이 있는지 확인
+	// 게시글번호, 로그인한 아이디가 모두 같아야 한다.
 	$.ajax({
-		url: 	"/class/like/",
+		url: 	"/class/likeCheck/",
 		type: 	"post",
 		dataType: "json",
-		data: 	{"boardNo" : boardForm.boardNo.value},	
+		data: 	{"boardNo"  : boardNo, "memberId" : memberId},
 		success: function(data) {
-				document.getElementById("likeBtn").value = "Y";
-				document.getElementById("likeBtn").style.backgroundColor = "#888888";
-				document.getElementById("likeBtn").style.color = "#ffffff";
-				document.getElementById("likeBtn").innerHTML
-					= '<span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;좋아요&nbsp;' + data + '';
+				if(data == 1) { // 좋아요 누른 게시글이면 좋아요 버튼 변경
+					//alert("좋아요 했음");
+					document.getElementById("likeBtn").value = "Y";
+					document.getElementById("likeBtn").style.backgroundColor = "#888888";
+					document.getElementById("likeBtn").style.color = "#ffffff";
+				} else {
+					//alert("좋아요 안했음");
+				}
 			}
 	});
 }

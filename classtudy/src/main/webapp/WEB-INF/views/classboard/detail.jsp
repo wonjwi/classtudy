@@ -70,13 +70,16 @@
 	<%@ include file="../include/footer.jsp" %>
 	<script>
 	$(document).ready(function() {
-
+		
 		// Markdown View
 		var testView = editormd.markdownToHTML("test-markdown-view", {
 			//markdown : "[TOC]\n### Hello world!\n## Heading 2", // Also, you can dynamic set Markdown text
 			//htmlDecode : true,  // Enable / disable HTML tag encode.
 			//htmlDecode : "style,script,iframe"  // Note: If enabled, you should filter some dangerous HTML tags for website security.
 		});
+		
+		// 좋아요 누른 게시글인지 확인
+		checkLikes($("#boardNo").val(), $("#memberId").val());
 		
 		// 수정 버튼이 눌렸을 경우
 		$("#updateBtn").on("click", function() {

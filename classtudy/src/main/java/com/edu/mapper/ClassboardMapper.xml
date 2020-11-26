@@ -138,12 +138,40 @@
 	SET 	likes = likes + 1 
 	WHERE 	boardNo = #{boardNo} 
 	</update>
+	<!-- 좋아요 내용 기록 -->
+	<insert id="writeLikes">
+	INSERT INTO cblikes 
+			(memberId, boardNo) 
+	VALUES 	(#{memberId}, #{boardNo})
+	</insert>
+	
 	<!-- 게시글 좋아요수 가져오기 -->
 	<select id="getLikes" resultType="int">
 	SELECT 	likes 
 	FROM 	classboard 
 	WHERE 	boardNo = #{boardNo} 
 	</select>
+	<!-- 게시글 좋아요 여부 검사 -->
+	<select id="likeCheck" resultType="int">
+	SELECT 	COUNT(*) 
+	FROM 	cblikes 
+	WHERE 	boardNo = #{boardNo} 
+	AND 	memberId = #{memberId} 
+	</select>
+	
+	<!-- 게시글 좋아요수 감소 -->
+	<update id="subtractLikes">
+	UPDATE 	classboard 
+	SET 	likes = likes - 1 
+	WHERE 	boardNo = #{boardNo}
+	</update>
+	<!-- 좋아요 내용 삭제 -->
+	<delete id="deleteLikes">
+	DELETE 
+	FROM 	cblikes 
+	WHERE 	boardNo = #{boardNo} 
+	AND 	memberId = #{memberId} 
+	</delete>
 	
 	<!-- 게시글 검색 -->
 	<select id="search" resultType="com.edu.domain.ClassboardDTO">

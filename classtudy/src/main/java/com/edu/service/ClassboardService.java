@@ -104,9 +104,27 @@ public class ClassboardService {
 	public int addLikes(int boardNo) throws Exception {
 		return classboardMapper.addLikes(boardNo);
 	}
+	// 좋아요 테이블에 좋아요 내용 기록
+	public int writeLikes(int boardNo, String memberId) throws Exception {
+		return classboardMapper.writeLikes(boardNo, memberId);
+	}
+	
 	// 게시글 좋아요수 가져오기
 	public int getLikes(int boardNo) throws Exception {
 		return classboardMapper.getLikes(boardNo);
+	}
+	// 게시글 좋아요 여부 검사
+	public int likeCheck(int boardNo, String memberId) throws Exception {
+		return classboardMapper.likeCheck(boardNo, memberId);
+	}
+	
+	// 게시글 좋아요수 감소
+	public int subtractLikes(int boardNo) throws Exception {
+		return classboardMapper.subtractLikes(boardNo);
+	}
+	// 좋아요 테이블에 좋아요 내용 삭제
+	public int deleteLikes(int boardNo, String memberId) throws Exception {
+		return classboardMapper.deleteLikes(boardNo, memberId);
 	}
 	
 	// 게시글 검색

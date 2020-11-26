@@ -54,8 +54,18 @@ public interface ClassboardMapper {
 	
 	// 게시글 좋아요수 증가
 	public int addLikes(int boardNo) throws Exception;
+	// 좋아요 테이블에 좋아요 내용 기록
+	public int writeLikes(int boardNo, String memberId) throws Exception;
+	
 	// 게시글 좋아요수 가져오기
 	public int getLikes(int boardNo) throws Exception;
+	// 게시글 좋아요 여부 검사
+	public int likeCheck(int boardNo, String memberId) throws Exception;
+	
+	// 게시글 좋아요수 감소
+	public int subtractLikes(int boardNo) throws Exception;
+	// 좋아요 테이블에 좋아요 내용 삭제
+	public int deleteLikes(int boardNo, String memberId) throws Exception;
 	
 	// 게시글 검색
 	public List<ClassboardDTO> search(int lectureNo, String keyword, int startNo, int numOfPage) throws Exception;

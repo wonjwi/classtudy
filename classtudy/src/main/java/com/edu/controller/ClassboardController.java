@@ -191,7 +191,12 @@ public class ClassboardController {
 	
 	// 게시글 상세 정보
 	@RequestMapping(value="/detail/{boardNo}")
-	public String detailBoard(@PathVariable int boardNo, Model model) throws Exception {
+	public String detailBoard(@PathVariable int boardNo, Model model, HttpSession session, RedirectAttributes rttr) throws Exception {
+		// 로그인을 하지 않았으면 로그인 화면으로 보낸다.
+		if (session.getAttribute("member") == null) {
+			rttr.addFlashAttribute("msgLogin", false);
+			return "redirect:/member/login";
+		}
 		logger.info("ClassboardController detailBoard()....");
 		//logger.info("detailBoard() : " + classboardService.boardDetail(boardNo));
 		// boardNO에 해당하는 자료의 조회수를 1 증가 시킨다.
@@ -235,12 +240,44 @@ public class ClassboardController {
 	// 게시글 좋아요
 	@ResponseBody
 	@RequestMapping(value="/like", method=RequestMethod.POST)
-	public int like(int boardNo) throws Exception {
+	public int like(int boardNo, String memberId) throws Exception {
 		logger.info("ClassboardController like()....");
 		
 		// 게시글 좋아요를 하기 위해 게시글 번호를 Service에게 넘겨준다.
 		classboardService.addLikes(boardNo);
+		// 좋아요 테이블에 좋아요 내용을 기록한다.
+		classboardService.writeLikes(boardNo, memberId);
 		// 좋아요 후의 좋아요수를 가져와서 보낸다.
+		int result = classboardService.getLikes(boardNo);
+		logger.info("ClassboardController Return Value [" + result + "]");
+		
+		return result;
+	}
+	
+	// 게시글 좋아요 여부 확인
+	@ResponseBody
+	@RequestMapping(value="/likeCheck", method=RequestMethod.POST)
+	public int likeCheck(int boardNo, String memberId) throws Exception {
+		logger.info("ClassboardController likeCheck()....");
+		logger.info("ClassboardController likeCheck() : " + boardNo + ", " + memberId);
+		// 좋아요 여부를 확인하기 위해 게시글 번호, 아이디를 Service에게 넘겨준다.
+		int result = classboardService.likeCheck(boardNo, memberId);
+		// 좋아요 테이블에서 값을 확인한 결과를 보낸다.
+		return result;
+	}
+	
+	// 게시글 좋아요 취소
+	@ResponseBody
+	@RequestMapping(value="/deleteLike", method=RequestMethod.POST)
+	public int deleteLike(int boardNo, String memberId) throws Exception {
+		logger.info("ClassboardController deleteLike()....");
+		logger.info("ClassboardController deleteLike() : " + boardNo + ", " + memberId);
+		
+		// 게시글 좋아요를 취소하기 위해 게시글 번호를 Service에게 넘겨준다.
+		classboardService.subtractLikes(boardNo);
+		// 좋아요 테이블에 좋아요 내용을 삭제한다.
+		classboardService.deleteLikes(boardNo, memberId);
+		// 좋아요 취소 후의 좋아요수를 가져와서 보낸다.
 		int result = classboardService.getLikes(boardNo);
 		logger.info("ClassboardController Return Value [" + result + "]");
 		
