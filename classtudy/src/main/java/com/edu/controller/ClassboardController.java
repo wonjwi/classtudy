@@ -34,7 +34,7 @@ public class ClassboardController {
 	// --------------------------------------------------------------
 	// TIL 게시글 작성 GET
 	@RequestMapping(value="/writeTIL", method=RequestMethod.GET)
-	public String getWriteTIL(HttpSession session, RedirectAttributes rttr) throws Exception {
+	private String getWriteTIL(HttpSession session, RedirectAttributes rttr) throws Exception {
 		logger.info("ClassboardController getWriteTIL()....");
 		// 로그인을 하지 않았으면 로그인 화면으로 보낸다.
 		if (session.getAttribute("member") == null) {
@@ -46,7 +46,7 @@ public class ClassboardController {
 	
 	// TIL 게시글 작성 POST
 	@RequestMapping(value="/writeTIL", method=RequestMethod.POST)
-	public String postWriteTIL(ClassboardDTO cbDTO, HttpSession session, Model model) throws Exception {
+	private String postWriteTIL(ClassboardDTO cbDTO, HttpSession session, Model model) throws Exception {
 		logger.info("ClassboardController postWriteTIL()....");
 		if (session.getAttribute("member") != null) {
 			classboardService.writeTIL(cbDTO);
@@ -56,7 +56,7 @@ public class ClassboardController {
 	
 	// TIL 게시글 목록 보기
 	@RequestMapping(value={"/TIL", "TIL/{pageNum}"})
-	public String listTIL(@PathVariable Optional<Integer> pageNum, HttpSession session, Model model, RedirectAttributes rttr) throws Exception {
+	private String listTIL(@PathVariable Optional<Integer> pageNum, HttpSession session, Model model, RedirectAttributes rttr) throws Exception {
 		logger.info("ClassboardController listTIL()....");
 		// 로그인을 하지 않았으면 로그인 화면으로 보낸다.
 		if (session.getAttribute("member") == null) {
@@ -93,7 +93,7 @@ public class ClassboardController {
 	// TIL 게시글 검색
 	// 제목 또는 내용에 키워드가 들어간 글 찾기
 	@RequestMapping(value={"/searchTIL/{keyword}", "/searchTIL/{keyword}/{pageNum}"})
-	public String searchTIL(@PathVariable String keyword, @PathVariable Optional<Integer> pageNum, HttpSession session, Model model) throws Exception {
+	private String searchTIL(@PathVariable String keyword, @PathVariable Optional<Integer> pageNum, HttpSession session, Model model) throws Exception {
 		logger.info("ClassboardController search()....");
 		logger.info("ClassboardController search() : " + keyword);
 		// session에서 memberDTO를 저장한다.
@@ -129,7 +129,7 @@ public class ClassboardController {
 	// --------------------------------------------------------------
 	// 게시글 작성 GET
 	@RequestMapping(value="/write", method=RequestMethod.GET)
-	public String getWrite(HttpSession session, RedirectAttributes rttr) throws Exception {
+	private String getWrite(HttpSession session, RedirectAttributes rttr) throws Exception {
 		logger.info("ClassboardController getWrite()....");
 		// 로그인을 하지 않았으면 로그인 화면으로 보낸다.
 		if (session.getAttribute("member") == null) {
@@ -141,7 +141,7 @@ public class ClassboardController {
 	
 	// 게시글 작성 POST
 	@RequestMapping(value="/write", method=RequestMethod.POST)
-	public String postWrite(ClassboardDTO cbDTO, HttpSession session, Model model) throws Exception {
+	private String postWrite(ClassboardDTO cbDTO, HttpSession session, Model model) throws Exception {
 		logger.info("ClassboardController postWrite()....");
 		if (session.getAttribute("member") != null) {
 			classboardService.write(cbDTO);
@@ -151,7 +151,7 @@ public class ClassboardController {
 	
 	// 게시판 목록 보기
 	@RequestMapping(value={"/classroom/{viewCategory}", "/classroom/{viewCategory}/{pageNum}"})
-	public String classroom(@PathVariable String viewCategory, @PathVariable Optional<Integer> pageNum, 
+	private String classroom(@PathVariable String viewCategory, @PathVariable Optional<Integer> pageNum, 
 			HttpSession session, Model model, RedirectAttributes rttr) throws Exception {
 		logger.info("ClassboardController classroom()....");
 		// 로그인을 하지 않았으면 로그인 화면으로 보낸다.
@@ -191,7 +191,7 @@ public class ClassboardController {
 	
 	// 게시글 상세 정보
 	@RequestMapping(value="/detail/{boardNo}")
-	public String detailBoard(@PathVariable int boardNo, Model model, HttpSession session, RedirectAttributes rttr) throws Exception {
+	private String detailBoard(@PathVariable int boardNo, Model model, HttpSession session, RedirectAttributes rttr) throws Exception {
 		// 로그인을 하지 않았으면 로그인 화면으로 보낸다.
 		if (session.getAttribute("member") == null) {
 			rttr.addFlashAttribute("msgLogin", false);
@@ -208,7 +208,7 @@ public class ClassboardController {
 	
 	// 게시글 수정 GET
 	@RequestMapping(value="/update/{boardNo}", method=RequestMethod.GET)
-	public String getUpdate(@PathVariable int boardNo, HttpSession session, RedirectAttributes rttr, Model model) throws Exception {
+	private String getUpdate(@PathVariable int boardNo, HttpSession session, RedirectAttributes rttr, Model model) throws Exception {
 		logger.info("ClassboardController getUpdate()....");
 		// 로그인을 하지 않았으면 로그인 화면으로 보낸다.
 		if (session.getAttribute("member") == null) {
@@ -222,7 +222,7 @@ public class ClassboardController {
 	
 	// 게시글 수정 POST
 	@RequestMapping(value="/update", method=RequestMethod.POST)
-	public String postUpdate(ClassboardDTO cbDTO, HttpSession session) throws Exception {
+	private String postUpdate(ClassboardDTO cbDTO, HttpSession session) throws Exception {
 		logger.info("ClassboardController postUpdate()....");
 		//logger.info("postUpdate() : " + cbDTO);
 		classboardService.update(cbDTO);
@@ -231,7 +231,7 @@ public class ClassboardController {
 	
 	// 게시글 삭제
 	@RequestMapping(value="/delete/{boardNo}")
-	public String delete(@PathVariable int boardNo) throws Exception {
+	private String delete(@PathVariable int boardNo) throws Exception {
 		logger.info("ClassboardController delete()....");
 		classboardService.delete(boardNo);
 		return "redirect:/class/classroom/all";
@@ -240,7 +240,7 @@ public class ClassboardController {
 	// 게시글 좋아요
 	@ResponseBody
 	@RequestMapping(value="/like", method=RequestMethod.POST)
-	public int like(int boardNo, String memberId) throws Exception {
+	private int like(int boardNo, String memberId) throws Exception {
 		logger.info("ClassboardController like()....");
 		
 		// 게시글 좋아요를 하기 위해 게시글 번호를 Service에게 넘겨준다.
@@ -257,7 +257,7 @@ public class ClassboardController {
 	// 게시글 좋아요 여부 확인
 	@ResponseBody
 	@RequestMapping(value="/likeCheck", method=RequestMethod.POST)
-	public int likeCheck(int boardNo, String memberId) throws Exception {
+	private int likeCheck(int boardNo, String memberId) throws Exception {
 		logger.info("ClassboardController likeCheck()....");
 		logger.info("ClassboardController likeCheck() : " + boardNo + ", " + memberId);
 		// 좋아요 여부를 확인하기 위해 게시글 번호, 아이디를 Service에게 넘겨준다.
@@ -269,7 +269,7 @@ public class ClassboardController {
 	// 게시글 좋아요 취소
 	@ResponseBody
 	@RequestMapping(value="/deleteLike", method=RequestMethod.POST)
-	public int deleteLike(int boardNo, String memberId) throws Exception {
+	private int deleteLike(int boardNo, String memberId) throws Exception {
 		logger.info("ClassboardController deleteLike()....");
 		logger.info("ClassboardController deleteLike() : " + boardNo + ", " + memberId);
 		
@@ -287,7 +287,7 @@ public class ClassboardController {
 	// 게시글 검색
 	// 제목 또는 내용에 키워드가 들어간 글 찾기
 	@RequestMapping(value={"/search/{keyword}/{viewCategory}", "/search/{keyword}/{viewCategory}/{pageNum}"})
-	public String search(@PathVariable String keyword, @PathVariable String viewCategory, @PathVariable Optional<Integer> pageNum, HttpSession session, Model model) throws Exception {
+	private String search(@PathVariable String keyword, @PathVariable String viewCategory, @PathVariable Optional<Integer> pageNum, HttpSession session, Model model) throws Exception {
 		logger.info("ClassboardController search()....");
 		logger.info("ClassboardController search() : " + keyword);
 		// session에서 memberDTO를 저장한다.

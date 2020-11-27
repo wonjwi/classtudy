@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.*;
 
-import com.edu.controller.MemberController;
 import com.edu.domain.MemberDTO;
 import com.edu.mapper.MemberMapper;
 
@@ -15,7 +14,7 @@ public class MemberService {
 	
 	// 로깅을 위한 변수 LOGGER를 선언한다.
 	private static final Logger LOGGER
-		= LoggerFactory.getLogger(MemberController.class);
+		= LoggerFactory.getLogger(MemberService.class);
 
 	@Resource(name="com.edu.mapper.MemberMapper")
 	MemberMapper memberMapper;

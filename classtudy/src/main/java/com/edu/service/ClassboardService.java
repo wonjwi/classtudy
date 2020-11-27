@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.edu.controller.MemberController;
 import com.edu.domain.ClassboardDTO;
 import com.edu.mapper.ClassboardMapper;
 
@@ -16,15 +15,14 @@ import com.edu.mapper.ClassboardMapper;
 public class ClassboardService {
 	
 	// 로깅을 위한 변수 LOGGER를 선언한다.
-	private static final Logger logger
-		= LoggerFactory.getLogger(MemberController.class);
+	private static final Logger logger = LoggerFactory.getLogger(ClassboardService.class);
 	
 	@Resource(name="com.edu.mapper.ClassboardMapper")
 	ClassboardMapper classboardMapper;
 	
 	// TIL 게시글 작성
 	public int writeTIL(ClassboardDTO cbDTO) throws Exception {
-		//logger.info("Service writeTIL : " + cbDTO);
+		logger.info("Service writeTIL : " + cbDTO);
 		return classboardMapper.writeTIL(cbDTO);
 	}
 	
@@ -49,7 +47,7 @@ public class ClassboardService {
 	
 	// 게시글 작성
 	public int write(ClassboardDTO cbDTO) throws Exception {
-		//logger.info("Service write : " + cbDTO);
+		logger.info("Service write : " + cbDTO);
 		return classboardMapper.write(cbDTO);
 	}
 	

@@ -499,7 +499,6 @@ function likeBoard(boardForm) {
 			return false;
 		} else {
 			// 해당 게시글의 좋아요를 취소한다.
-			alert("좋아요 취소");
 			$.ajax({
 				url: 	"/class/deleteLike/",
 				type: 	"post",

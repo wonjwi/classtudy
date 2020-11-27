@@ -80,7 +80,10 @@
 			<c:forEach var="board" items="${list}">
 				<tr>
 					<td>${board.boardNo}</td>
-					<td><a href="/class/detail/${board.boardNo}">${board.title}</a></td>
+					<td>
+						<a href="/class/detail/${board.boardNo}">${board.title}</a>&nbsp;
+						<a href="#"><span class="badge badge-info">${board.commentNum}</span></a>
+					</td>
 					<td>${member.name}</td>
 					<td><fmt:formatDate value="${board.writeDate}" pattern="yyyy-MM-dd"/></td>
 					<td>${board.views}</td>

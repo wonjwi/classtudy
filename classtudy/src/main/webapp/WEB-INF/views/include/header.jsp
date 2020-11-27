@@ -30,12 +30,15 @@
 }
 .container {
 	font-family: 'IBMPlexSansKR-Regular', sans-serif;
-	font-size: 1.1em;
+	font-size: 15px;
 	<%--
 	font-family: 'Nanum Gothic', sans-serif;
 	font-family: 'Noto Sans KR', sans-serif;
 	font-family: 'Noto Serif KR', serif;
 	--%>
+}
+#commentList {
+	font-size: 13px;
 }
 .navbar-brand {
 	font-family: 'MaplestoryOTFBold', sans-serif;
@@ -44,7 +47,7 @@
 }
 .navbar-nav {
 	font-family: 'IBMPlexSansKR-Regular', sans-serif;
-	font-size: 1.15em;
+	font-size: 16px;
 }
 .dropdown-submenu {
 	position: relative;

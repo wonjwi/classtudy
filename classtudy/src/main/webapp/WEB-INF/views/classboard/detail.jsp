@@ -50,24 +50,47 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<div id="test-markdown-view" style="display: block; width: 85%; margin: 0px auto; padding: 0px;">
+			<div id="test-markdown-view" style="display: block; width: 85%; margin: 0px auto; padding: 20px;">
 				<textarea style="display:none;" id="content" name="content">${detail.content}</textarea>
 			</div>
 		</div>
-		<footer>
-			<div class="col-sm-12" style="text-align: center; padding-bottom: 25px;">
+		<div class="form-group">
+			<div class="col-sm-12" style="text-align: center; padding-bottom: 10px;">
 				<button type="button" class="btn btn-lg btn-default" id="likeBtn" value="N" onclick="likeBoard(this.form)"
 					><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;좋아요&nbsp;${detail.likes}</button><br><br>
-				<!-- <button type="button" class="btn btn-info" id="previewBtn">preview</button> -->
 				<button type="button" class="btn btn-success" id="updateBtn">수정</button>&nbsp;
 				<button type="button" class="btn btn-danger" id="deleteBtn">삭제</button>&nbsp;
 				<button type="button" class="btn btn-primary" onclick="location.href='/class/classroom/${detail.category}'">목록</button>
 			</div>
-		</footer>
+		</div>
 	</form>
+	<!-- 댓글 영역 -->
+	<div class="container" style="padding-bottom: 50px;">
+		<div class="panel panel-default" style="width: 85%; margin: 0px auto;">
+			<!-- <div class="panel-heading"><label class="control-label">댓 글</label></div> -->
+			<!-- 저장된 댓글 보여줄 영역 -->
+			<div class="panel-body" id="commentList"></div>
+			<!-- 댓글 입력 영역 -->
+			<div class="panel-footer">
+				<label class="control-label col-sm-2">댓 글</label>
+				<form name="commentInsertForm">
+					<div class="input-group col-sm-9">
+						<input type="hidden" name="writer" value="${member.memberId}"/>
+						<input type="hidden" name="boardNo" value="${detail.boardNo}"/>
+						<!-- <textarea class="form-control" id="content" name="content" placeholder="댓글을 입력하세요."></textarea> -->
+						<input type="text" class="form-control" id="content" name="content" placeholder="댓글을 입력하세요."/>
+						<span class="input-group-btn">
+							<button class="btn btn-warning" id="commentInsertBtn">등록</button>
+						</span>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>
 	
 	<%@ include file="../include/footer.jsp" %>
+	<script src="/static/js/commentAction.js"></script>
 	<script>
 	$(document).ready(function() {
 		
@@ -80,6 +103,13 @@
 		
 		// 좋아요 누른 게시글인지 확인
 		checkLikes($("#boardNo").val(), $("#memberId").val());
+		// 게시글에 댓글이 있으면 댓글을 보여준다.
+		commentList();
+
+		// 댓글 등록 버튼이 눌렸을 경우
+		$("#commentInsertBtn").on("click", function() {
+			commentInsert($("#writer").val(), $("#content").val(), $("#boardNo").val());
+		});
 		
 		// 수정 버튼이 눌렸을 경우
 		$("#updateBtn").on("click", function() {
@@ -105,25 +135,6 @@
 				return false;
 			}
 		});
-		
-		/*
-		// Markdown Editor
-		var testEditor;
-		testEditor = editormd("test-editormd", {
-			width 		: "95%",
-			height 		: 640,
-			syncScrolling : "single",
-			path 		: '/static/js/lib/',
-			readOnly 	: true
-		});
-		// Preview 버튼이 눌렸을 때 실행
-		function hideCodeMirror(){
-			//testEditor.state.preview = true;
-			testEditor.codeMirror.hide();
-			//alert("preview 버튼이 눌렸습니다.");
-			//testEditor.previewing();
-		});
-		*/
 		
 	});
 	</script>

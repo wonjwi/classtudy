@@ -15,8 +15,8 @@
 
 	<!-- TIL 게시글 목록 보기 -->
 	<select id="boardListTIL" resultType="com.edu.domain.ClassboardDTO">
-	SELECT 	* 
-	FROM 	classboard 
+	SELECT 	c.*, (SELECT COUNT(commentNo) FROM cbcomment WHERE boardNo = c.boardNo) commentNum 
+	FROM 	classboard c 
 	WHERE 	lectureNo = #{lectureNo} 
 	AND 	category = 'TIL' 
 	AND 	writer = #{memberId} 
@@ -61,14 +61,16 @@
 	
 	<!-- 게시판 목록 보기 -->
 	<select id="boardList" resultType="com.edu.domain.ClassboardDTO">
-	SELECT 	*, m.name writerName 
+	SELECT 	c.*, m.name writerName, 
+			(SELECT COUNT(commentNo) FROM cbcomment WHERE boardNo = c.boardNo) commentNum 
 	FROM 	classboard c INNER JOIN member m ON c.writer = m.memberId 
 	AND 	c.lectureNo = #{lectureNo} 
-	ORDER BY boardNo DESC LIMIT #{startNo}, #{numOfPage} 
+	ORDER BY c.boardNo DESC LIMIT #{startNo}, #{numOfPage} 
 	</select>
 	<!-- 게시판 목록 보기2 -->
 	<select id="boardList2" resultType="com.edu.domain.ClassboardDTO">
-	SELECT 	*, m.name writerName 
+	SELECT 	c.*, m.name writerName, 
+			(SELECT COUNT(commentNo) FROM cbcomment WHERE boardNo = c.boardNo) commentNum 
 	FROM 	classboard c INNER JOIN member m ON c.writer = m.memberId 
 	AND 	c.lectureNo = #{lectureNo} 
 	AND 	c.category = #{viewCategory} 
