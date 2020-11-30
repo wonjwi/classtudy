@@ -103,7 +103,7 @@
 					<td>${board.category}</td>
 					<td>
 						<a href="/class/detail/${board.boardNo}">${board.title}</a>&nbsp;
-						<a href="#"><span class="badge badge-info">${board.commentNum}</span></a>
+						<a href="/class/detail/${board.boardNo}/comment"><span class="badge badge-info">${board.commentNum}</span></a>
 					</td>
 					<td>${board.writerName}</td>
 					<td><fmt:formatDate value="${board.writeDate}" pattern="yyyy-MM-dd"/></td>
@@ -225,17 +225,15 @@
 				location.href="/class/search/" + "${nowKeyword}" + "/" + $("#viewCategory").val();
 			}
 		});
-		*/		
+		*/
 		// 검색 버튼이 눌렸을 경우
 		$("#searchBtn").on("click", function() {
-			// 검색어가 입력되었는지 확인
-			if($("#keyword").val() != ""){
-				location.href="/class/search/" + $("#keyword").val() + "/" + $("#searchCategory").val();
-			} else {
-				alert("검색어를 입력해주세요.");
-				return false;
-			}
+			searchBoard($("#keyword").val(), $("#searchCategory").val());
 		});
+		// 검색창에서 엔터키를 입력할 경우
+		$("#keyword").keyup(function(e) { if(e.keyCode == 13) {
+			searchBoard($("#keyword").val(), $("#searchCategory").val());
+		}});
 		
 	});
 	</script>

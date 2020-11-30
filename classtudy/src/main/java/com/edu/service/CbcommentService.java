@@ -15,7 +15,7 @@ import com.edu.mapper.CbcommentMapper;
 public class CbcommentService {
 	
 	// 로깅을 위한 변수 LOGGER를 선언한다.
-	private static final Logger logger = LoggerFactory.getLogger(CbcommentService.class);
+	//private static final Logger logger = LoggerFactory.getLogger(CbcommentService.class);
 	
 	@Resource(name="com.edu.mapper.CbcommentMapper")
 	CbcommentMapper cbcommentMapper;
@@ -31,6 +31,13 @@ public class CbcommentService {
 	}
 	
 	// 댓글 수정
+	public int commentUpdate(String content, int commentNo) throws Exception {
+		return cbcommentMapper.commentUpdate(content, commentNo);
+	}
+	
 	// 댓글 삭제
+	public int commentDelete(int commentNo) throws Exception {
+		return cbcommentMapper.commentDelete(commentNo);
+	}
 
 }

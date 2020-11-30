@@ -49,6 +49,19 @@ public class CbcommentController {
 	}
 	
 	// 댓글 수정
+	@ResponseBody
+	@RequestMapping(value="/update")
+	private int commentUpdate(String content, int commentNo) throws Exception {
+		logger.info("CbcommentController commentUpdate()....");
+		return cbcommentService.commentUpdate(content, commentNo);
+	}
+	
 	// 댓글 삭제
+	@ResponseBody
+	@RequestMapping(value="/delete/{commentNo}")
+	private int commentDelete(@PathVariable int commentNo) throws Exception {
+		logger.info("CbcommentController commentDelete()....");
+		return cbcommentService.commentDelete(commentNo);
+	}
 
 }

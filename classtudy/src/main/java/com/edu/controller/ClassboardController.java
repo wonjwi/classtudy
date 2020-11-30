@@ -190,8 +190,8 @@ public class ClassboardController {
 	}
 	
 	// 게시글 상세 정보
-	@RequestMapping(value="/detail/{boardNo}")
-	private String detailBoard(@PathVariable int boardNo, Model model, HttpSession session, RedirectAttributes rttr) throws Exception {
+	@RequestMapping(value={"/detail/{boardNo}", "/detail/{boardNo}/{str}"})
+	private String detailBoard(@PathVariable int boardNo, @PathVariable Optional<String> str, Model model, HttpSession session, RedirectAttributes rttr) throws Exception {
 		// 로그인을 하지 않았으면 로그인 화면으로 보낸다.
 		if (session.getAttribute("member") == null) {
 			rttr.addFlashAttribute("msgLogin", false);
@@ -203,6 +203,12 @@ public class ClassboardController {
 		classboardService.addViews(boardNo);
 		// boardNO에 해당하는 자료를 model에 담는다.
 		model.addAttribute("detail", classboardService.boardDetail(boardNo));
+		// comment에 값이 있으면 commentList 위치로, 없으면 그냥 이동한다.
+		if (str.isPresent()) {
+			model.addAttribute("comment", "yes");
+		} else {
+			model.addAttribute("comment", "no");
+		}
 		return "/classboard/detail";
 	}
 	

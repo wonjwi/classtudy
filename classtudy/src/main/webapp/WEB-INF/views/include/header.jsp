@@ -38,7 +38,8 @@
 	--%>
 }
 #commentList {
-	font-size: 13px;
+	font-family: 'IBMPlexSansKR-Regular', sans-serif;
+	font-size: 14px;
 }
 .navbar-brand {
 	font-family: 'MaplestoryOTFBold', sans-serif;

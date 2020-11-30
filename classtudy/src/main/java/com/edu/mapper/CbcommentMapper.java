@@ -16,6 +16,9 @@ public interface CbcommentMapper {
 	public int commentInsert(CbcommentDTO comment) throws Exception;
 	
 	// 댓글 수정
+	public int commentUpdate(String content, int commentNo) throws Exception;
+	
 	// 댓글 삭제
+	public int commentDelete(int commentNo) throws Exception;
 
 }

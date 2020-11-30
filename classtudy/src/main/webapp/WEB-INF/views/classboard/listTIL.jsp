@@ -82,7 +82,7 @@
 					<td>${board.boardNo}</td>
 					<td>
 						<a href="/class/detail/${board.boardNo}">${board.title}</a>&nbsp;
-						<a href="#"><span class="badge badge-info">${board.commentNum}</span></a>
+						<a href="/class/detail/${board.boardNo}#commentList"><span class="badge badge-info">${board.commentNum}</span></a>
 					</td>
 					<td>${member.name}</td>
 					<td><fmt:formatDate value="${board.writeDate}" pattern="yyyy-MM-dd"/></td>
@@ -167,14 +167,12 @@
 		
 		// 검색 버튼이 눌렸을 경우
 		$("#searchBtn").on("click", function() {
-			// 검색어가 입력되었는지 확인
-			if($("#keyword").val() != ""){
-				location.href="/class/searchTIL/" + $("#keyword").val();
-			} else {
-				alert("검색어를 입력해주세요.");
-				return false;
-			}
+			searchTIL($("#keyword").val());
 		});
+		// 검색창에서 엔터키를 입력할 경우
+		$("#keyword").keyup(function(e) { if(e.keyCode == 13) {
+			searchTIL($("#keyword").val());
+		}});
 		
 	});
 	</script>

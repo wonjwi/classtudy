@@ -554,3 +554,29 @@ function checkLikes(boardNo, memberId) {
 			}
 	});
 }
+
+//---------------------------------------------------------------------
+// 게시글 검색 - 제목 및 내용
+//---------------------------------------------------------------------
+function searchBoard(keyword, searchCategory) {
+	// 검색어가 입력되었는지 확인
+	if(keyword != ""){
+		location.href="/class/search/" + keyword + "/" + searchCategory;
+	} else {
+		alert("검색어를 입력해주세요.");
+		return false;
+	}
+}
+
+//---------------------------------------------------------------------
+// TIL 게시글 검색 - 제목 및 내용
+//---------------------------------------------------------------------
+function searchTIL(keyword) {
+	// 검색어가 입력되었는지 확인
+	if(keyword != ""){
+		location.href="/class/searchTIL/" + keyword;
+	} else {
+		alert("검색어를 입력해주세요.");
+		return false;
+	}
+}
