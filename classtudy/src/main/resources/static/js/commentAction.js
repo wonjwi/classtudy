@@ -12,19 +12,28 @@ function commentList() {
 		data:	{"boardNo": boardNo},
 		success: function(data) {
 			var str = '';
-			$.each(data, function(key, value){ 
-				if (key == 0) {
-					str += '<div class="col-sm-12" style="padding-top: 5px;">';
-				} else {
-					str += '<div class="col-sm-12" style="border-top: 1px solid #dddddd; margin-top: 15px; padding-top: 15px;">';
-				}
-				str += '<div class="col-sm-2" align="left"><b>' + value.writerName + ' (' + value.writer + ')' + '</b></div>';
-				str += '<div class="col-sm-8 commentContent' + value.commentNo + '" align="left"><p>' + value.content +'</p></div>';
-				str += '<div class="col-sm-2">';
-				str += '<button class="btn btn-sm btn-default" onclick="commentUpdate(' + value.commentNo + ',\'' + value.content + '\',\'' + value.writer + '\');">수정</button>&nbsp;';
-				str += '<button class="btn btn-sm btn-default" onclick="commentDelete(' + value.commentNo + ',\'' + value.writer + '\');">삭제</button>';
-				str += '</div></div>';
-			});
+			if (data.length < 1) { //댓글이 없을 때
+				str += '<div class="col-sm-12" style="padding-top: 5px;">댓글이 없습니다.</div>';
+			} else {
+				$.each(data, function(key, value){ 
+					if (key == 0) {
+						str += '<div class="col-sm-12" style="padding-top: 5px;">';
+					} else {
+						str += '<div class="col-sm-12" style="border-top: 1px solid #dddddd; margin-top: 15px; padding-top: 15px;">';
+					}
+					str += '<div class="col-sm-2" align="left"><b>' + value.writerName + ' (' + value.writer + ')' + '</b></div>';
+					//댓글 작성자이면 수정, 삭제 버튼을 보여주기
+					if (value.writer == memberId) {
+						str += '<div class="col-sm-8 commentContent' + value.commentNo + '" align="left"><p>' + value.content +'</p></div>';
+						str += '<div class="col-sm-2">';
+						str += '<button class="btn btn-sm btn-default" onclick="commentUpdate(' + value.commentNo + ',\'' + value.content + '\',\'' + value.writer + '\');">수정</button>&nbsp;';
+						str += '<button class="btn btn-sm btn-default" onclick="commentDelete(' + value.commentNo + ',\'' + value.writer + '\');">삭제</button></div>';
+					} else {
+						str += '<div class="col-sm-10 commentContent' + value.commentNo + '" align="left"><p>' + value.content +'</p></div>';
+					}
+					str += '</div>';
+				});
+			}
 			$("#commentList").html(str);
 		}
 	});
@@ -35,6 +44,7 @@ function commentInsert(content){
 	// 댓글 내용이 입력되었는지 확인
 	if(document.getElementById("commentContent").value == "") {
 		alert("댓글 내용을 입력하세요.");
+		return false;
 	} else {
 		$.ajax({
 			url: 	"/cbcomment/insert",
@@ -54,6 +64,7 @@ function commentInsert(content){
 function commentUpdate(commentNo, content, writer) {
 	if (writer != memberId) {
 		alert("수정할 수 있는 권한이 없습니다.");
+		return false;
 	} else {
 		var str = '';
 		str += '<div class="input-group">';
@@ -82,6 +93,7 @@ function commentUpdateProc(commentNo) {
 function commentDelete(commentNo, writer) {
 	if (writer != memberId) {
 		alert("삭제할 수 있는 권한이 없습니다.");
+		return false;
 	} else {
 		if(confirm("정말 삭제하시겠습니까?") == false) {
 			return false;

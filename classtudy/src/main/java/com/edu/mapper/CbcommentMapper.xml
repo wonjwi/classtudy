@@ -17,8 +17,8 @@
 	<!-- 댓글 작성 -->
 	<insert id="commentInsert">
 	INSERT INTO cbcomment 
-			(writer, content, boardNo)
-	VALUES 	(#{writer}, #{content}, #{boardNo})
+			(writer, content, boardNo, writeDate) 
+	VALUES 	(#{writer}, #{content}, #{boardNo}, SYSDATE()) 
 	</insert>
 	
 	<!-- 댓글 수정 -->

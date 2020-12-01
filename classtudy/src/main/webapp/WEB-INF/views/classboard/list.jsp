@@ -103,7 +103,7 @@
 					<td>${board.category}</td>
 					<td>
 						<a href="/class/detail/${board.boardNo}">${board.title}</a>&nbsp;
-						<a href="/class/detail/${board.boardNo}/comment"><span class="badge badge-info">${board.commentNum}</span></a>
+						<a href="/class/detail/${board.boardNo}/comment"><span class="badge">${board.commentNum}</span></a>
 					</td>
 					<td>${board.writerName}</td>
 					<td><fmt:formatDate value="${board.writeDate}" pattern="yyyy-MM-dd"/></td>

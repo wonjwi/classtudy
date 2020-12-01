@@ -27,6 +27,7 @@
 			<input type="hidden" id="lectureNo" name="lectureNo" class="form-control" value="${detail.lectureNo}"/>
 			<input type="hidden" id="writer" name="writer" class="form-control" value="${detail.writer}" maxlength=16/>
 			<input type="hidden" id="memberId" name="memberId" class="form-control" value="${member.memberId}" maxlength="16"/>
+			<input type="hidden" id="memberName" name="memberName" class="form-control" value="${member.name}" maxlength="16"/>
 		</div>
 		<div class="form-group">
 			<label class="control-label col-sm-2">말머리</label>
