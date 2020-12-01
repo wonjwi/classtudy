@@ -16,6 +16,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR&display=swap" rel="stylesheet">
  -->
 <style>
+<%-- Fonts --%>
 @font-face {
 	font-family: 'MaplestoryOTFBold';
 	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/MaplestoryOTFBold.woff') format('woff');
@@ -41,6 +42,8 @@
 	font-family: 'IBMPlexSansKR-Regular', sans-serif;
 	font-size: 14px;
 }
+
+<%-- Navigation Bar --%>
 .navbar-brand {
 	font-family: 'MaplestoryOTFBold', sans-serif;
 	font-size: 28px;
@@ -50,11 +53,22 @@
 	font-family: 'IBMPlexSansKR-Regular', sans-serif;
 	font-size: 16px;
 }
+
+<%-- Multi Dropdown Menu --%>
 .dropdown-submenu {
 	position: relative;
 }
 .dropdown-submenu .dropdown-menu {
 	top: 	0px;
 	left: 	100%;
+}
+
+<%-- NotiList --%>
+#notiList {
+	width: 			400px;
+	padding-top: 	15px;
+	padding-bottom: 15px;
+	font-family: 	'IBMPlexSansKR-Regular', sans-serif;
+	font-size: 		14px;
 }
 </style>

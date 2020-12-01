@@ -486,12 +486,14 @@ function classboardCheckForm(classboardForm)
 // 게시글 좋아요 - 좋아요 버튼이 눌렸을 경우
 //---------------------------------------------------------------------
 function likeBoard(boardForm) {
+	/*
 	// 자신이 작성한 글은 좋아요를 누를 수 없다.
 	// 게시글의 작성자와 로그인한 사람의 아이디 확인
 	if(boardForm.writer.value == boardForm.memberId.value) {
 		alert("본인의 글은 좋아요를 누를 수 없습니다.");
 		return false;
 	}
+	*/
 	// 해당 게시글에 좋아요를 이미 눌렀는지 확인
 	if(document.getElementById("likeBtn").value == "Y"){
 		//alert("이미 좋아요를 누른 게시글입니다.");
@@ -528,6 +530,25 @@ function likeBoard(boardForm) {
 						= '<span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;좋아요&nbsp;' + data + '';
 				}
 		});
+		// 자신이 작성한 글은 좋아요 알림을 보내지 않는다.
+		// 게시글의 작성자와 로그인한 사람의 아이디 확인
+		if(boardForm.writer.value != boardForm.memberId.value) {
+			// 좋아요 내용으로 알림 텍스트를 만든다.
+			// 제목이 너무 길면 잘라서 저장한다.
+			var boardTitle = boardForm.title.value;
+			if (boardTitle.length > 10) { boardTitle = boardTitle.substring(0, 10) + '...'; }
+			var notiContent = '';
+			notiContent += boardForm.memberName.value + '님이 회원님의 게시글 \'' + boardTitle + '\' 을 좋아합니다. ';
+			// 게시글 작성자에게 알림을 보낸다.
+			$.ajax({
+				url: 	"/noti/insert/",
+				type: 	"post",
+				dataType: "json",
+				data: 	{"notiContent" : notiContent, "receiver" : boardForm.writer.value},
+				success: function(data) {
+					}
+			});
+		}
 	}
 }
 

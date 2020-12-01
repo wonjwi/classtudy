@@ -4,11 +4,13 @@
 	// 로그인 여부 체크할 변수 선언
 	boolean isLogin = false;
 	// 세션에 MemberDTO가 있는지 확인하고
-	// 있으면 member의 name을 String으로 저장한다.
+	// 있으면 member의 name, memberId, lectureNo를 저장한다.
 	String name = "";
+	String memberId = "";
 	int lectureNo = 0;
 	if(session.getAttribute("member") != null) {
 		MemberDTO member = (MemberDTO)session.getAttribute("member");
+		memberId = member.getMemberId();
 		name = member.getName();
 		lectureNo = member.getLectureNo();
 		isLogin = true;
@@ -17,6 +19,7 @@
 	}
 %>
 <% if (isLogin) { %>
+	<input type="hidden" id="loginId" name="loginId" value="<%=memberId%>"/>
 	<nav class="navbar navbar-default navbar-stikcy-top">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -58,7 +61,6 @@
 						<li class="dropdown">
 							<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 								<span class="glyphicon glyphicon-user"></span> <%=name%>님 <span class="caret"></span>
-								<!-- 내정보 <span class="caret"></span> -->
 							</a>
 							<ul class="dropdown-menu">
 								<li class="dropdown-submenu" style="position: relative;">
@@ -74,13 +76,17 @@
 								<li><a href="${path}/mypage/job">이력서&포폴</a></li>
 							</ul>
 						</li>
-						<!-- <li><a><span class="glyphicon glyphicon-user"></span> <%=name%>님</a></li>  -->
+						<!-- 알림 영역 -->
+						<li class="dropdown" id="notiBadgeArea">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#">알림 <span class="badge">0</span></a>
+							<ul class="dropdown-menu" id="notiList"></ul>
+						</li>
 						<li><a href="${path}/member/logout"><span class="glyphicon glyphicon-log-out"></span> 로그아웃</a></li>
 					</ul>
 				</div>
 			</div>
 		</div>
-	</nav>	
+	</nav>
 <% } else { %>
 	<nav class="navbar navbar-default navbar-stikcy-top">
 		<div class="container-fluid">
