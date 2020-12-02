@@ -64,12 +64,14 @@
 }
 
 <%-- NotiList --%>
-#notiList {
-	width: 			450px;
-	right: 			-50px;
-	padding-top: 	15px;
-	padding-bottom: 15px;
-	font-family: 	'IBMPlexSansKR-Regular', sans-serif;
-	font-size: 		14px;
+@media (min-width: 768px) {
+	#notiList {
+		width: 		500px;
+		right: 			-50px;
+		padding-top: 	15px;
+		padding-bottom: 15px;
+		font-family: 	'IBMPlexSansKR-Regular', sans-serif;
+		font-size: 		14px;
+	}
 }
 </style>

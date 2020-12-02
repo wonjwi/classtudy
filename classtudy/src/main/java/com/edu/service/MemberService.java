@@ -1,5 +1,7 @@
 package com.edu.service;
 
+import java.util.List;
+
 import javax.annotation.*;
 
 import org.slf4j.Logger;
@@ -15,7 +17,7 @@ public class MemberService {
 	// 로깅을 위한 변수 LOGGER를 선언한다.
 	private static final Logger LOGGER
 		= LoggerFactory.getLogger(MemberService.class);
-
+	
 	@Resource(name="com.edu.mapper.MemberMapper")
 	MemberMapper memberMapper;
 	
@@ -52,5 +54,10 @@ public class MemberService {
 		memberMapper.memberDelete(memberDTO);
 		
 	}
-
+	
+	// 강의 번호에 해당하는 회원 찾기
+	public List<String> getLectureMembers(int lectureNo) throws Exception {
+		return memberMapper.getLectureMembers(lectureNo);
+	}
+	
 }

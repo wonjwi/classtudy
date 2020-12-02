@@ -34,9 +34,9 @@ public class NotiService {
 	}
 	
 	// 같은 내용의 알림 찾기
-	public int notiSearch(String content) throws Exception {
+	public int notiSearch(String content, String receiver) throws Exception {
 		logger.info("NotiService notiSearch()....");
-		return notiMapper.notiSearch(content);
+		return notiMapper.notiSearch(content, receiver);
 	}
 	
 	// 알림 추가

@@ -218,14 +218,5 @@ public class MemberController {
 		
 		return "redirect:/member/login";
 	}
-
-	//게시글 삭제
-	//삭제할 게시번호를 받아서 서비스한테 게시번호를 주고 삭제작업을 의뢰한다.
-//	@RequestMapping("/delete")
-//	public String delete(@RequestParam("b_no") int b_no) throws Exception {
-//		System.out.println("Controller delete Before");
-//		boardService.boardDelete(b_no);
-//		return "redirect:/board/list";
-//	}
-
-} // End - public class BoardController
+	
+}

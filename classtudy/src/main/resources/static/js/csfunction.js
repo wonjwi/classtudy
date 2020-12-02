@@ -455,6 +455,25 @@ function tilCheckForm(classboardForm)
 		return false;
 	}
 	classboardForm.submit();
+	
+	// ----- 알림 보내기 -----
+	// 현재 path 경로 저장
+	var path = document.getElementById("nowPath").value;
+	// TIL 작성자 아이디와 강의번호 저장
+	var writer = classboardForm.writer.value;
+	var lectureNo = classboardForm.lectureNo.value;
+	// 클래스원들에게 보낼 알림 텍스트를 만든다.
+	var notiContent = '';
+	notiContent += '<a href="' + path + '/class/classroom/TIL">클래스룸</a>에 ';
+	notiContent += '새로운 TIL 게시글이 올라왔습니다.';
+	// 같은 클래스원 모두에게 알림을 보낸다.
+	$.ajax({
+		url: 	"/noti/insertClass/",
+		type: 	"post",
+		dataType: "json",
+		data: 	{"notiContent" : notiContent, "lectureNo" : lectureNo, "writer" : writer},
+		success: function(data) { }
+	});
 }
 
 //---------------------------------------------------------------------
@@ -542,7 +561,7 @@ function likeBoard(boardForm) {
 			//var boardTitle = boardForm.title.value; //제목이 길면 잘라서 저장
 			//if (boardTitle.length > 10) { boardTitle = boardTitle.substring(0, 10) + '...'; }
 			var notiContent = '';
-			notiContent += loginName + '님이 회원님의 ';
+			notiContent += loginName + '(' + loginId + ')님이 회원님의 ';
 			notiContent += '<a href="' + path + '/class/detail/' + boardForm.boardNo.value + '">게시글</a>';
 			notiContent += '을 좋아합니다.';
 			//alert(notiContent);

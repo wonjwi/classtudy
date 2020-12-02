@@ -61,12 +61,12 @@ function commentInsert(content){
 		});
 		// ----- 알림 보내기 -----
 		// 자신이 작성한 글은 알림을 보내지 않는다.
-		if (boardWriter == loginId) {
+		if (boardWriter != loginId) {
 			// 현재 path 경로 저장
 			var path = document.getElementById("nowPath").value;
 			// 작성자에게 보낼 알림 텍스트를 만든다.
 			var notiContent = '';
-			notiContent += loginName + '님이 회원님의 ';
+			notiContent += loginName + '(' + loginId + ')님이 회원님의 ';
 			notiContent += '게시글에 ';
 			notiContent += '<a href="' + path + '/class/detail/' + boardNo + '/comment">댓글</a>을 남겼습니다.';
 			// 게시글 작성자에게 알림을 보낸다.

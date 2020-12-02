@@ -57,12 +57,12 @@ function notiList(memberId) {
 			} else {
 				$.each(data, function(key, value){
 					if (key == 0) {
-						str += '<div class="col-sm-12">';
+						str += '<div class="col-sm-12 col-xs-12">';
 					} else {
-						str += '<div class="col-sm-12" style="border-top: 1px solid #dddddd; margin-top: 10px; padding-top: 10px;">';
+						str += '<div class="col-sm-12 col-xs-12" style="border-top: 1px solid #dddddd; margin-top: 10px; padding-top: 10px;">';
 					}
-					str += '<div class="col-sm-10" align="left">' + value.content + '</div>';
-					str += '<div class="col-sm-2">';
+					str += '<div class="col-sm-10 col-xs-10" align="left">' + value.content + '</div>';
+					str += '<div class="col-sm-2 col-xs-2">';
 					str += '<button class="btn btn-sm btn-default" onclick="notiCheck(' + value.notiNo + ');">확인</button>';
 					str += '</div></div>';
 				});

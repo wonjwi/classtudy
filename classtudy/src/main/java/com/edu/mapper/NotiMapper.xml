@@ -29,6 +29,7 @@
 	FROM 	noti 
 	WHERE 	content = #{content} 
 	AND 	checked = false 
+	AND 	receiver = #{receiver} 
 	</select>
 	
 	<!-- 알림 추가 -->

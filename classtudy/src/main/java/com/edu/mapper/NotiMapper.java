@@ -16,7 +16,7 @@ public interface NotiMapper {
 	public List<NotiDTO> notiList(String memberId) throws Exception;
 	
 	// 같은 내용의 알림 찾기
-	public int notiSearch(String content) throws Exception; 
+	public int notiSearch(String content, String receiver) throws Exception; 
 	
 	// 알림 추가
 	public int notiInsert(NotiDTO notiDTO) throws Exception;

@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.eclipse.jdt.internal.compiler.ast.Receiver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.edu.domain.NotiDTO;
+import com.edu.service.MemberService;
 import com.edu.service.NotiService;
 
 @Controller // 컨트롤러 빈으로 등록하는 어노테이션
@@ -25,6 +27,9 @@ public class NotiController {
 	
 	@Inject
 	NotiService notiService;
+	
+	@Inject
+	MemberService memberService;
 	
 	// 알림 개수 읽어오기
 	@ResponseBody
@@ -49,7 +54,7 @@ public class NotiController {
 		
 		// 같은 내용의 알림이 테이블에 있는지 확인
 		int existNotiNo = 0;
-		existNotiNo = notiService.notiSearch(notiContent);
+		existNotiNo = notiService.notiSearch(notiContent, receiver);
 		// 있으면 알림이 중복되지 않도록 기존의 알림은 확인 체크를 함
 		if (existNotiNo > 0) {
 			notiService.notiCheck(existNotiNo);
@@ -60,8 +65,38 @@ public class NotiController {
 		notiDTO.setContent(notiContent);
 		notiDTO.setReceiver(receiver);
 		notiDTO.setChecked(false);
-
+		
 		return notiService.notiInsert(notiDTO);
+	}
+	
+	// 알림 추가 - 클래스원 모두에게
+	@RequestMapping(value="/insertClass", method=RequestMethod.POST)
+	private void notiInsertClass(String notiContent, int lectureNo, String writer) throws Exception {
+		logger.info("NotiController notiInsertClass()....");
+		
+		// 강의 번호에 해당하는 클래스원을 찾는다.
+		List<String> members = memberService.getLectureMembers(lectureNo);
+		
+		for (String receiver : members) {
+			// 같은 내용의 알림이 테이블에 있는지 확인
+			int existNotiNo = 0;
+			existNotiNo = notiService.notiSearch(notiContent, receiver);
+			// 있으면 알림이 중복되지 않도록 기존의 알림은 확인 체크를 함
+			if (existNotiNo > 0) {
+				notiService.notiCheck(existNotiNo);
+			}
+			
+			// 알림 객체 만들어 전달 받은 내용 입력
+			NotiDTO notiDTO = new NotiDTO();
+			notiDTO.setContent(notiContent);
+			notiDTO.setReceiver(receiver);
+			notiDTO.setChecked(false);
+			
+			// 작성자에게는 알림을 보내지 않는다.
+			if( !(receiver.equals(writer)) ) {
+				notiService.notiInsert(notiDTO);
+			}
+		}
 	}
 	
 	// 알림 확인
