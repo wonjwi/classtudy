@@ -65,7 +65,8 @@
 
 <%-- NotiList --%>
 #notiList {
-	width: 			400px;
+	width: 			450px;
+	right: 			-50px;
 	padding-top: 	15px;
 	padding-bottom: 15px;
 	font-family: 	'IBMPlexSansKR-Regular', sans-serif;

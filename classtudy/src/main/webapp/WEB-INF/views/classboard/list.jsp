@@ -46,7 +46,7 @@
 			<td align=left style="padding-bottom: 15px; padding-left: 20px;">
 				<div class="btn-group">	
 					<!-- 말머리 선택 : 선택된 말머리의 글만 표시 -->
-					<select class="form-control" id="viewCategory" name="viewCategory" onchange="location.href='/class/classroom/' + this.value">
+					<select class="form-control" id="viewCategory" name="viewCategory" onchange="location.href='${path}/class/classroom/' + this.value">
 						<c:if test="${viewCategory == 'all'}">
 							<option value="all" selected>전체</option>
 							<option value="TIL">TIL</option>
@@ -75,7 +75,7 @@
 				</div>
 			</td>
 			<td align=right style="padding-bottom: 15px; padding-right: 20px;">
-				<button class="btn btn-success" onclick="location.href='/class/write'">작성</button>
+				<button class="btn btn-success" onclick="location.href='${path}/class/write'">작성</button>
 			</td>
 		</tr>
 	</table>
@@ -102,8 +102,8 @@
 					<td>${board.boardNo}</td>
 					<td>${board.category}</td>
 					<td>
-						<a href="/class/detail/${board.boardNo}">${board.title}</a>&nbsp;
-						<a href="/class/detail/${board.boardNo}/comment"><span class="badge">${board.commentNum}</span></a>
+						<a href="${path}/class/detail/${board.boardNo}">${board.title}</a>&nbsp;
+						<a href="${path}/class/detail/${board.boardNo}/comment"><span class="badge">${board.commentNum}</span></a>
 					</td>
 					<td>${board.writerName}</td>
 					<td><fmt:formatDate value="${board.writeDate}" pattern="yyyy-MM-dd"/></td>
@@ -164,14 +164,14 @@
 		//startPage가 pageBlock보다 큰 경우에만 << 버튼을 보여준다.
 		if(startPage > pageBlock) {
 			%>
-			<button type="button" class="btn btn-default" onclick="location.href='/class/<%=paging%>/${viewCategory}/<%=startPage - 1%>'">&lt;&lt;</button>
+			<button type="button" class="btn btn-default" onclick="location.href='${path}/class/<%=paging%>/${viewCategory}/<%=startPage - 1%>'">&lt;&lt;</button>
 			<%-- <a href="/class/classroom/${viewCategory}/<%= startPage - 1 %>">&lt;&lt;</a>&nbsp; --%>
 			<%
 		}
 		//pageNumber가 1보다 큰 경우에만 < 버튼을 보여준다.
 		if(pageNumber > 1) {
 			%>
-			<button type="button" class="btn btn-default" onclick="location.href='/class/<%=paging%>/${viewCategory}/<%=pageNumber - 1%>'">&lt;</button>
+			<button type="button" class="btn btn-default" onclick="location.href='${path}/class/<%=paging%>/${viewCategory}/<%=pageNumber - 1%>'">&lt;</button>
 			<%-- <a href="/class/classroom/${viewCategory}/<%= pageNumber - 1 %>">[이전]</a> --%>
 			<%
 		}
@@ -180,12 +180,12 @@
 		for(int num = startPage; num <= endPage; num++) {
 			if (num == pageNumber) {
 			%>
-			<button type="button" class="btn btn-success" onclick="location.href='/class/<%=paging%>/${viewCategory}/<%=num%>'"><%=num%></button>
+			<button type="button" class="btn btn-success" onclick="location.href='${path}/class/<%=paging%>/${viewCategory}/<%=num%>'"><%=num%></button>
 			<%-- <a style="color: #33ee33;" href="/class/classroom/${viewCategory}/<%= num %>">[<%= num %>]</a> --%>
 			<%
 			} else {
 			%>
-			<button type="button" class="btn btn-default" onclick="location.href='/class/<%=paging%>/${viewCategory}/<%=num%>'"><%=num%></button>
+			<button type="button" class="btn btn-default" onclick="location.href='${path}/class/<%=paging%>/${viewCategory}/<%=num%>'"><%=num%></button>
 			<%-- <a href="/class/classroom/${viewCategory}/<%= num %>">[<%= num %>]</a> --%>
 			<%
 			}
@@ -195,14 +195,14 @@
 		//pageNumber가 pageCount보다 작은 경우에만 > 버튼을 보여준다.
 		if(pageNumber < pageCount) {
 			%>
-			<button type="button" class="btn btn-default" onclick="location.href='/class/<%=paging%>/${viewCategory}/<%=pageNumber + 1%>'">&gt;</button>
+			<button type="button" class="btn btn-default" onclick="location.href='${path}/class/<%=paging%>/${viewCategory}/<%=pageNumber + 1%>'">&gt;</button>
 			<%-- <a href="/class/classroom/${viewCategory}/<%= pageNumber + 1 %>">[다음]</a>&nbsp; --%>
 			<%
 		}
 		//endPage가 pageCount보다 작은 경우에만 >> 버튼을 보여준다.
 		if(endPage < pageCount) {
 			%>
-			<button type="button" class="btn btn-default" onclick="location.href='/class/<%=paging%>/${viewCategory}/<%=endPage + 1%>'">&gt;&gt;</button>
+			<button type="button" class="btn btn-default" onclick="location.href='${path}/class/<%=paging%>/${viewCategory}/<%=endPage + 1%>'">&gt;&gt;</button>
 			<%-- <a href="/class/classroom/${viewCategory}/<%= endPage + 1 %>">&gt;&gt;</a> --%>
 			<%
 		}

@@ -1,8 +1,10 @@
-// 게시글 번호 저장
+// 게시글 번호와 작성자 저장
 var boardNo = document.getElementById("boardNo").value;
+var boardWriter = document.getElementById("writer").value;
 
-// 로그인한 회원 아이디 저장
-var memberId = document.getElementById("memberId").value;
+// 로그인한 회원 아이디와 이름을 저장
+var loginId = document.getElementById("loginId").value;
+var loginName = document.getElementById("loginName").value;
 
 // 댓글 목록 보기
 function commentList() {
@@ -23,7 +25,7 @@ function commentList() {
 					}
 					str += '<div class="col-sm-2" align="left"><b>' + value.writerName + ' (' + value.writer + ')' + '</b></div>';
 					//댓글 작성자이면 수정, 삭제 버튼을 보여주기
-					if (value.writer == memberId) {
+					if (value.writer == loginId) {
 						str += '<div class="col-sm-8 commentContent' + value.commentNo + '" align="left"><p>' + value.content +'</p></div>';
 						str += '<div class="col-sm-2">';
 						str += '<button class="btn btn-sm btn-default" onclick="commentUpdate(' + value.commentNo + ',\'' + value.content + '\',\'' + value.writer + '\');">수정</button>&nbsp;';
@@ -49,7 +51,7 @@ function commentInsert(content){
 		$.ajax({
 			url: 	"/cbcomment/insert",
 			type: 	"post",
-			data: 	{"writer": memberId, "content": content, "boardNo": boardNo},
+			data: 	{"writer": loginId, "content": content, "boardNo": boardNo},
 			success: function(data){
 				if(data == 1) {
 					commentList(); // 댓글 목록 새로고침
@@ -57,12 +59,31 @@ function commentInsert(content){
 				}
 			}
 		});
+		// ----- 알림 보내기 -----
+		// 자신이 작성한 글은 알림을 보내지 않는다.
+		if (boardWriter == loginId) {
+			// 현재 path 경로 저장
+			var path = document.getElementById("nowPath").value;
+			// 작성자에게 보낼 알림 텍스트를 만든다.
+			var notiContent = '';
+			notiContent += loginName + '님이 회원님의 ';
+			notiContent += '게시글에 ';
+			notiContent += '<a href="' + path + '/class/detail/' + boardNo + '/comment">댓글</a>을 남겼습니다.';
+			// 게시글 작성자에게 알림을 보낸다.
+			$.ajax({
+				url: 	"/noti/insert/",
+				type: 	"post",
+				dataType: "json",
+				data: 	{"notiContent" : notiContent, "receiver" : boardWriter},
+				success: function(data) { }
+			});
+		}
 	}
 }
 
 // 댓글 수정 - 댓글 내용 부분을 input으로 변경
 function commentUpdate(commentNo, content, writer) {
-	if (writer != memberId) {
+	if (writer != loginId) {
 		alert("수정할 수 있는 권한이 없습니다.");
 		return false;
 	} else {
@@ -91,7 +112,7 @@ function commentUpdateProc(commentNo) {
 
 // 댓글 삭제
 function commentDelete(commentNo, writer) {
-	if (writer != memberId) {
+	if (writer != loginId) {
 		alert("삭제할 수 있는 권한이 없습니다.");
 		return false;
 	} else {

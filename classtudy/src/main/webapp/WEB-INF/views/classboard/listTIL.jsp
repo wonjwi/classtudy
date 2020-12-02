@@ -46,7 +46,7 @@
 			<td align=left style="padding-bottom: 15px; padding-left: 20px;">
 				<div class="btn-group">	
 					<!-- 말머리 선택 불가, TIL 고정 -->
-					<select class="form-control" name="viewCategory" onchange="location.href='/class/classroom/' + this.value" disabled>
+					<select class="form-control" name="viewCategory" onchange="location.href='${path}/class/classroom/' + this.value" disabled>
 						<option value="all">전체</option>
 						<option value="TIL" selected>TIL</option>
 						<option value="클래스">클래스</option>
@@ -55,7 +55,7 @@
 				</div>
 			</td>
 			<td align=right style="padding-bottom: 15px; padding-right: 20px;">
-				<button class="btn btn-success" onclick="location.href='/class/writeTIL'">작성</button>
+				<button class="btn btn-success" onclick="location.href='${path}/class/writeTIL'">작성</button>
 			</td>
 		</tr>
 	</table>
@@ -81,8 +81,8 @@
 				<tr>
 					<td>${board.boardNo}</td>
 					<td>
-						<a href="/class/detail/${board.boardNo}">${board.title}</a>&nbsp;
-						<a href="/class/detail/${board.boardNo}/comment"><span class="badge">${board.commentNum}</span></a>
+						<a href="${path}/class/detail/${board.boardNo}">${board.title}</a>&nbsp;
+						<a href="${path}/class/detail/${board.boardNo}/comment"><span class="badge">${board.commentNum}</span></a>
 					</td>
 					<td>${member.name}</td>
 					<td><fmt:formatDate value="${board.writeDate}" pattern="yyyy-MM-dd"/></td>
@@ -114,14 +114,14 @@
 		//startPage가 pageBlock보다 큰 경우에만 << 버튼을 보여준다.
 		if(startPage > pageBlock) {
 			%>
-			<button type="button" class="btn btn-default" onclick="location.href='/class/<%=paging%>/<%=startPage - 1%>'">&lt;&lt;</button>
+			<button type="button" class="btn btn-default" onclick="location.href='${path}/class/<%=paging%>/<%=startPage - 1%>'">&lt;&lt;</button>
 			<%-- <a href="/class/TIL/<%= startPage - 1 %>">&lt;&lt;</a>&nbsp; --%>
 			<%
 		}
 		//pageNumber가 1보다 큰 경우에만 < 버튼을 보여준다.
 		if(pageNumber > 1) {
 			%>
-			<button type="button" class="btn btn-default" onclick="location.href='/class/<%=paging%>/<%=pageNumber - 1%>'">&lt;</button>
+			<button type="button" class="btn btn-default" onclick="location.href='${path}/class/<%=paging%>/<%=pageNumber - 1%>'">&lt;</button>
 			<%-- <a href="/class/TIL/<%= pageNumber - 1 %>">[이전]</a>&nbsp; --%>
 			<%
 		}
@@ -130,12 +130,12 @@
 		for(int num = startPage; num <= endPage; num++) {
 			if (num == pageNumber) {
 			%>
-			<button type="button" class="btn btn-success" onclick="location.href='/class/<%=paging%>/<%=num%>'"><%=num%></button>
+			<button type="button" class="btn btn-success" onclick="location.href='${path}/class/<%=paging%>/<%=num%>'"><%=num%></button>
 			<%-- <a style="color: #33ee33;" href="/class/TIL/<%=num%>">[<%=num%>]</a> --%>
 			<%
 			} else {
 			%>
-			<button type="button" class="btn btn-default" onclick="location.href='/class/<%=paging%>/<%=num%>'"><%=num%></button>
+			<button type="button" class="btn btn-default" onclick="location.href='${path}/class/<%=paging%>/<%=num%>'"><%=num%></button>
 			<%-- <a href="/class/TIL/<%= num %>">[<%= num %>]</a> --%>
 			<%
 			}
@@ -145,14 +145,14 @@
 		//pageNumber가 pageCount보다 작은 경우에만 > 버튼을 보여준다.
 		if(pageNumber < pageCount) {
 			%>
-			<button type="button" class="btn btn-default" onclick="location.href='/class/<%=paging%>/<%=pageNumber + 1%>'">&gt;</button>
+			<button type="button" class="btn btn-default" onclick="location.href='${path}/class/<%=paging%>/<%=pageNumber + 1%>'">&gt;</button>
 			<%-- <a href="/class/TIL/<%= pageNumber + 1 %>">[다음]</a>&nbsp; --%>
 			<%
 		}
 		//endPage가 pageCount보다 작은 경우에만 >> 버튼을 보여준다.
 		if(endPage < pageCount) {
 			%>
-			<button type="button" class="btn btn-default" onclick="location.href='/class/<%=paging%>/<%=endPage + 1%>'">&gt;&gt;</button>
+			<button type="button" class="btn btn-default" onclick="location.href='${path}/class/<%=paging%>/<%=endPage + 1%>'">&gt;&gt;</button>
 			<%-- <a href="/class/TIL/<%= endPage + 1 %>">&gt;&gt;</a> --%>
 			<%
 		}

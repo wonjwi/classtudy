@@ -26,8 +26,6 @@
 			<input type="hidden" id="likes" name="likes" class="form-control" value="${detail.likes}"/>
 			<input type="hidden" id="lectureNo" name="lectureNo" class="form-control" value="${detail.lectureNo}"/>
 			<input type="hidden" id="writer" name="writer" class="form-control" value="${detail.writer}" maxlength=16/>
-			<input type="hidden" id="memberId" name="memberId" class="form-control" value="${member.memberId}" maxlength="16"/>
-			<input type="hidden" id="memberName" name="memberName" class="form-control" value="${member.name}" maxlength="16"/>
 		</div>
 		<div class="form-group">
 			<label class="control-label col-sm-2">말머리</label>
@@ -62,7 +60,7 @@
 					><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;좋아요&nbsp;${detail.likes}</button><br><br>
 				<button type="button" class="btn btn-success" id="updateBtn">수정</button>&nbsp;
 				<button type="button" class="btn btn-danger" id="deleteBtn">삭제</button>&nbsp;
-				<button type="button" class="btn btn-primary" onclick="location.href='/class/classroom/${detail.category}'">목록</button>
+				<button type="button" class="btn btn-primary" onclick="location.href='/class/classroom/all'">목록</button>
 			</div>
 		</div>
 	</form>
@@ -100,7 +98,7 @@
 		});
 		
 		// 좋아요 누른 게시글인지 확인
-		checkLikes($("#boardNo").val(), $("#memberId").val());
+		checkLikes($("#boardNo").val(), $("#loginId").val());
 		
 		// 게시글에 댓글이 있으면 댓글을 보여준다.
 		commentList();
@@ -124,7 +122,7 @@
 		// 수정 버튼이 눌렸을 경우
 		$("#updateBtn").on("click", function() {
 			// 작성자와 로그인한 아이디가 같은지 확인
-			if(document.getElementById("writer").value == document.getElementById("memberId").value){
+			if(document.getElementById("writer").value == document.getElementById("loginId").value){
 				location.href="/class/update/${detail.boardNo}";
 			} else {
 				alert("수정할 수 있는 권한이 없습니다.");
@@ -134,7 +132,7 @@
 		// 삭제 버튼이 눌렸을 경우
 		$("#deleteBtn").on("click", function() {
 			// 작성자와 로그인한 아이디가 같은지 확인
-			if(document.getElementById("writer").value == document.getElementById("memberId").value){
+			if(document.getElementById("writer").value == document.getElementById("loginId").value){
 				if(confirm("정말 삭제하시겠습니까?") == false){
 					return false;
 				} else {

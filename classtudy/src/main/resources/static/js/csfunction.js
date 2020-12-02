@@ -486,10 +486,13 @@ function classboardCheckForm(classboardForm)
 // 게시글 좋아요 - 좋아요 버튼이 눌렸을 경우
 //---------------------------------------------------------------------
 function likeBoard(boardForm) {
+	// 로그인한 회원 아이디와 이름을 저장
+	var loginId = document.getElementById("loginId").value;
+	var loginName = document.getElementById("loginName").value;
 	/*
 	// 자신이 작성한 글은 좋아요를 누를 수 없다.
 	// 게시글의 작성자와 로그인한 사람의 아이디 확인
-	if(boardForm.writer.value == boardForm.memberId.value) {
+	if(boardForm.writer.value == loginId) {
 		alert("본인의 글은 좋아요를 누를 수 없습니다.");
 		return false;
 	}
@@ -505,7 +508,7 @@ function likeBoard(boardForm) {
 				url: 	"/class/deleteLike/",
 				type: 	"post",
 				dataType: "json",
-				data: 	{"boardNo" : boardForm.boardNo.value, "memberId" : boardForm.memberId.value},
+				data: 	{"boardNo" : boardForm.boardNo.value, "memberId" : loginId},
 				success: function(data) {
 						document.getElementById("likeBtn").value = "N";
 						document.getElementById("likeBtn").style.backgroundColor = "#ffffff";
@@ -521,7 +524,7 @@ function likeBoard(boardForm) {
 			url: 	"/class/like/",
 			type: 	"post",
 			dataType: "json",
-			data: 	{"boardNo" : boardForm.boardNo.value, "memberId" : boardForm.memberId.value},
+			data: 	{"boardNo" : boardForm.boardNo.value, "memberId" : loginId},
 			success: function(data) {
 					document.getElementById("likeBtn").value = "Y";
 					document.getElementById("likeBtn").style.backgroundColor = "#888888";
@@ -530,23 +533,26 @@ function likeBoard(boardForm) {
 						= '<span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;좋아요&nbsp;' + data + '';
 				}
 		});
-		// 자신이 작성한 글은 좋아요 알림을 보내지 않는다.
-		// 게시글의 작성자와 로그인한 사람의 아이디 확인
-		if(boardForm.writer.value != boardForm.memberId.value) {
-			// 좋아요 내용으로 알림 텍스트를 만든다.
-			// 제목이 너무 길면 잘라서 저장한다.
-			var boardTitle = boardForm.title.value;
-			if (boardTitle.length > 10) { boardTitle = boardTitle.substring(0, 10) + '...'; }
+		// ----- 알림 보내기 -----
+		// 자신이 작성한 글은 알림을 보내지 않는다.
+		if(boardForm.writer.value != loginId) {
+			// 현재 path 경로 저장
+			var path = document.getElementById("nowPath").value;
+			// 작성자에게 보낼 알림 텍스트를 만든다.
+			//var boardTitle = boardForm.title.value; //제목이 길면 잘라서 저장
+			//if (boardTitle.length > 10) { boardTitle = boardTitle.substring(0, 10) + '...'; }
 			var notiContent = '';
-			notiContent += boardForm.memberName.value + '님이 회원님의 게시글 \'' + boardTitle + '\' 을 좋아합니다. ';
+			notiContent += loginName + '님이 회원님의 ';
+			notiContent += '<a href="' + path + '/class/detail/' + boardForm.boardNo.value + '">게시글</a>';
+			notiContent += '을 좋아합니다.';
+			//alert(notiContent);
 			// 게시글 작성자에게 알림을 보낸다.
 			$.ajax({
 				url: 	"/noti/insert/",
 				type: 	"post",
 				dataType: "json",
 				data: 	{"notiContent" : notiContent, "receiver" : boardForm.writer.value},
-				success: function(data) {
-					}
+				success: function(data) { }
 			});
 		}
 	}

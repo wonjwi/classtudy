@@ -23,6 +23,14 @@
 	ORDER BY notiNo DESC 
 	</select>
 	
+	<!-- 같은 내용의 알림 찾기 -->
+	<select id="notiSearch" resultType="int">
+	SELECT 	IFNULL(MAX(notiNo), 0) notiNo 
+	FROM 	noti 
+	WHERE 	content = #{content} 
+	AND 	checked = false 
+	</select>
+	
 	<!-- 알림 추가 -->
 	<insert id="notiInsert">
 	INSERT INTO noti 
@@ -35,6 +43,13 @@
 	UPDATE 	noti 
 	SET 	checked = true 
 	WHERE 	notiNo = #{notiNo} 
+	</update>
+	
+	<!-- 알림 모두 확인 -->
+	<update id="notiCheckAll">
+	UPDATE 	noti 
+	SET 	checked = true 
+	WHERE 	receiver = #{memberId} 
 	</update>
 
 </mapper>

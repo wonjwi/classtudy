@@ -63,9 +63,12 @@ function notiList(memberId) {
 					}
 					str += '<div class="col-sm-10" align="left">' + value.content + '</div>';
 					str += '<div class="col-sm-2">';
-					str += '<button class="btn btn-sm btn-default" onclick="notiCheck(' + value.notiNo + ', \'' + memberId + '\');">확인</button>';
+					str += '<button class="btn btn-sm btn-default" onclick="notiCheck(' + value.notiNo + ');">확인</button>';
 					str += '</div></div>';
 				});
+				str += '<div class="col-sm-12" align="center" style="padding-top: 10px;">'
+				str += '<button class="btn btn-warning" onclick="notiCheckAll(\'' + memberId + '\');">모두 확인</button>'
+				str += '</div>';
 			}
 			$("#notiList").html(str);
 		}
@@ -82,6 +85,19 @@ function notiCheck(notiNo) {
 		data: 	{"notiNo" : notiNo},
 		success: function(data) {
 			if(data == 1) { notiLoad(); } //알림 확인 후 알림 뱃지를 다시 출력
+		}
+	});
+}
+
+//알림 모두 확인
+function notiCheckAll(memberId) {
+	$.ajax({
+		url: 	"/noti/checkAll/",
+		type: 	"post",
+		dataType: "json",
+		data: 	{"memberId" : memberId},
+		success: function(data) {
+			if(data > 0) { notiLoad(); } //알림 확인 후 알림 뱃지를 다시 출력
 		}
 	});
 }

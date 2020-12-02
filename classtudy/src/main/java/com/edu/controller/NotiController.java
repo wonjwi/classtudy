@@ -47,11 +47,20 @@ public class NotiController {
 	private int notiInsert(String notiContent, String receiver) throws Exception {
 		logger.info("NotiController notiInsert()....");
 		
+		// 같은 내용의 알림이 테이블에 있는지 확인
+		int existNotiNo = 0;
+		existNotiNo = notiService.notiSearch(notiContent);
+		// 있으면 알림이 중복되지 않도록 기존의 알림은 확인 체크를 함
+		if (existNotiNo > 0) {
+			notiService.notiCheck(existNotiNo);
+		}
+		
+		// 알림 객체 만들어 전달 받은 내용 입력
 		NotiDTO notiDTO = new NotiDTO();
 		notiDTO.setContent(notiContent);
 		notiDTO.setReceiver(receiver);
 		notiDTO.setChecked(false);
-		
+
 		return notiService.notiInsert(notiDTO);
 	}
 	
@@ -60,6 +69,13 @@ public class NotiController {
 	@RequestMapping(value="/check/{notiNo}", method=RequestMethod.POST)
 	private int notiCheck(@PathVariable int notiNo, Model model) throws Exception {
 		return notiService.notiCheck(notiNo);
+	}
+	
+	// 알림 모두 확인
+	@ResponseBody
+	@RequestMapping(value="/checkAll", method=RequestMethod.POST)
+	private int notiCheckAll(String memberId) throws Exception {
+		return notiService.notiCheckAll(memberId);
 	}
 
 }

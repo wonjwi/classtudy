@@ -4,15 +4,21 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.edu.controller.NotiController;
 import com.edu.domain.NotiDTO;
 import com.edu.mapper.NotiMapper;
 
 @Service("com.edu.service.NotiService")
 public class NotiService {
+	
+	//로깅을 위한 변수 logger를 선언한다.
+	private static final Logger logger = LoggerFactory.getLogger(NotiService.class);
 	
 	@Resource(name="com.edu.mapper.NotiMapper")
 	NotiMapper notiMapper;
@@ -27,6 +33,12 @@ public class NotiService {
 		return notiMapper.notiList(memberId);
 	}
 	
+	// 같은 내용의 알림 찾기
+	public int notiSearch(String content) throws Exception {
+		logger.info("NotiService notiSearch()....");
+		return notiMapper.notiSearch(content);
+	}
+	
 	// 알림 추가
 	public int notiInsert(NotiDTO notiDTO) throws Exception {
 		return notiMapper.notiInsert(notiDTO);
@@ -35,6 +47,11 @@ public class NotiService {
 	// 알림 확인
 	public int notiCheck(int notiNo) throws Exception {
 		return notiMapper.notiCheck(notiNo);
+	}
+	
+	// 알림 모두 확인
+	public int notiCheckAll(String memberId) throws Exception {
+		return notiMapper.notiCheckAll(memberId);
 	}
 	
 }

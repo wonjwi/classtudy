@@ -18,8 +18,10 @@
 		isLogin = false;
 	}
 %>
+<input type="hidden" id="nowPath" name="nowPath" class="form-control" value="${path}"/>
 <% if (isLogin) { %>
 	<input type="hidden" id="loginId" name="loginId" value="<%=memberId%>"/>
+	<input type="hidden" id="loginName" name="loginName" value="<%=name%>"/>
 	<nav class="navbar navbar-default navbar-stikcy-top">
 		<div class="container-fluid">
 			<div class="navbar-header">
