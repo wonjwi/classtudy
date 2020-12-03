@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="com.edu.domain.MemberDTO" %>
+<%@ page import="com.edu.member.domain.MemberDTO" %>
 <%
 	// 로그인 여부 체크할 변수 선언
 	boolean isLogin = false;
@@ -43,7 +43,15 @@
 								커뮤니티 <span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu">
-								<li><a href="${path}/community/group">그룹</a></li>
+								<li class="dropdown-submenu" style="position: relative;">
+									<a class="test" data-toggle="dropdown" href="#">
+										그룹 <span class="caret"></span>
+									</a>
+									<ul class="dropdown-menu">
+										<li><a href="${path}/community/groupSearch">그룹찾기</a></li>
+										<li><a href="${path}/community/group/all">그룹게시판</a></li>
+									</ul>
+								</li>
 								<li><a href="${path}/community/board">자유게시판</a></li>
 								<li><a href="${path}/community/incruit">채용공고</a></li>
 							</ul>
@@ -70,12 +78,12 @@
 										회원정보 <span class="caret"></span>
 									</a>
 									<ul class="dropdown-menu">
-										<li><a href="${path}/mypage/myInfo">내정보확인</a></li>
+										<li><a href="${path}/member/myPage">내정보확인</a></li>
 										<li><a href="${path}/member/memberUpdate">정보 수정하기</a></li>
 										<li><a href="${path}/member/memberDelete">탈퇴하기</a></li>
 									</ul>
 								</li>
-								<li><a href="${path}/mypage/job">이력서&포폴</a></li>
+								<li><a href="${path}/member/portfolio">이력서&포폴</a></li>
 							</ul>
 						</li>
 						<!-- 알림 영역 -->
@@ -111,7 +119,15 @@
 								커뮤니티 <span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu">
-								<li><a href="${path}/community/group">그룹</a></li>
+								<li class="dropdown-submenu" style="position: relative;">
+									<a class="test" data-toggle="dropdown" href="#">
+										그룹 <span class="caret"></span>
+									</a>
+									<ul class="dropdown-menu">
+										<li><a href="${path}/community/groupSearch">그룹찾기</a></li>
+										<li><a href="${path}/community/group/all">그룹게시판</a></li>
+									</ul>
+								</li>
 								<li><a href="${path}/community/board">자유게시판</a></li>
 								<li><a href="${path}/community/incruit">채용공고</a></li>
 							</ul>

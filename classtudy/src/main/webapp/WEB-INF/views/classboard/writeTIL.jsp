@@ -1,8 +1,8 @@
 <%@page import="java.util.Date"%>
 <%@ page session="true" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="com.edu.domain.MemberDTO" %>
-<%@ page import="com.edu.domain.ClassboardDTO" %>
+<%@ page import="com.edu.member.domain.MemberDTO" %>
+<%@ page import="com.edu.classboard.domain.ClassboardDTO" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,7 +44,7 @@
 		</div>
 		<div class="form-group">
 			<div class="col-sm-12" style="text-align: center;">
-				<button type="button" class="btn btn-success" onclick="tilCheckForm(this.form)">등록</button>&nbsp;
+				<button type="button" class="btn btn-success" onclick="checkClassboardForm(this.form)">등록</button>&nbsp;
 				<button type="button" class="btn btn-warning cancel">취소</button>
 			</div>
 		</div>
