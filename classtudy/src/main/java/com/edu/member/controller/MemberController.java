@@ -64,11 +64,6 @@ public class MemberController {
 		// 상세주소에 특수문자 치환
 		memberDTO.setAddressDetail(commonUtils.htmlConverter(memberDTO.getAddressDetail()));
 		
-		// 입력한 강의번호는 확인 테이블에 보내기
-		memberService.LectureCheck(memberDTO.getMemberId(), memberDTO.getLectureNo());
-		// 강의번호가 확인되기 전까지 기본값인 1로 저장
-		memberDTO.setLectureNo(1);
-		
 		// 회원아이디가 존재하는지 검사한다.
 		// 데이터가 존재하면 1을 리턴하고 아니면 0을 리턴하는 idCheck메서드를 MemberService에 만든다.
 		int result = memberService.idCheck(memberDTO);
@@ -79,6 +74,9 @@ public class MemberController {
 		} else {
 			memberService.insertMember(memberDTO);
 		}
+		// 입력한 강의번호로 관리자에게 확인 신청하기
+		// 확인 전까지 회원정보에는 저장되는 강의번호는 기본값임
+		memberService.registerLecture(memberDTO.getMemberId(), memberDTO.getLectureNo());
 		
 		return "redirect:/member/login";
 	}	

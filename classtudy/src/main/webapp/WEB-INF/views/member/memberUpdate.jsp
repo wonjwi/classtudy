@@ -165,10 +165,16 @@
 			<div class="form-group">
 				<label class="control-label col-sm-4">강의번호</label>
 				<div class="col-sm-3">
+					<!-- 강의번호가 DEFAULT 값일 때 -->
 					<c:if test="${member.lectureNo == '1'}">
-						<input type="text" id="lectureNo" name="lectureNo" class="form-control" value="확인 중" readonly/>
+						<input type="text" id="lectureNo" name="lectureNo" class="form-control" value="강의번호 확인 중입니다" readonly/>
 					</c:if>
-					<c:if test="${member.lectureNo != '1'}">
+					<!-- 강의번호가 NULL일 때(int형이라 0으로 비교) -->
+					<c:if test="${member.lectureNo == '0'}">
+						<input type="text" id="lectureNo" name="lectureNo" class="form-control" value="강의가 종료되었습니다" readonly/>
+					</c:if>
+					<!-- 강의번호가 있을 때 -->
+					<c:if test="${member.lectureNo != '1' && member.lectureNo != '0'}">
 						<input type="text" id="lectureNo" name="lectureNo" class="form-control" value="${member.lectureNo}" readonly/>
 					</c:if>
 				</div>

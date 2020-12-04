@@ -60,7 +60,12 @@
 					><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;좋아요&nbsp;${detail.likes}</button><br><br>
 				<button type="button" class="btn btn-success" id="updateBtn">수정</button>&nbsp;
 				<button type="button" class="btn btn-danger" id="deleteBtn">삭제</button>&nbsp;
-				<button type="button" class="btn btn-primary" onclick="location.href='/class/classroom/all'">목록</button>
+				<c:if test="${til != 'yes'}">
+					<button type="button" class="btn btn-primary" onclick="location.href='/class/classroom/all'">목록</button>
+				</c:if>
+				<c:if test="${til == 'yes'}">
+					<button type="button" class="btn btn-primary" onclick="location.href='/class/TIL'">목록</button>
+				</c:if>
 			</div>
 		</div>
 	</form>

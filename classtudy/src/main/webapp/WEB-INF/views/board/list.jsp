@@ -6,7 +6,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>클래스룸</title>
+	<title>${listName}</title>
 	<%@ include file="../include/header.jsp" %>
 </head>
 <body>
@@ -38,7 +38,7 @@
 	%>
 <div class="container">
 	<header>
-		<h1>클래스룸</h1>
+		<h1>${listName}</h1>
 	</header>
 	<!-- 상단 부분 테이블 형태로 구성 -->
 	<table style="width: 100%;">

@@ -35,8 +35,8 @@
 	<!-- 알림 추가 -->
 	<insert id="notiInsert">
 	INSERT INTO noti 
-			(receiver, content, checked, sendDate) 
-	VALUES 	(#{receiver}, #{content}, #{checked}, SYSDATE()) 
+			(receiver, content, sendDate) 
+	VALUES 	(#{receiver}, #{content}, SYSDATE()) 
 	</insert>
 	
 	<!-- 알림 확인 -->

@@ -81,8 +81,8 @@
 				<tr>
 					<td>${board.boardNo}</td>
 					<td>
-						<a href="${path}/class/detail/${board.boardNo}">${board.title}</a>&nbsp;
-						<a href="${path}/class/detail/${board.boardNo}/comment"><span class="badge">${board.commentNum}</span></a>
+						<a href="${path}/class/detail/${board.boardNo}/TIL">${board.title}</a>&nbsp;
+						<a href="${path}/class/detail/${board.boardNo}/TIL/comment"><span class="badge">${board.commentNum}</span></a>
 					</td>
 					<td>${member.name}</td>
 					<td><fmt:formatDate value="${board.writeDate}" pattern="yyyy-MM-dd"/></td>

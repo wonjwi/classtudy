@@ -45,7 +45,7 @@ public class ClassboardController {
 			rttr.addFlashAttribute("msgLogin", false);
 			return "redirect:/member/login";
 		}
-		return "/classboard/writeTIL";
+		return "/board/writeTIL";
 	}
 	
 	// TIL 게시글 작성 POST
@@ -77,7 +77,8 @@ public class ClassboardController {
 		String memberId = member.getMemberId();
 		logger.info("ClassboardController classroom() lectureNo : " + lectureNo + ", " + memberId);
 		
-		if (lectureNo == 999) {
+		if (lectureNo == 1 || lectureNo == 0) {
+			model.addAttribute("message", "관리자에게 강의번호를 확인 받은 후 다시 이용해주세요.");
 			return "/common/noAccess";
 		} else {
 			// 현재 페이지의 번호를 저장하는 변수
@@ -96,7 +97,7 @@ public class ClassboardController {
 			int startNo = (pageNumber-1) * numOfPage;
 			// 클래스게시판 목록 보기 화면에 보여줄 데이터를 가져와서 담는다.
 			model.addAttribute("list", classboardService.boardListTIL(lectureNo, memberId, startNo, numOfPage));
-			return "/classboard/listTIL";
+			return "/board/listTIL";
 		}
 	}
 	
@@ -133,7 +134,7 @@ public class ClassboardController {
 		int startNo = (pageNumber-1) * numOfPage;
 		// 클래스게시판 목록 화면에 보여줄 데이터를 검색해와서 담는다.
 		model.addAttribute("list", classboardService.searchTIL(lectureNo, memberId, "%" + keyword + "%", startNo, numOfPage));
-		return "/classboard/listTIL";
+		return "/board/listTIL";
 	}
 	
 	// --------------------------------------------------------------
@@ -148,7 +149,7 @@ public class ClassboardController {
 			rttr.addFlashAttribute("msgLogin", false);
 			return "redirect:/member/login";
 		}
-		return "/classboard/write";
+		return "/board/write";
 	}
 	
 	// 게시글 작성 POST
@@ -180,7 +181,8 @@ public class ClassboardController {
 		logger.info("ClassboardController classroom() lectureNo : " + lectureNo);
 		logger.info("ClassboardController classroom() viewCategory : " + viewCategory);
 		
-		if (lectureNo == 999) {
+		if (lectureNo == 1 || lectureNo == 0) {
+			model.addAttribute("message", "관리자에게 강의번호를 확인 받은 후 다시 이용해주세요.");
 			return "/common/noAccess";
 		} else {
 			// 현재 페이지의 번호를 저장하는 변수
@@ -203,13 +205,14 @@ public class ClassboardController {
 			} else { // 말머리가 선택되면 선택된 말머리의 게시글만 보여준다.
 				model.addAttribute("list", classboardService.boardList2(lectureNo, viewCategory, startNo, numOfPage));
 			}
-			return "/classboard/list";
+			model.addAttribute("listName", "클래스룸");
+			return "/board/list";
 		}
 	}
 	
 	// 게시글 상세 정보
-	@RequestMapping(value={"/detail/{boardNo}", "/detail/{boardNo}/{str}"})
-	private String detailBoard(@PathVariable int boardNo, @PathVariable Optional<String> str, Model model, HttpSession session, RedirectAttributes rttr) throws Exception {
+	@RequestMapping(value={"/detail/{boardNo}/{til}", "/detail/{boardNo}/{til}/{comment}"})
+	private String detailBoard(@PathVariable int boardNo, @PathVariable Optional<String> til, @PathVariable Optional<String> comment, Model model, HttpSession session, RedirectAttributes rttr) throws Exception {
 		// 로그인을 하지 않았으면 로그인 화면으로 보낸다.
 		if (session.getAttribute("member") == null) {
 			rttr.addFlashAttribute("msgLogin", false);
@@ -221,13 +224,15 @@ public class ClassboardController {
 		classboardService.addViews(boardNo);
 		// boardNO에 해당하는 자료를 model에 담는다.
 		model.addAttribute("detail", classboardService.boardDetail(boardNo));
-		// comment에 값이 있으면 commentList 위치로, 없으면 그냥 이동한다.
-		if (str.isPresent()) {
-			model.addAttribute("comment", "yes");
-		} else {
-			model.addAttribute("comment", "no");
+		// til에 값이 있으면 TIL 페이지로 이동하기 위해 값을 설정한다.
+		if (til.isPresent()) {
+			model.addAttribute("til", "yes");
 		}
-		return "/classboard/detail";
+		// comment에 값이 있으면 commentList 위치로 이동하기 위해 값을 설정한다.
+		if (comment.isPresent()) {
+			model.addAttribute("comment", "yes");
+		}
+		return "/board/detail";
 	}
 	
 	// 게시글 수정 GET
@@ -241,7 +246,7 @@ public class ClassboardController {
 		}
 		//logger.info("BoardDTO : " + classboardService.boardDetail(boardNo));
 		model.addAttribute("detail", classboardService.boardDetail(boardNo));
-		return "/classboard/update";
+		return "/board/update";
 	}
 	
 	// 게시글 수정 POST
@@ -344,7 +349,7 @@ public class ClassboardController {
 		} else { // 말머리가 선택되면 선택된 말머리의 게시글만 검색한다.
 			model.addAttribute("list", classboardService.search2(lectureNo, "%" + keyword + "%", viewCategory, startNo, numOfPage));
 		}
-		return "/classboard/list";
+		return "/board/list";
 	}
 	
 }

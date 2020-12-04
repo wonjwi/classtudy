@@ -50,7 +50,7 @@
 				<div align="center">
 					<p>로그인이 완료되었습니다.</p>
 					<button id="mainBtn" type="button" class="btn btn-primary btn-lg"
-						onclick="location.href='${path}'">메인으로</button>
+						onclick="location.href='${path}/'">메인으로</button>
 					<!-- 
 					<button id="memberUpdateBtn" type="button">회원정보수정</button>
 					<button id="memberDeleteBtn" type="button">회원탈퇴</button>

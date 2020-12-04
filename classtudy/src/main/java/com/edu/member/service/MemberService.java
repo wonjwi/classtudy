@@ -28,17 +28,17 @@ public class MemberService {
 		return result;
 	}
 	
-	// 강의번호 확인
-	public void LectureCheck(String memberId, int lectureNo) {
-		LOGGER.info("MemberService LectureCheck().....");
-		//memberMapper.LectureCheck(memberId, lectureNo);
-	}
-	
 	// 회원 가입
 	public int insertMember(MemberDTO memberDTO) throws Exception {
 		LOGGER.info("Service insertMember : " + memberDTO);
 		return memberMapper.memberInsert(memberDTO);
 	}	
+	
+	// 강의번호 확인 신청
+	public void registerLecture(String memberId, int lectureNo) {
+		LOGGER.info("MemberService LectureCheck().....");
+		memberMapper.registerLecture(memberId, lectureNo);
+	}
 	
 	// 로그인
 	public MemberDTO login(MemberDTO memberDTO) throws Exception {
