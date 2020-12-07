@@ -31,7 +31,7 @@
 	//계산한 endPage가 실제 가지고 있는 페이지 수보다 많으면 가장 마지막 페이지의 값을 endPage로 한다.
 	if (endPage > pageCount) endPage = pageCount;
 	// 검색 여부에 따라 페이지 이동 버튼의 경로 다르게 설정
-	String paging = "classroom";
+	String paging = "list";
 	if (request.getAttribute("nowKeyword") != null) {
 		paging = "search/" + (String)request.getAttribute("nowKeyword");
 	}
@@ -44,9 +44,9 @@
 	<table style="width: 100%;">
 		<tr>
 			<td align=left style="padding-bottom: 15px; padding-left: 20px;">
-				<div class="btn-group">	
+				<div class="btn-group">
 					<!-- 말머리 선택 : 선택된 말머리의 글만 표시 -->
-					<select class="form-control" id="viewCategory" name="viewCategory" onchange="location.href='${path}/class/classroom/' + this.value">
+					<select class="form-control" id="viewCategory" name="viewCategory" onchange="location.href='${path}/class/list/' + this.value">
 						<c:if test="${viewCategory == 'all'}">
 							<option value="all" selected>전체</option>
 							<option value="TIL">TIL</option>

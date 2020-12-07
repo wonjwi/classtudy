@@ -408,6 +408,33 @@ function updateCheckForm(memberForm)
 }
 
 //---------------------------------------------------------------------
+// 회원 탈퇴 검사
+//---------------------------------------------------------------------
+function deleteCheckForm(memberForm)
+{
+	// 비밀번호 검사
+	if(memberForm.passwd.value == "") {
+		alert("비밀번호를 입력하세요.");
+		memberForm.passwd.focus();
+		return false;
+	}
+	if(memberForm.passwdCheck.value == "") {
+		alert("비밀번호확인을 입력하세요.");
+		memberForm.passwdCheck.focus();
+		return false;
+	}
+	if( (memberForm.passwd.value) != (memberForm.passwdCheck.value) ) {
+		alert("비밀번호와 비밀번호 확인이 다릅니다.");
+		memberForm.passwdCheck.focus();
+		return false;
+	}
+	if(confirm("정말 탈퇴하시겠습니까?") == false){
+		return false;
+	}
+	memberForm.submit();
+}
+
+//---------------------------------------------------------------------
 // 새로운 알림이 있는지 확인
 //---------------------------------------------------------------------
 function notiLoad() {

@@ -33,7 +33,7 @@
 	<!-- 로그인 -->
 	<select id="login" resultType="com.edu.member.domain.MemberDTO">
 	SELECT memberId, passwd, name, dateOfBirth, gender, tel, 
-	zipcode, address, addressDetail, email, regDate, lectureNo
+	zipcode, address, addressDetail, email, regDate, lectureNo, group1, group2, group3 
 	FROM member
 	WHERE memberId = #{memberId}
 	AND passwd = #{passwd}

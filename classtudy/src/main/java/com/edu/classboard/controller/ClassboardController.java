@@ -33,122 +33,29 @@ public class ClassboardController {
 	@Inject
 	CommonUtils commonUtils;
 	
-	// --------------------------------------------------------------
-	// 내가 쓴 TIL 
-	// --------------------------------------------------------------
-	// TIL 게시글 작성 GET
-	@RequestMapping(value="/writeTIL", method=RequestMethod.GET)
-	private String getWriteTIL(HttpSession session, RedirectAttributes rttr) throws Exception {
-		logger.info("ClassboardController getWriteTIL()....");
-		// 로그인을 하지 않았으면 로그인 화면으로 보낸다.
-		if (session.getAttribute("member") == null) {
-			rttr.addFlashAttribute("msgLogin", false);
-			return "redirect:/member/login";
-		}
-		return "/board/writeTIL";
-	}
-	
-	// TIL 게시글 작성 POST
-	@RequestMapping(value="/writeTIL", method=RequestMethod.POST)
-	private String postWriteTIL(ClassboardDTO cbDTO, HttpSession session, Model model) throws Exception {
-		logger.info("ClassboardController postWriteTIL()....");
-		if (session.getAttribute("member") != null) {
-			cbDTO.setTitle(commonUtils.htmlConverter(cbDTO.getTitle()));
-			cbDTO.setContent(commonUtils.htmlConverter(cbDTO.getContent()));
-			classboardService.writeTIL(cbDTO);
-		}
-		return "redirect:/class/classroom/all";
-	}
-	
-	// TIL 게시글 목록 보기
-	@RequestMapping(value={"/TIL", "TIL/{pageNum}"})
-	private String listTIL(@PathVariable Optional<Integer> pageNum, HttpSession session, Model model, RedirectAttributes rttr) throws Exception {
-		logger.info("ClassboardController listTIL()....");
-		// 로그인을 하지 않았으면 로그인 화면으로 보낸다.
-		if (session.getAttribute("member") == null) {
-			rttr.addFlashAttribute("msgLogin", false);
-			return "redirect:/member/login";
-		}
-		// session에서 memberDTO를 저장한다.
-		MemberDTO member = (MemberDTO)session.getAttribute("member");
-		// memberDTO에서 강의번호를 찾아 저장한다.
-		int lectureNo = member.getLectureNo();
-		// memberDTO에서 아이디를 찾아 저장한다.
-		String memberId = member.getMemberId();
-		logger.info("ClassboardController classroom() lectureNo : " + lectureNo + ", " + memberId);
-		
-		if (lectureNo == 1 || lectureNo == 0) {
-			model.addAttribute("message", "관리자에게 강의번호를 확인 받은 후 다시 이용해주세요.");
-			return "/common/noAccess";
-		} else {
-			// 현재 페이지의 번호를 저장하는 변수
-			// pageNum에 값이 없으면 1, 있으면 해당하는 페이지를 가져온다.
-			int pageNumber = pageNum.isPresent() ? (int)pageNum.get() : 1;
-			// 화면에 보여줄 전체 게시글 건수를 구하기. 
-			// 말머리가 있으면 해당하는 게시글만 카운트한다.
-			int totalCount = classboardService.getTILCount(lectureNo, memberId);
-			// 화면에 보여줄 게시글의 수
-			int numOfPage = 5;
-			// 구한 값을 뷰 페이지로 보내준다.
-			model.addAttribute("pageNumber", pageNumber);
-			model.addAttribute("totalCount", totalCount);
-			model.addAttribute("numOfPage", numOfPage);
-			// 현재 페이지 번호를 이용해서 출력될 페이지의 시작 번호를 구한다.
-			int startNo = (pageNumber-1) * numOfPage;
-			// 클래스게시판 목록 보기 화면에 보여줄 데이터를 가져와서 담는다.
-			model.addAttribute("list", classboardService.boardListTIL(lectureNo, memberId, startNo, numOfPage));
-			return "/board/listTIL";
-		}
-	}
-	
-	// TIL 게시글 검색
-	// 제목 또는 내용에 키워드가 들어간 글 찾기
-	@RequestMapping(value={"/searchTIL/{keyword}", "/searchTIL/{keyword}/{pageNum}"})
-	private String searchTIL(@PathVariable String keyword, @PathVariable Optional<Integer> pageNum, HttpSession session, Model model) throws Exception {
-		logger.info("ClassboardController search()....");
-		logger.info("ClassboardController search() : " + keyword);
-		// session에서 memberDTO를 저장한다.
-		MemberDTO member = (MemberDTO)session.getAttribute("member");
-		// memberDTO에서 강의번호를 찾아 저장한다.
-		int lectureNo = member.getLectureNo();
-		// memberDTO에서 아이디를 찾아 저장한다.
-		String memberId = member.getMemberId();
-		logger.info("ClassboardController classroom() lectureNo : " + lectureNo + ", " + memberId);
-		// 현재 페이지의 번호를 저장하는 변수
-		// pageNum에 값이 없으면 1, 있으면 해당하는 페이지를 가져온다.
-		int pageNumber = pageNum.isPresent() ? (int)pageNum.get() : 1;
-		// 화면에 보여줄 전체 게시글 건수를 구하기. 
-		// 말머리가 있으면 해당하는 게시글만 카운트한다.
-		int totalCount = classboardService.getTILSearchCount(lectureNo, memberId, "%" + keyword + "%");
-		// 화면에 보여줄 게시글의 수
-		int numOfPage = 5;
-		// 키워드에 특수문자가 있으면 치환
-		keyword = commonUtils.htmlConverter(keyword);
-		// 구한 값을 뷰 페이지로 보내준다.
-		model.addAttribute("pageNumber", pageNumber);
-		model.addAttribute("totalCount", totalCount);
-		model.addAttribute("numOfPage", numOfPage);
-		// 검색한 키워드를 뷰 페이지로 보내준다.
-		model.addAttribute("nowKeyword", keyword);
-		// 현재 페이지 번호를 이용해서 출력될 페이지의 시작 번호를 구한다.
-		int startNo = (pageNumber-1) * numOfPage;
-		// 클래스게시판 목록 화면에 보여줄 데이터를 검색해와서 담는다.
-		model.addAttribute("list", classboardService.searchTIL(lectureNo, memberId, "%" + keyword + "%", startNo, numOfPage));
-		return "/board/listTIL";
-	}
-	
-	// --------------------------------------------------------------
-	// 클래스룸 
-	// --------------------------------------------------------------
 	// 게시글 작성 GET
 	@RequestMapping(value="/write", method=RequestMethod.GET)
-	private String getWrite(HttpSession session, RedirectAttributes rttr) throws Exception {
+	private String getWrite(HttpSession session, RedirectAttributes rttr, Model model) throws Exception {
 		logger.info("ClassboardController getWrite()....");
 		// 로그인을 하지 않았으면 로그인 화면으로 보낸다.
 		if (session.getAttribute("member") == null) {
 			rttr.addFlashAttribute("msgLogin", false);
 			return "redirect:/member/login";
 		}
+		model.addAttribute("class", "yes");
+		return "/board/write";
+	}
+	
+	// TIL 게시글 작성 GET
+	@RequestMapping(value="/write/til", method=RequestMethod.GET)
+	private String getWriteTIL(HttpSession session, RedirectAttributes rttr, Model model) throws Exception {
+		logger.info("ClassboardController getWriteTIL()....");
+		// 로그인을 하지 않았으면 로그인 화면으로 보낸다.
+		if (session.getAttribute("member") == null) {
+			rttr.addFlashAttribute("msgLogin", false);
+			return "redirect:/member/login";
+		}
+		model.addAttribute("til", "yes");
 		return "/board/write";
 	}
 	
@@ -161,14 +68,14 @@ public class ClassboardController {
 			cbDTO.setContent(commonUtils.htmlConverter(cbDTO.getContent()));
 			classboardService.write(cbDTO);
 		}
-		return "redirect:/class/classroom/all";
+		return "redirect:/class/board/all";
 	}
 	
 	// 게시판 목록 보기
-	@RequestMapping(value={"/classroom/{viewCategory}", "/classroom/{viewCategory}/{pageNum}"})
-	private String classroom(@PathVariable String viewCategory, @PathVariable Optional<Integer> pageNum, 
+	@RequestMapping(value={"/board/{viewCategory}", "/board/{viewCategory}/{pageNum}"})
+	private String list(@PathVariable String viewCategory, @PathVariable Optional<Integer> pageNum, 
 			HttpSession session, Model model, RedirectAttributes rttr) throws Exception {
-		logger.info("ClassboardController classroom()....");
+		logger.info("ClassboardController list()....");
 		// 로그인을 하지 않았으면 로그인 화면으로 보낸다.
 		if (session.getAttribute("member") == null) {
 			rttr.addFlashAttribute("msgLogin", false);
@@ -178,8 +85,10 @@ public class ClassboardController {
 		MemberDTO member = (MemberDTO)session.getAttribute("member");
 		// memberDTO에서 강의번호를 찾아 저장한다.
 		int lectureNo = member.getLectureNo();
-		logger.info("ClassboardController classroom() lectureNo : " + lectureNo);
-		logger.info("ClassboardController classroom() viewCategory : " + viewCategory);
+		// memberDTO에서 아이디를 찾아 저장한다.
+		String memberId = member.getMemberId();
+		logger.info("ClassboardController list() lectureNo : " + lectureNo + ", " + memberId);
+		logger.info("ClassboardController list() viewCategory : " + viewCategory);
 		
 		if (lectureNo == 1 || lectureNo == 0) {
 			model.addAttribute("message", "관리자에게 강의번호를 확인 받은 후 다시 이용해주세요.");
@@ -190,7 +99,14 @@ public class ClassboardController {
 			int pageNumber = pageNum.isPresent() ? (int)pageNum.get() : 1;
 			// 화면에 보여줄 전체 게시글 건수를 구하기. 
 			// 말머리가 있으면 해당하는 게시글만 카운트한다.
-			int totalCount = viewCategory.equals("all") ? classboardService.getBoardCount(lectureNo) : classboardService.getBoardCount2(lectureNo, viewCategory);
+			int totalCount;
+			if (viewCategory.equals("myTIL")) {
+				totalCount = classboardService.getTILCount(lectureNo, memberId);
+			} else if (viewCategory.equals("all")) {
+				totalCount = classboardService.getBoardCountAll(lectureNo);
+			} else {
+				totalCount = classboardService.getBoardCount(lectureNo, viewCategory);
+			}
 			// 화면에 보여줄 게시글의 수
 			int numOfPage = 5;
 			// 구한 값을 뷰 페이지로 보내준다.
@@ -200,19 +116,28 @@ public class ClassboardController {
 			// 현재 페이지 번호를 이용해서 출력될 페이지의 시작 번호를 구한다.
 			int startNo = (pageNumber-1) * numOfPage;
 			// 클래스게시판 목록 보기 화면에 보여줄 데이터를 가져와서 담는다.
-			if (viewCategory.equals("all")) {
-				model.addAttribute("list", classboardService.boardList(lectureNo, startNo, numOfPage));
-			} else { // 말머리가 선택되면 선택된 말머리의 게시글만 보여준다.
-				model.addAttribute("list", classboardService.boardList2(lectureNo, viewCategory, startNo, numOfPage));
+			// 내가 쓴 TIL로 들어왔을 때 구분해서 보여주기
+			if(viewCategory.equals("myTIL")) {
+				model.addAttribute("list", classboardService.boardListTIL(lectureNo, memberId, startNo, numOfPage));
+				model.addAttribute("til", "yes");
+				model.addAttribute("listName", "내가 쓴 TIL");
+				return "/board/listTIL";
+			} else {
+				model.addAttribute("list", 
+					// 말머리가 선택되면 해당 게시글만 아니면 전체를 보여준다.
+					viewCategory.equals("all") ? 
+						classboardService.boardListAll(lectureNo, startNo, numOfPage) :
+						classboardService.boardList(lectureNo, viewCategory, startNo, numOfPage));
+				model.addAttribute("class", "yes");
+				model.addAttribute("listName", "클래스룸");
 			}
-			model.addAttribute("listName", "클래스룸");
 			return "/board/list";
 		}
 	}
 	
 	// 게시글 상세 정보
-	@RequestMapping(value={"/detail/{boardNo}/{til}", "/detail/{boardNo}/{til}/{comment}"})
-	private String detailBoard(@PathVariable int boardNo, @PathVariable Optional<String> til, @PathVariable Optional<String> comment, Model model, HttpSession session, RedirectAttributes rttr) throws Exception {
+	@RequestMapping(value={"/detail/{boardNo}", "/detail/{boardNo}/{boardOption}"})
+	private String detailBoard(@PathVariable int boardNo, @PathVariable Optional<String> boardOption, Model model, HttpSession session, RedirectAttributes rttr) throws Exception {
 		// 로그인을 하지 않았으면 로그인 화면으로 보낸다.
 		if (session.getAttribute("member") == null) {
 			rttr.addFlashAttribute("msgLogin", false);
@@ -220,16 +145,25 @@ public class ClassboardController {
 		}
 		logger.info("ClassboardController detailBoard()....");
 		//logger.info("detailBoard() : " + classboardService.boardDetail(boardNo));
-		// boardNO에 해당하는 자료의 조회수를 1 증가 시킨다.
-		classboardService.addViews(boardNo);
-		// boardNO에 해당하는 자료를 model에 담는다.
-		model.addAttribute("detail", classboardService.boardDetail(boardNo));
-		// til에 값이 있으면 TIL 페이지로 이동하기 위해 값을 설정한다.
-		if (til.isPresent()) {
-			model.addAttribute("til", "yes");
+		// boardNo에 해당하는 자료의 조회수를 1 증가 시킨다.
+		int isExist = classboardService.addViews(boardNo);
+		// boardNo에 해당하는 게시글이 없으면 
+		if (isExist < 1) {
+			model.addAttribute("message", "존재하지 않는 게시글입니다. 확인하시고 다시 이용해주세요.");
+			return "/common/noAccess";
 		}
-		// comment에 값이 있으면 commentList 위치로 이동하기 위해 값을 설정한다.
-		if (comment.isPresent()) {
+		// boardNo에 해당하는 자료를 model에 담는다.
+		model.addAttribute("detail", classboardService.boardDetail(boardNo));
+		// boardOption에 값이 있으면 값을 저장한다.
+		String cbOption = boardOption.isPresent() ? boardOption.get() : "";
+		// til 옵션이 있으면 TIL 페이지로 이동하기 위해 값을 설정한다.
+		if (cbOption.contains("til")) {
+			model.addAttribute("til", "yes");
+		} else {
+			model.addAttribute("class", "yes");
+		}
+		// comment 옵션이 있으면 commentList 위치로 이동하기 위해 값을 설정한다.
+		if (cbOption.contains("comment")) {
 			model.addAttribute("comment", "yes");
 		}
 		return "/board/detail";
@@ -265,7 +199,7 @@ public class ClassboardController {
 	private String delete(@PathVariable int boardNo) throws Exception {
 		logger.info("ClassboardController delete()....");
 		classboardService.delete(boardNo);
-		return "redirect:/class/classroom/all";
+		return "redirect:/class/board/all";
 	}
 	
 	// 게시글 좋아요
@@ -315,6 +249,42 @@ public class ClassboardController {
 		return result;
 	}
 	
+	// TIL 게시글 검색
+	// 제목 또는 내용에 키워드가 들어간 글 찾기
+	@RequestMapping(value={"/searchTIL/{keyword}", "/searchTIL/{keyword}/{pageNum}"})
+	private String searchTIL(@PathVariable String keyword, @PathVariable Optional<Integer> pageNum, HttpSession session, Model model) throws Exception {
+		logger.info("ClassboardController search()....");
+		logger.info("ClassboardController search() : " + keyword);
+		// session에서 memberDTO를 저장한다.
+		MemberDTO member = (MemberDTO)session.getAttribute("member");
+		// memberDTO에서 강의번호를 찾아 저장한다.
+		int lectureNo = member.getLectureNo();
+		// memberDTO에서 아이디를 찾아 저장한다.
+		String memberId = member.getMemberId();
+		logger.info("ClassboardController searchTIL() lectureNo : " + lectureNo + ", " + memberId);
+		// 현재 페이지의 번호를 저장하는 변수
+		// pageNum에 값이 없으면 1, 있으면 해당하는 페이지를 가져온다.
+		int pageNumber = pageNum.isPresent() ? (int)pageNum.get() : 1;
+		// 화면에 보여줄 전체 게시글 건수를 구하기. 
+		// 말머리가 있으면 해당하는 게시글만 카운트한다.
+		int totalCount = classboardService.getTILSearchCount(lectureNo, memberId, "%" + keyword + "%");
+		// 화면에 보여줄 게시글의 수
+		int numOfPage = 5;
+		// 키워드에 특수문자가 있으면 치환
+		keyword = commonUtils.htmlConverter(keyword);
+		// 구한 값을 뷰 페이지로 보내준다.
+		model.addAttribute("pageNumber", pageNumber);
+		model.addAttribute("totalCount", totalCount);
+		model.addAttribute("numOfPage", numOfPage);
+		// 검색한 키워드를 뷰 페이지로 보내준다.
+		model.addAttribute("nowKeyword", keyword);
+		// 현재 페이지 번호를 이용해서 출력될 페이지의 시작 번호를 구한다.
+		int startNo = (pageNumber-1) * numOfPage;
+		// 클래스게시판 목록 화면에 보여줄 데이터를 검색해와서 담는다.
+		model.addAttribute("list", classboardService.searchTIL(lectureNo, memberId, "%" + keyword + "%", startNo, numOfPage));
+		return "/board/listTIL";
+	}
+	
 	// 게시글 검색
 	// 제목 또는 내용에 키워드가 들어간 글 찾기
 	@RequestMapping(value={"/search/{keyword}/{viewCategory}", "/search/{keyword}/{viewCategory}/{pageNum}"})
@@ -330,7 +300,9 @@ public class ClassboardController {
 		int pageNumber = pageNum.isPresent() ? (int)pageNum.get() : 1;
 		// 화면에 보여줄 전체 게시글 건수를 구하기. 
 		// 말머리가 있으면 해당하는 게시글만 카운트한다.
-		int totalCount = viewCategory.equals("all") ? classboardService.getSearchCount(lectureNo, "%" + keyword + "%") : classboardService.getSearchCount2(lectureNo, viewCategory, "%" + keyword + "%");
+		int totalCount = viewCategory.equals("all") ? 
+				classboardService.getSearchCount(lectureNo, "%" + keyword + "%") : 
+				classboardService.getSearchCount2(lectureNo, viewCategory, "%" + keyword + "%");
 		// 화면에 보여줄 게시글의 수
 		int numOfPage = 5;
 		// 키워드에 특수문자가 있으면 치환

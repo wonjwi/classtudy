@@ -12,7 +12,7 @@
 
 	<div class="container">
 		<div align="center">
-			<h1>이용할 수 없는 메뉴입니다.</h1>
+			<h1>이용할 수 없습니다.</h1>
 			<p>${message}</p><br>
 			<button id="mainBtn" type="button" class="btn btn-info btn-lg"
 				onclick="location.href='${path}/'">메인으로</button>

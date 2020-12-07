@@ -206,7 +206,7 @@ public class MemberController {
 	
 	// 회원 탈퇴 POST
 	@RequestMapping(value="/memberDelete", method=RequestMethod.POST)
-	public String memberDelete(MemberDTO memberDTO, HttpSession session, RedirectAttributes rttr) throws Exception {
+	public String memberDelete(MemberDTO memberDTO, HttpSession session, Model model) throws Exception {
 		LOGGER.info("MemberController memberDelete POST.....");
 		
 		// 세션에 들어있는(=DB에 있는 정보) member정보를 가져와서 member변수에 저장한다.
@@ -218,11 +218,11 @@ public class MemberController {
 		// 사용자가 입력한 비밀번호가 매개변수로 들어오는 memberDTO에 들어있는 비밀번호이다.
 		String memberDTOPasswd = memberDTO.getPasswd();
 		
-		// 세션의 비밀번호와 사용자가 입력한 비밀번호가 맞지 않으면		
-		// 회원탈퇴화면으로 msg에 false를 담아서 이동한다. 
+		// 세션의 비밀번호와 사용자가 입력한 비밀번호가 맞지 않으면
+		// 회원 탈퇴 화면으로 msgDelete에 fail를 담아서 이동한다. 
 		if( !(sessionPasswd.equals(memberDTOPasswd)) ) {
-			rttr.addFlashAttribute("msg", false);
-			return "redirect:/member/memberDelete";
+			model.addAttribute("msgDelete", "fail");
+			return "/member/memberDelete";
 		} 
 		
 		// 세션의 비밀번호와 사용자가 입력한 비밀번호가 맞으면

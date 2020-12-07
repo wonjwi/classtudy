@@ -9,7 +9,7 @@
 	<%@ include file="../include/header.jsp" %>
 </head>
 <body>
-<%@ include file="../include/topmenu.jsp" %>
+	<%@ include file="../include/topmenu.jsp" %>
 	<div class="container">
 		<form class="form-horizontal" action="/member/memberUpdate" method="post">
 			<div class="form-group">
@@ -167,11 +167,13 @@
 				<div class="col-sm-3">
 					<!-- 강의번호가 DEFAULT 값일 때 -->
 					<c:if test="${member.lectureNo == '1'}">
-						<input type="text" id="lectureNo" name="lectureNo" class="form-control" value="강의번호 확인 중입니다" readonly/>
+						<input type="text" id="lectureNoState" name="lectureNoState" class="form-control" value="강의번호 확인 중입니다" readonly/>
+						<input type="hidden" id="lectureNo" name="lectureNo" class="form-control" value="${member.lectureNo}" readonly/>
 					</c:if>
 					<!-- 강의번호가 NULL일 때(int형이라 0으로 비교) -->
 					<c:if test="${member.lectureNo == '0'}">
-						<input type="text" id="lectureNo" name="lectureNo" class="form-control" value="강의가 종료되었습니다" readonly/>
+						<input type="text" id="lectureNoState" name="lectureNoState" class="form-control" placeholder="강의가 종료되었습니다" readonly/>
+						<input type="hidden" id="lectureNo" name="lectureNo" class="form-control" value="${member.lectureNo}" readonly/>
 					</c:if>
 					<!-- 강의번호가 있을 때 -->
 					<c:if test="${member.lectureNo != '1' && member.lectureNo != '0'}">
@@ -182,8 +184,7 @@
 			<div class="form-group">
 				<div class="col-sm-12" style="text-align: center;">
 					<!-- alert('회원정보 수정 버튼'); -->
-					<button type="button" class="btn btn-success" 
-						onclick="updateCheckForm(this.form)">정보수정</button>&nbsp;
+					<button type="button" class="btn btn-success" onclick="updateCheckForm(this.form)">정보수정</button>&nbsp;
 					<button type="button" class="btn btn-warning cancel">취소</button>
 				</div>
 			</div>

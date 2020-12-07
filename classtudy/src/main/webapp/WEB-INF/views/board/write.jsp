@@ -25,12 +25,16 @@
 			</div>
 			<label class="control-label col-sm-2">말머리</label>
 			<div class="col-sm-3">
-				<!-- <input type="text" id="category" name="category" class="form-control" value="선택"/> -->
+				<c:if test="${class == 'yes'}">
 					<select id="category" name="category" class="form-control">
 						<option value="TIL">TIL</option>
 						<option value="클래스">클래스</option>
 						<option value="질문">질문</option>
 					</select>
+				</c:if>
+				<c:if test="${til == 'yes'}">
+					<input type="text" id="category" name="category" class="form-control" value="TIL" readonly/>
+				</c:if>
 			</div>
 			<!-- 숨겨서 넘길 정보들 -->
 			<input type="hidden" id="writer" name="writer" class="form-control" value="${member.memberId}" maxlength=16/>

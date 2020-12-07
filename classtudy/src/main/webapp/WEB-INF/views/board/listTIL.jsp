@@ -31,7 +31,7 @@
 	//계산한 endPage가 실제 가지고 있는 페이지 수보다 많으면 가장 마지막 페이지의 값을 endPage로 한다.
 	if (endPage > pageCount) endPage = pageCount;
 	// 검색 여부에 따라 페이지 이동 버튼의 경로 다르게 설정
-	String paging = "TIL";
+	String paging = "list/myTIL";
 	if (request.getAttribute("nowKeyword") != null) {
 		paging = "searchTIL/" + (String)request.getAttribute("nowKeyword");
 	}
@@ -55,7 +55,7 @@
 				</div>
 			</td>
 			<td align=right style="padding-bottom: 15px; padding-right: 20px;">
-				<button class="btn btn-success" onclick="location.href='${path}/class/writeTIL'">작성</button>
+				<button class="btn btn-success" onclick="location.href='${path}/class/write/til'">작성</button>
 			</td>
 		</tr>
 	</table>
@@ -81,8 +81,8 @@
 				<tr>
 					<td>${board.boardNo}</td>
 					<td>
-						<a href="${path}/class/detail/${board.boardNo}/TIL">${board.title}</a>&nbsp;
-						<a href="${path}/class/detail/${board.boardNo}/TIL/comment"><span class="badge">${board.commentNum}</span></a>
+						<a href="${path}/class/detail/${board.boardNo}/til">${board.title}</a>&nbsp;
+						<a href="${path}/class/detail/${board.boardNo}/til-comment"><span class="badge">${board.commentNum}</span></a>
 					</td>
 					<td>${member.name}</td>
 					<td><fmt:formatDate value="${board.writeDate}" pattern="yyyy-MM-dd"/></td>

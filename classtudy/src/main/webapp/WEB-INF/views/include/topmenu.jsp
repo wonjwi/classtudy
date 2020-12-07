@@ -48,8 +48,8 @@
 										그룹 <span class="caret"></span>
 									</a>
 									<ul class="dropdown-menu">
-										<li><a href="${path}/community/group/search">그룹찾기</a></li>
-										<li><a href="${path}/community/group/board/all">그룹게시판</a></li>
+										<li><a href="${path}/group/search">그룹찾기</a></li>
+										<li><a href="${path}/group/board/all">그룹게시판</a></li>
 									</ul>
 								</li>
 								<li><a href="${path}/community/board">자유게시판</a></li>
@@ -64,8 +64,8 @@
 								클래스 <span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu">
-								<li><a href="${path}/class/TIL">TIL</a></li>
-								<li><a href="${path}/class/classroom/all">클래스룸</a></li>
+								<li><a href="${path}/class/board/myTIL">TIL</a></li>
+								<li><a href="${path}/class/board/all">클래스룸</a></li>
 							</ul>
 						</li>
 						<li class="dropdown">
@@ -124,8 +124,8 @@
 										그룹 <span class="caret"></span>
 									</a>
 									<ul class="dropdown-menu">
-										<li><a href="${path}/community/groupSearch">그룹찾기</a></li>
-										<li><a href="${path}/community/group/all">그룹게시판</a></li>
+										<li><a href="${path}/group/search">그룹찾기</a></li>
+										<li><a href="${path}/group/board/all">그룹게시판</a></li>
 									</ul>
 								</li>
 								<li><a href="${path}/community/board">자유게시판</a></li>
@@ -140,8 +140,8 @@
 								클래스 <span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu">
-								<li><a href="${path}/class/writeTIL">TIL</a></li>
-								<li><a href="${path}/class/classroom/all">클래스룸</a></li>
+								<li><a href="${path}/class/board/myTIL">TIL</a></li>
+								<li><a href="${path}/class/board/all">클래스룸</a></li>
 							</ul>
 						</li>				
 						<li><a href="${path}/member/login"><span class="glyphicon glyphicon-log-in"></span> 로그인</a></li>
