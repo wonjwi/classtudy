@@ -10,6 +10,9 @@
 <script src="/static/js/editormd.js"></script>
 <script src="/static/js/lib/marked.min.js"></script>
 <script src="/static/js/lib/prettify.min.js"></script>
+<!-- Bootstrap Tags Input -->
+<script src="/static/js/bootstrap-tagsinput.js"></script>
+<script src="/static/js/tags.js"></script>
 <script>
 $(document).ready(function(){
 	

@@ -119,13 +119,49 @@ function dupCheck(memberForm) {
 }
 
 //---------------------------------------------------------------------
-// 강의번호 찾기
+// 강의번호 검색
 //---------------------------------------------------------------------
-function searchLectureNo() {
+// 강의번호 검색 팝업창 띄우기
+function openLecturePopup() {
 	// 강의번호 검색창 열기
 	// window.open("open할 window", "자식창 이름", "팝업창 옵션");
-	var openWin = window.open("/member/searchLecture", "강의번호 검색",
-			"width=500, height=400, resizable=no");
+	var openWin = window.open(path + "/member/openLecturePopup", "강의번호 검색",
+			"width=500, height=400, resizable=no, scrollbars=yes, left=100, top=70, status=no");
+}
+// 강의번호 검색
+function searchLectureNo(keyword) {
+	// 검색어가 입력되었는지 확인
+	if(keyword != ""){
+		$.ajax({
+			url:	path + "/member/search/" + keyword,
+			type:	"get",
+			data:	{"keyword": keyword},
+			success: function(data) {
+				var str = '';
+				if (data.length < 1) { //검색 결과가 없을 때
+					str += '<div class="col-sm-12" style="padding-top: 5px;">검색 결과가 없습니다.</div>';
+				} else {
+					$.each(data, function(key, value){ 
+						if (key == 0) {
+							str += '<table class="table table-hover"><thead><tr>';
+							str += '<th style="text-align: center; width: 50px;">번호</th>';
+							str += '<th style="text-align: center; width: 200px;">강의명</th>';
+							str += '<th style="text-align: center; width: 100px;">학원</th>';
+							str += '</tr></thead><tbody>';
+						}
+						str += '<tr><td>' + value.lectureNo + '</td>';
+						str += '<td><a href="#" onclick="setLectureNo(' + value.lectureNo + ', \'' + value.lectureName + '\')">' + value.lectureName + '</a></td>';
+						str += '<td>' + value.lectureAcademy + '</td></tr>';
+					});
+					str += '</tbody></table>';
+				}
+				$("#lectureList").html(str);
+			}
+		});
+	} else {
+		alert("검색어를 입력해주세요.");
+		return false;
+	}
 }
 
 //---------------------------------------------------------------------
@@ -278,9 +314,9 @@ function registerCheckForm(memberForm) {
 		alert("이메일 형식이 올바르지 않습니다.");
 		return false;
 	}
-	// 강의번호 검사
+	// 강의이름 검사
 	if(memberForm.lectureNo.value == "") {
-		alert("강의번호를 입력하세요.");
+		alert("강의이름을 입력하세요.");
 		memberForm.lectureNo.focus();
 		return false;
 	}

@@ -9,6 +9,8 @@
 <link rel="stylesheet" href="/static/css/editormd.preview.css" />
 <!-- Bootstrap -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<!-- Bootstrap Tags Input -->
+<link rel="stylesheet" type="text/css" href="/static/css/bootstrap-tagsinput.css"/>
 <!-- Fonts -->
 <!-- 
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">

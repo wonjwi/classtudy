@@ -78,7 +78,7 @@
 		<div class="form-group">
 			<label class="control-label col-sm-2">작성자</label>
 			<div class="col-sm-3">
-				<input type="text" id="writerName" name="writerName" class="form-control" value="${detail.writerName}" readonly="readonly" maxlength=16/>
+				<input type="text" id="writerName" name="writerName" class="form-control" value="${detail.writerName} (${detail.writer})" readonly="readonly" maxlength=16/>
 			</div>
 			<label class="control-label col-sm-2">작성일</label>
 			<div class="col-sm-3">

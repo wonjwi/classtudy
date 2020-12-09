@@ -90,7 +90,7 @@ public class ClassboardController {
 		logger.info("ClassboardController list() viewCategory : " + viewCategory);
 		
 		if (lectureNo == 1 || lectureNo == 0) {
-			model.addAttribute("message", "관리자에게 강의번호를 확인 받은 후 다시 이용해주세요.");
+			model.addAttribute("message", "수강중인 강의가 있어야 이용할 수 있는 메뉴입니다.<br>관리자 확인을 받은 후 다시 이용해주세요.");
 			return "/common/noAccess";
 		} else {
 			// 현재 페이지의 번호를 저장하는 변수

@@ -124,7 +124,7 @@
 						<a href="${path}/community/freeboard/detail/${board.boardNo}">${board.title}</a>&nbsp;
 						<a href="${path}/community/freeboard/detail/${board.boardNo}/comment"><span class="badge">${board.commentNum}</span></a>
 					</td>
-					<td>${board.writerName}(${board.writer})</td>
+					<td>${board.writerName} (${board.writer})</td>
 					<td><fmt:formatDate value="${board.writeDate}" pattern="yyyy-MM-dd"/></td>
 					<td>${board.views}</td>
 					<td>${board.likes}</td>

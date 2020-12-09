@@ -1,187 +1,188 @@
-/**
+/*
  * classtudy사이트에서 사용될 모든 태그에 관련된 js파일입니다.
  */
 // tag dropdown메뉴에서 버튼을 클릭해도 dropdown창이 닫히지 않게 하는 메서드
-		$('.dropdown-tag').on('click', function(event){		  
-		    event.stopPropagation();
-		});		
-		
-		$('#javaTag').on("click", function () {
-			$('#tags').tagsinput('add', 'Java', $(this).css("background-color", 'blue'));
-		});
+$('.dropdown-tag').on('click', function(event){
+	event.stopPropagation();
+});
 
-		$('#springTag').on("click", function () {
-			$('#tags').tagsinput('add', 'Spring');
-		});
+// tag 클릭시 실행되는 메서드
+$('#javaTag').on("click", function () {
+	$('#tags').tagsinput('add', 'Java');
+});
 
-		$('#springbootTag').on("click", function () {
-			$('#tags').tagsinput('add', 'Spring Boot');
-		});
+$('#springTag').on("click", function () {
+	$('#tags').tagsinput('add', 'Spring');
+});
 
-		$('#jdbcTag').on("click", function () {
-			$('#tags').tagsinput('add', 'JDBC');
-		});
+$('#springbootTag').on("click", function () {
+	$('#tags').tagsinput('add', 'Spring Boot');
+});
 
-		$('#jstlTag').on("click", function () {
-			$('#tags').tagsinput('add', 'JSTL');
-		});
+$('#jdbcTag').on("click", function () {
+	$('#tags').tagsinput('add', 'JDBC');
+});
 
-		$('#frontendTag').on("click", function () {
-			$('#tags').tagsinput('add', 'Front-End');
-		});
+$('#jstlTag').on("click", function () {
+	$('#tags').tagsinput('add', 'JSTL');
+});
 
-		$('#backendTag').on("click", function () {
-			$('#tags').tagsinput('add', 'Back-End');
-		});
+$('#frontendTag').on("click", function () {
+	$('#tags').tagsinput('add', 'Front-End');
+});
 
-		$('#webdevTag').on("click", function () {
-			$('#tags').tagsinput('add', '웹 개발');
-		});
+$('#backendTag').on("click", function () {
+	$('#tags').tagsinput('add', 'Back-End');
+});
 
-		$('#appdevTag').on("click", function () {
-			$('#tags').tagsinput('add', '앱 개발');
-		});
+$('#webdevTag').on("click", function () {
+	$('#tags').tagsinput('add', '웹 개발');
+});
 
-		$('#htmlcssTag').on("click", function () {
-			$('#tags').tagsinput('add', 'HTML/CSS');
-		});
+$('#appdevTag').on("click", function () {
+	$('#tags').tagsinput('add', '앱 개발');
+});
 
-		$('#javascriptTag').on("click", function () {
-			$('#tags').tagsinput('add', 'Javascript');
-		});
+$('#htmlcssTag').on("click", function () {
+	$('#tags').tagsinput('add', 'HTML/CSS');
+});
 
-		$('#jqueryTag').on("click", function () {
-			$('#tags').tagsinput('add', 'jQuery');
-		});
+$('#javascriptTag').on("click", function () {
+	$('#tags').tagsinput('add', 'Javascript');
+});
 
-		$('#jspTag').on("click", function () {
-			$('#tags').tagsinput('add', 'JSP');
-		});
+$('#jqueryTag').on("click", function () {
+	$('#tags').tagsinput('add', 'jQuery');
+});
 
-		$('#bootstrapTag').on("click", function () {
-			$('#tags').tagsinput('add', 'Bootstrap');
-		});
+$('#jspTag').on("click", function () {
+	$('#tags').tagsinput('add', 'JSP');
+});
 
-		$('#pythonTag').on("click", function () {
-			$('#tags').tagsinput('add', 'Python');
-		});
+$('#bootstrapTag').on("click", function () {
+	$('#tags').tagsinput('add', 'Bootstrap');
+});
 
-		$('#djangoTag').on("click", function () {
-			$('#tags').tagsinput('add', 'Django');
-		});
+$('#pythonTag').on("click", function () {
+	$('#tags').tagsinput('add', 'Python');
+});
 
-		$('#flaskTag').on("click", function () {
-			$('#tags').tagsinput('add', 'Flask');
-		});
+$('#djangoTag').on("click", function () {
+	$('#tags').tagsinput('add', 'Django');
+});
 
-		$('#gamedevTag').on("click", function () {
-			$('#tags').tagsinput('add', '게임 개발');
-		});
+$('#flaskTag').on("click", function () {
+	$('#tags').tagsinput('add', 'Flask');
+});
 
-		$('#unityTag').on("click", function () {
-			$('#tags').tagsinput('add', 'Unity');
-		});
+$('#gamedevTag').on("click", function () {
+	$('#tags').tagsinput('add', '게임 개발');
+});
 
-		$('#androidTag').on("click", function () {
-			$('#tags').tagsinput('add', 'Android');
-		});
+$('#unityTag').on("click", function () {
+	$('#tags').tagsinput('add', 'Unity');
+});
 
-		$('#iosTag').on("click", function () {
-			$('#tags').tagsinput('add', 'iOS');
-		});
+$('#androidTag').on("click", function () {
+	$('#tags').tagsinput('add', 'Android');
+});
 
-		$('#swiftTag').on("click", function () {
-			$('#tags').tagsinput('add', 'Swift');
-		});
+$('#iosTag').on("click", function () {
+	$('#tags').tagsinput('add', 'iOS');
+});
 
-		$('#nodejsTag').on("click", function () {
-			$('#tags').tagsinput('add', 'Node.js');
-		});
+$('#swiftTag').on("click", function () {
+	$('#tags').tagsinput('add', 'Swift');
+});
 
-		$('#algorythmTag').on("click", function () {
-			$('#tags').tagsinput('add', '알고리즘');
-		});
+$('#nodejsTag').on("click", function () {
+	$('#tags').tagsinput('add', 'Node.js');
+});
 
-		$('#reactTag').on("click", function () {
-			$('#tags').tagsinput('add', 'React');
-		});
+$('#algorythmTag').on("click", function () {
+	$('#tags').tagsinput('add', '알고리즘');
+});
 
-		$('#cloudTag').on("click", function () {
-			$('#tags').tagsinput('add', '클라우드');
-		});
+$('#reactTag').on("click", function () {
+	$('#tags').tagsinput('add', 'React');
+});
 
-		$('#linuxTag').on("click", function () {
-			$('#tags').tagsinput('add', 'Linux');
-		});
+$('#cloudTag').on("click", function () {
+	$('#tags').tagsinput('add', '클라우드');
+});
 
-		$('#gitTag').on("click", function () {
-			$('#tags').tagsinput('add', 'Git');
-		});
+$('#linuxTag').on("click", function () {
+	$('#tags').tagsinput('add', 'Linux');
+});
 
-		$('#infoguardTag').on("click", function () {
-			$('#tags').tagsinput('add', '정보보안');
-		});
+$('#gitTag').on("click", function () {
+	$('#tags').tagsinput('add', 'Git');
+});
 
-		$('#blockchainTag').on("click", function () {
-			$('#tags').tagsinput('add', '블록체인');
-		});
+$('#infoguardTag').on("click", function () {
+	$('#tags').tagsinput('add', '정보보안');
+});
 
-		$('#devopsTag').on("click", function () {
-			$('#tags').tagsinput('add', 'DevOps');
-		});
+$('#blockchainTag').on("click", function () {
+	$('#tags').tagsinput('add', '블록체인');
+});
 
-		$('#hackingTag').on("click", function () {
-			$('#tags').tagsinput('add', '해킹');
-		});
+$('#devopsTag').on("click", function () {
+	$('#tags').tagsinput('add', 'DevOps');
+});
 
-		$('#databaseTag').on("click", function () {
-			$('#tags').tagsinput('add', '데이터베이스');
-		});
+$('#hackingTag').on("click", function () {
+	$('#tags').tagsinput('add', '해킹');
+});
 
-		$('#aiTag').on("click", function () {
-			$('#tags').tagsinput('add', '인공지능');
-		});
+$('#databaseTag').on("click", function () {
+	$('#tags').tagsinput('add', '데이터베이스');
+});
 
-		$('#sqlTag').on("click", function () {
-			$('#tags').tagsinput('add', 'SQL');
-		});
+$('#aiTag').on("click", function () {
+	$('#tags').tagsinput('add', '인공지능');
+});
 
-		$('#machinerunningTag').on("click", function () {
-			$('#tags').tagsinput('add', '머신러닝');
-		});
+$('#sqlTag').on("click", function () {
+	$('#tags').tagsinput('add', 'SQL');
+});
 
-		$('#rTag').on("click", function () {
-			$('#tags').tagsinput('add', 'R');
-		});
+$('#machinerunningTag').on("click", function () {
+	$('#tags').tagsinput('add', '머신러닝');
+});
 
-		$('#uiuxTag').on("click", function () {
-			$('#tags').tagsinput('add', 'UI/UX');
-		});
+$('#rTag').on("click", function () {
+	$('#tags').tagsinput('add', 'R');
+});
 
-		$('#3dmodelingTag').on("click", function () {
-			$('#tags').tagsinput('add', '3D 모델링');
-		});
+$('#uiuxTag').on("click", function () {
+	$('#tags').tagsinput('add', 'UI/UX');
+});
 
-		$('#aftereffectsTag').on("click", function () {
-			$('#tags').tagsinput('add', 'After Effects');
-		});
+$('#3dmodelingTag').on("click", function () {
+	$('#tags').tagsinput('add', '3D 모델링');
+});
 
-		$('#premiereproTag').on("click", function () {
-			$('#tags').tagsinput('add', 'Premiere Pro');
-		});
+$('#aftereffectsTag').on("click", function () {
+	$('#tags').tagsinput('add', 'After Effects');
+});
 
-		$('#photoshopTag').on("click", function () {
-			$('#tags').tagsinput('add', 'Photoshop');
-		});
+$('#premiereproTag').on("click", function () {
+	$('#tags').tagsinput('add', 'Premiere Pro');
+});
 
-		$('#illustratorTag').on("click", function () {
-			$('#tags').tagsinput('add', 'Illustrator');
-		});
+$('#photoshopTag').on("click", function () {
+	$('#tags').tagsinput('add', 'Photoshop');
+});
 
-		$('#designeditorTag').on("click", function () {
-			$('#tags').tagsinput('add', '편집 디자인');
-		});
+$('#illustratorTag').on("click", function () {
+	$('#tags').tagsinput('add', 'Illustrator');
+});
 
-		$('#indesignTag').on("click", function () {
-			$('#tags').tagsinput('add', 'InDesign');
-		});
+$('#designeditorTag').on("click", function () {
+	$('#tags').tagsinput('add', '편집 디자인');
+});
+
+$('#indesignTag').on("click", function () {
+	$('#tags').tagsinput('add', 'InDesign');
+});

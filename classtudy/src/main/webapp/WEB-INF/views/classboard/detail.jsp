@@ -90,7 +90,6 @@
 </div>
 	
 	<%@ include file="../include/footer.jsp" %>
-	<script src="/static/js/commentAction.js"></script>
 	<script>
 	$(document).ready(function() {
 		
