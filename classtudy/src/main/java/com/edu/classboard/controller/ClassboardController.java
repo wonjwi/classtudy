@@ -21,7 +21,7 @@ import com.edu.common.CommonUtils;
 import com.edu.member.domain.MemberDTO;
 
 @Controller // 컨트롤러 빈으로 등록하는 어노테이션
-@RequestMapping("/class/*") // ClassboardController에서 공통적으로 사용될 url mapping
+@RequestMapping("/class/classboard/*") // ClassboardController에서 공통적으로 사용될 url mapping
 public class ClassboardController {
 	
 	//로깅을 위한 변수 logger를 선언한다.
@@ -42,8 +42,7 @@ public class ClassboardController {
 			rttr.addFlashAttribute("msgLogin", false);
 			return "redirect:/member/login";
 		}
-		model.addAttribute("class", "yes");
-		return "/board/write";
+		return "/classboard/write";
 	}
 	
 	// TIL 게시글 작성 GET
@@ -56,7 +55,7 @@ public class ClassboardController {
 			return "redirect:/member/login";
 		}
 		model.addAttribute("til", "yes");
-		return "/board/write";
+		return "/classboard/write";
 	}
 	
 	// 게시글 작성 POST
@@ -68,11 +67,11 @@ public class ClassboardController {
 			cbDTO.setContent(commonUtils.htmlConverter(cbDTO.getContent()));
 			classboardService.write(cbDTO);
 		}
-		return "redirect:/class/board/all";
+		return "redirect:/class/classboard/all";
 	}
 	
-	// 게시판 목록 보기
-	@RequestMapping(value={"/board/{viewCategory}", "/board/{viewCategory}/{pageNum}"})
+	// 게시글 목록 보기
+	@RequestMapping(value={"/{viewCategory}", "/{viewCategory}/{pageNum}"})
 	private String list(@PathVariable String viewCategory, @PathVariable Optional<Integer> pageNum, 
 			HttpSession session, Model model, RedirectAttributes rttr) throws Exception {
 		logger.info("ClassboardController list()....");
@@ -108,7 +107,7 @@ public class ClassboardController {
 				totalCount = classboardService.getBoardCount(lectureNo, viewCategory);
 			}
 			// 화면에 보여줄 게시글의 수
-			int numOfPage = 5;
+			int numOfPage = 10;
 			// 구한 값을 뷰 페이지로 보내준다.
 			model.addAttribute("pageNumber", pageNumber);
 			model.addAttribute("totalCount", totalCount);
@@ -119,19 +118,15 @@ public class ClassboardController {
 			// 내가 쓴 TIL로 들어왔을 때 구분해서 보여주기
 			if(viewCategory.equals("myTIL")) {
 				model.addAttribute("list", classboardService.boardListTIL(lectureNo, memberId, startNo, numOfPage));
-				model.addAttribute("til", "yes");
-				model.addAttribute("listName", "내가 쓴 TIL");
-				return "/board/listTIL";
+				return "/classboard/listTIL";
 			} else {
 				model.addAttribute("list", 
 					// 말머리가 선택되면 해당 게시글만 아니면 전체를 보여준다.
 					viewCategory.equals("all") ? 
 						classboardService.boardListAll(lectureNo, startNo, numOfPage) :
 						classboardService.boardList(lectureNo, viewCategory, startNo, numOfPage));
-				model.addAttribute("class", "yes");
-				model.addAttribute("listName", "클래스룸");
+				return "/classboard/list";
 			}
-			return "/board/list";
 		}
 	}
 	
@@ -159,14 +154,12 @@ public class ClassboardController {
 		// til 옵션이 있으면 TIL 페이지로 이동하기 위해 값을 설정한다.
 		if (cbOption.contains("til")) {
 			model.addAttribute("til", "yes");
-		} else {
-			model.addAttribute("class", "yes");
 		}
 		// comment 옵션이 있으면 commentList 위치로 이동하기 위해 값을 설정한다.
 		if (cbOption.contains("comment")) {
 			model.addAttribute("comment", "yes");
 		}
-		return "/board/detail";
+		return "/classboard/detail";
 	}
 	
 	// 게시글 수정 GET
@@ -180,7 +173,7 @@ public class ClassboardController {
 		}
 		//logger.info("BoardDTO : " + classboardService.boardDetail(boardNo));
 		model.addAttribute("detail", classboardService.boardDetail(boardNo));
-		return "/board/update";
+		return "/classboard/update";
 	}
 	
 	// 게시글 수정 POST
@@ -191,7 +184,7 @@ public class ClassboardController {
 		cbDTO.setTitle(commonUtils.htmlConverter(cbDTO.getTitle()));
 		cbDTO.setContent(commonUtils.htmlConverter(cbDTO.getContent()));
 		classboardService.update(cbDTO);
-		return "redirect:/class/detail/" + cbDTO.getBoardNo();
+		return "redirect:/class/classboard/detail/" + cbDTO.getBoardNo();
 	}
 	
 	// 게시글 삭제
@@ -199,7 +192,7 @@ public class ClassboardController {
 	private String delete(@PathVariable int boardNo) throws Exception {
 		logger.info("ClassboardController delete()....");
 		classboardService.delete(boardNo);
-		return "redirect:/class/board/all";
+		return "redirect:/class/classboard/all";
 	}
 	
 	// 게시글 좋아요
@@ -269,7 +262,7 @@ public class ClassboardController {
 		// 말머리가 있으면 해당하는 게시글만 카운트한다.
 		int totalCount = classboardService.getTILSearchCount(lectureNo, memberId, "%" + keyword + "%");
 		// 화면에 보여줄 게시글의 수
-		int numOfPage = 5;
+		int numOfPage = 10;
 		// 키워드에 특수문자가 있으면 치환
 		keyword = commonUtils.htmlConverter(keyword);
 		// 구한 값을 뷰 페이지로 보내준다.
@@ -282,7 +275,7 @@ public class ClassboardController {
 		int startNo = (pageNumber-1) * numOfPage;
 		// 클래스게시판 목록 화면에 보여줄 데이터를 검색해와서 담는다.
 		model.addAttribute("list", classboardService.searchTIL(lectureNo, memberId, "%" + keyword + "%", startNo, numOfPage));
-		return "/board/listTIL";
+		return "/classboard/listTIL";
 	}
 	
 	// 게시글 검색
@@ -304,7 +297,7 @@ public class ClassboardController {
 				classboardService.getSearchCount(lectureNo, "%" + keyword + "%") : 
 				classboardService.getSearchCount2(lectureNo, viewCategory, "%" + keyword + "%");
 		// 화면에 보여줄 게시글의 수
-		int numOfPage = 5;
+		int numOfPage = 10;
 		// 키워드에 특수문자가 있으면 치환
 		keyword = commonUtils.htmlConverter(keyword);
 		// 구한 값을 뷰 페이지로 보내준다.
@@ -321,7 +314,7 @@ public class ClassboardController {
 		} else { // 말머리가 선택되면 선택된 말머리의 게시글만 검색한다.
 			model.addAttribute("list", classboardService.search2(lectureNo, "%" + keyword + "%", viewCategory, startNo, numOfPage));
 		}
-		return "/board/list";
+		return "/classboard/list";
 	}
 	
 }

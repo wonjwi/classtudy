@@ -119,10 +119,19 @@ function dupCheck(memberForm) {
 }
 
 //---------------------------------------------------------------------
+// 강의번호 찾기
+//---------------------------------------------------------------------
+function searchLectureNo() {
+	// 강의번호 검색창 열기
+	// window.open("open할 window", "자식창 이름", "팝업창 옵션");
+	var openWin = window.open("/member/searchLecture", "강의번호 검색",
+			"width=500, height=400, resizable=no");
+}
+
+//---------------------------------------------------------------------
 // 회원가입 검사
 //---------------------------------------------------------------------
-function registerCheckForm(memberForm)
-{
+function registerCheckForm(memberForm) {
 	if( memberForm.idCheck.value == 'N') {
 		alert("아이디 중복검사를 해주세요.");
 		document.memberForm.memberId.focus();
@@ -508,7 +517,7 @@ function notiCheck(notiNo) {
 }
 
 //---------------------------------------------------------------------
-//알림 모두 확인
+// 알림 모두 확인
 //---------------------------------------------------------------------
 function notiCheckAll(memberId) {
 	$.ajax({
@@ -520,62 +529,4 @@ function notiCheckAll(memberId) {
 			if(data > 0) { notiLoad(); } //알림 확인 후 알림 뱃지를 다시 출력
 		}
 	});
-}
-
-//---------------------------------------------------------------------
-// 게시글 조회수 확인 후 알림 발송
-//---------------------------------------------------------------------
-function notiToViews(views) {
-	var NUM1 = 100;
-	var NUM2 = 500;
-	// 조회수가 NUM이면 알림을 보낸다. 
-	if (views == NUM1 || views == NUM2) {
-		// ----- 알림 보내기 -----
-		// 게시글 번호와 작성자 저장
-		var boardNo = document.getElementById("boardNo").value;
-		var writer = document.getElementById("writer").value;
-		// 작성자에게 보낼 알림 텍스트를 만든다.
-		var notiContent = '';
-		notiContent += '회원님의 ';
-		notiContent += '<a href="' + path + '/class/detail/' + boardNo + '">게시글</a>이 ';
-		notiContent += views + '회 이상 조회되었습니다.';
-		//alert(notiContent);
-		// 게시글 작성자에게 알림을 보낸다.
-		$.ajax({
-			url: 	"/noti/insert/",
-			type: 	"post",
-			dataType: "json",
-			data: 	{"notiContent" : notiContent, "receiver" : writer},
-			success: function(data) { notiLoad(); }
-		});
-	}
-}
-
-//---------------------------------------------------------------------
-// 게시글 좋아요수 확인 후 알림 발송
-//---------------------------------------------------------------------
-function notiToLikes(likes) {
-	var NUM1 = 10;
-	var NUM2 = 50;
-	// 좋아요수가 NUM이면 알림을 보낸다. 
-	if (likes == NUM1 || likes == NUM2) {
-		// ----- 알림 보내기 -----
-		// 게시글 번호와 작성자 저장
-		var boardNo = document.getElementById("boardNo").value;
-		var writer = document.getElementById("writer").value;
-		// 작성자에게 보낼 알림 텍스트를 만든다.
-		var notiContent = '';
-		notiContent += '회원님의 ';
-		notiContent += '<a href="' + path + '/class/detail/' + boardNo + '">게시글</a>을 ';
-		notiContent += likes + '명 이상 좋아합니다.';
-		//alert(notiContent);
-		// 게시글 작성자에게 알림을 보낸다.
-		$.ajax({
-			url: 	"/noti/insert/",
-			type: 	"post",
-			dataType: "json",
-			data: 	{"notiContent" : notiContent, "receiver" : writer},
-			success: function(data) { notiLoad(); }
-		});
-	}
 }

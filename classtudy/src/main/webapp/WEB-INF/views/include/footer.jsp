@@ -4,7 +4,8 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <!-- Classtudy Function -->
 <script src="/static/js/commonFunction.js"></script>
-<script src="/static/js/boardFunction.js"></script>
+<script src="/static/js/classboardFunction.js"></script>
+<script src="/static/js/freeboardFunction.js"></script>
 <!-- Markdown Editor & View -->
 <script src="/static/js/editormd.js"></script>
 <script src="/static/js/lib/marked.min.js"></script>

@@ -1,12 +1,12 @@
-<%@page import="java.util.Date"%>
+<%@ page import="java.util.Date" %>
 <%@ page session="true" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="com.edu.classboard.domain.ClassboardDTO" %>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>${listName}</title>
+	<title>클래스룸</title>
 	<%@ include file="../include/header.jsp" %>
 </head>
 <body>
@@ -31,14 +31,14 @@
 	//계산한 endPage가 실제 가지고 있는 페이지 수보다 많으면 가장 마지막 페이지의 값을 endPage로 한다.
 	if (endPage > pageCount) endPage = pageCount;
 	// 검색 여부에 따라 페이지 이동 버튼의 경로 다르게 설정
-	String paging = "list";
+	String paging = "class/classboard";
 	if (request.getAttribute("nowKeyword") != null) {
-		paging = "search/" + (String)request.getAttribute("nowKeyword");
+		paging = "class/classboard/search/" + (String)request.getAttribute("nowKeyword");
 	}
 	%>
 <div class="container">
 	<header>
-		<h1>${listName}</h1>
+		<h1>클래스룸</h1>
 	</header>
 	<!-- 상단 부분 테이블 형태로 구성 -->
 	<table style="width: 100%;">
@@ -46,7 +46,7 @@
 			<td align=left style="padding-bottom: 15px; padding-left: 20px;">
 				<div class="btn-group">
 					<!-- 말머리 선택 : 선택된 말머리의 글만 표시 -->
-					<select class="form-control" id="viewCategory" name="viewCategory" onchange="location.href='${path}/class/list/' + this.value">
+					<select class="form-control" id="viewCategory" name="viewCategory" onchange="location.href='${path}/class/classboard/' + this.value">
 						<c:if test="${viewCategory == 'all'}">
 							<option value="all" selected>전체</option>
 							<option value="TIL">TIL</option>
@@ -75,7 +75,7 @@
 				</div>
 			</td>
 			<td align=right style="padding-bottom: 15px; padding-right: 20px;">
-				<button class="btn btn-success" onclick="location.href='${path}/class/write'">작성</button>
+				<button class="btn btn-success" onclick="location.href='${path}/class/classboard/write'">작성</button>
 			</td>
 		</tr>
 	</table>
@@ -102,8 +102,8 @@
 					<td>${board.boardNo}</td>
 					<td>${board.category}</td>
 					<td>
-						<a href="${path}/class/detail/${board.boardNo}">${board.title}</a>&nbsp;
-						<a href="${path}/class/detail/${board.boardNo}/comment"><span class="badge">${board.commentNum}</span></a>
+						<a href="${path}/class/classboard/detail/${board.boardNo}">${board.title}</a>&nbsp;
+						<a href="${path}/class/classboard/detail/${board.boardNo}/comment"><span class="badge">${board.commentNum}</span></a>
 					</td>
 					<td>${board.writerName}</td>
 					<td><fmt:formatDate value="${board.writeDate}" pattern="yyyy-MM-dd"/></td>
@@ -164,14 +164,14 @@
 		//startPage가 pageBlock보다 큰 경우에만 << 버튼을 보여준다.
 		if(startPage > pageBlock) {
 			%>
-			<button type="button" class="btn btn-default" onclick="location.href='${path}/class/<%=paging%>/${viewCategory}/<%=startPage - 1%>'">&lt;&lt;</button>
+			<button type="button" class="btn btn-default" onclick="location.href='${path}/<%=paging%>/${viewCategory}/<%=startPage - 1%>'">&lt;&lt;</button>
 			<%-- <a href="/class/classroom/${viewCategory}/<%= startPage - 1 %>">&lt;&lt;</a>&nbsp; --%>
 			<%
 		}
 		//pageNumber가 1보다 큰 경우에만 < 버튼을 보여준다.
 		if(pageNumber > 1) {
 			%>
-			<button type="button" class="btn btn-default" onclick="location.href='${path}/class/<%=paging%>/${viewCategory}/<%=pageNumber - 1%>'">&lt;</button>
+			<button type="button" class="btn btn-default" onclick="location.href='${path}/<%=paging%>/${viewCategory}/<%=pageNumber - 1%>'">&lt;</button>
 			<%-- <a href="/class/classroom/${viewCategory}/<%= pageNumber - 1 %>">[이전]</a> --%>
 			<%
 		}
@@ -180,12 +180,12 @@
 		for(int num = startPage; num <= endPage; num++) {
 			if (num == pageNumber) {
 			%>
-			<button type="button" class="btn btn-success" onclick="location.href='${path}/class/<%=paging%>/${viewCategory}/<%=num%>'"><%=num%></button>
+			<button type="button" class="btn btn-success" onclick="location.href='${path}/<%=paging%>/${viewCategory}/<%=num%>'"><%=num%></button>
 			<%-- <a style="color: #33ee33;" href="/class/classroom/${viewCategory}/<%= num %>">[<%= num %>]</a> --%>
 			<%
 			} else {
 			%>
-			<button type="button" class="btn btn-default" onclick="location.href='${path}/class/<%=paging%>/${viewCategory}/<%=num%>'"><%=num%></button>
+			<button type="button" class="btn btn-default" onclick="location.href='${path}/<%=paging%>/${viewCategory}/<%=num%>'"><%=num%></button>
 			<%-- <a href="/class/classroom/${viewCategory}/<%= num %>">[<%= num %>]</a> --%>
 			<%
 			}
@@ -195,14 +195,14 @@
 		//pageNumber가 pageCount보다 작은 경우에만 > 버튼을 보여준다.
 		if(pageNumber < pageCount) {
 			%>
-			<button type="button" class="btn btn-default" onclick="location.href='${path}/class/<%=paging%>/${viewCategory}/<%=pageNumber + 1%>'">&gt;</button>
+			<button type="button" class="btn btn-default" onclick="location.href='${path}/<%=paging%>/${viewCategory}/<%=pageNumber + 1%>'">&gt;</button>
 			<%-- <a href="/class/classroom/${viewCategory}/<%= pageNumber + 1 %>">[다음]</a>&nbsp; --%>
 			<%
 		}
 		//endPage가 pageCount보다 작은 경우에만 >> 버튼을 보여준다.
 		if(endPage < pageCount) {
 			%>
-			<button type="button" class="btn btn-default" onclick="location.href='${path}/class/<%=paging%>/${viewCategory}/<%=endPage + 1%>'">&gt;&gt;</button>
+			<button type="button" class="btn btn-default" onclick="location.href='${path}/<%=paging%>/${viewCategory}/<%=endPage + 1%>'">&gt;&gt;</button>
 			<%-- <a href="/class/classroom/${viewCategory}/<%= endPage + 1 %>">&gt;&gt;</a> --%>
 			<%
 		}
