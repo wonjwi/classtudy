@@ -29,7 +29,6 @@
 			<label class="control-label col-sm-2">말머리</label>
 			<div class="col-sm-3">
 				<select id="category" name="category" class="form-control">
-					<option value="공지사항">공지사항</option>
 					<option value="이야기">이야기</option>
 					<option value="질문">질문</option>
 					<option value="정보">정보</option>
@@ -46,69 +45,43 @@
 		<div class="form-group">
 			<label class="control-label col-sm-2">태&nbsp;&nbsp;&nbsp;&nbsp;그</label>
 			<div class="col-sm-7" align="left">
+				<input type="hidden" id="isDetail" name="isDetail" value="no"/>
 				<input type="text" id="tags" name="tags" data-role="tagsinput" class="form-control"/>
 			</div>
-			<div class="col-sm-2" align="left">
-				<ul class="nav navbar-right">
-					<li class="dropdown">
-						<a class="dropdown" data-toggle="dropdown" href="#">태그 선택<span class="caret"></span></a>
-						<ul class="dropdown-menu dropdown-menu-right dropdown-tag">
-							<li>
-								<button type="button" class="btn btn-sm btn-primary programmingTagBtn" id="javaTag" name="javaTag">Java</button> 
-								<button type="button" class="btn btn-sm btn-primary programmingTagBtn" id="springTag" name="springTag">Spring</button> 
-								<button type="button" class="btn btn-sm btn-primary programmingTagBtn" id="springbootTag" name="springbootTag">Spring Boot</button>
-								<button type="button" class="btn btn-sm btn-primary programmingTagBtn" id="jdbcTag" name="jdbcTag">JDBC</button>
-								<button type="button" class="btn btn-sm btn-primary programmingTagBtn" id="jstlTag" name="jstlTag">JSTL</button>
-								<button type="button" class="btn btn-sm btn-primary programmingTagBtn" id="frontendTag" name="frontendTag">Front-End</button>
-								<button type="button" class="btn btn-sm btn-primary programmingTagBtn" id="backendTag" name="backendTag">Back-End</button>
-								<button type="button" class="btn btn-sm btn-primary programmingTagBtn" id="webdevTag" name="webdevTag">웹 개발</button>
-								<button type="button" class="btn btn-sm btn-primary programmingTagBtn" id="appdevTag" name="appdevTag">앱 개발</button>
-								<button type="button" class="btn btn-sm btn-primary programmingTagBtn" id="htmlcssTag" name="htmlcssTag">HTML/CSS</button>					      		
-								<button type="button" class="btn btn-sm btn-primary programmingTagBtn" id="javascriptTag" name="javascriptTag">Javascript</button>
-								<button type="button" class="btn btn-sm btn-primary programmingTagBtn" id="jqueryTag" name="jqueryTag">jQuery</button>
-								<button type="button" class="btn btn-sm btn-primary programmingTagBtn" id="jspTag" name="jspTag">JSP</button>
-								<button type="button" class="btn btn-sm btn-primary programmingTagBtn" id="bootstrapTag" name="bootstrapTag">Bootstrap</button>
-								<button type="button" class="btn btn-sm btn-primary programmingTagBtn" id="pythonTag" name="pythonTag">Python</button>
-								<button type="button" class="btn btn-sm btn-primary programmingTagBtn" id="djangoTag" name="djangoTag">Django</button>
-								<button type="button" class="btn btn-sm btn-primary programmingTagBtn" id="flaskTag" name="flaskTag">Flask</button>
-								<button type="button" class="btn btn-sm btn-primary programmingTagBtn" id="gamedevTag" name="gamedevTag">게임 개발</button>
-								<button type="button" class="btn btn-sm btn-primary programmingTagBtn" id="unityTag" name="unityTag">Unity</button>
-								<button type="button" class="btn btn-sm btn-primary programmingTagBtn" id="androidTag" name="androidTag">Android</button>
-								<button type="button" class="btn btn-sm btn-primary programmingTagBtn" id="iosTag" name="iosTag">iOS</button>
-								<button type="button" class="btn btn-sm btn-primary programmingTagBtn" id="swiftTag" name="swiftTag">Swift</button>
-								<button type="button" class="btn btn-sm btn-primary programmingTagBtn" id="nodejsTag" name="nodejsTag">Node.js</button>
-								<button type="button" class="btn btn-sm btn-primary programmingTagBtn" id="algorythmTag" name="algorythmTag">알고리즘</button>
-								<button type="button" class="btn btn-sm btn-primary programmingTagBtn" id="reactTag" name="reactTag">React</button>
-								<button type="button" class="btn btn-sm btn-primary programmingTagBtn" id="cloudTag" name="cloudTag">클라우드</button>
-								<button type="button" class="btn btn-sm btn-primary programmingTagBtn" id="linuxTag" name="linuxTag">Linux</button>
-								<button type="button" class="btn btn-sm btn-primary programmingTagBtn" id="gitTag" name="gitTag">Git</button><hr>											
-							</li>
-							<li>
-								<button type="button" class="btn btn-sm btn-success guardTagBtn" id="infoguardTag" name="infoguardTag">정보보안</button>
-								<button type="button" class="btn btn-sm btn-success guardTagBtn" id="blockchainTag" name="blockchainTag">블록체인</button>
-								<button type="button" class="btn btn-sm btn-success guardTagBtn" id="devopsTag" name="devopsTag">DevOps</button>
-								<button type="button" class="btn btn-sm btn-success guardTagBtn" id="hackingTag" name="hackingTag">해킹</button><hr>
-							</li>
-							<li>
-								<button type="button" class="btn btn-sm btn-warning dataTagBtn" id="databaseTag" name="databaseTag">데이터베이스</button>
-								<button type="button" class="btn btn-sm btn-warning dataTagBtn" id="aiTag" name="aiTag">인공지능</button>
-								<button type="button" class="btn btn-sm btn-warning dataTagBtn" id="sqlTag" name="sqlTag">SQL</button>
-								<button type="button" class="btn btn-sm btn-warning dataTagBtn" id="machinerunningTag" name="machinerunningTag">머신러닝</button>
-								<button type="button" class="btn btn-sm btn-warning dataTagBtn" id="rTag" name="rTag">R</button><hr>
-							</li>
-							<li>
-								<button type="button" class="btn btn-sm btn-danger designTagBtn" id="uiuxTag" name="uiuxTag">UI/UX</button>
-								<button type="button" class="btn btn-sm btn-danger designTagBtn" id="3dmodelingTag" name="3dmodelingTag">3D 모델링</button>
-								<button type="button" class="btn btn-sm btn-danger designTagBtn" id="aftereffectsTag" name="aftereffectsTag">After Effects</button>
-								<button type="button" class="btn btn-sm btn-danger designTagBtn" id="premiereproTag" name="premiereproTag">Premiere Pro</button>
-								<button type="button" class="btn btn-sm btn-danger designTagBtn" id="photoshopTag" name="photoshopTag">Photoshop</button>
-								<button type="button" class="btn btn-sm btn-danger designTagBtn" id="illustratorTag" name="illustratorTag">Illustrator</button>
-								<button type="button" class="btn btn-sm btn-danger designTagBtn" id="designeditorTag" name="designeditorTag">편집 디자인</button>
-								<button type="button" class="btn btn-sm btn-danger designTagBtn" id="indesignTag" name="indesignTag">InDesign</button>
-							</li>
-						</ul>
-					</li>
-				</ul>
+			<div class="col-sm-1" align="left">
+				<div class="accordion-heading">
+					<a class="accordion-toggle btn btn-default" style="background-color: #dddddd" data-toggle="collapse" href="#accordion_example_tagclass">선택</a>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="accordion col-sm-offset-2 col-sm-8">
+				<div class="accordion-group">
+					<div id="accordion_example_tagclass" class="accordion-body collapse">
+						<div class="accordion-inner" align="justify">
+						<% // 사용하는 태그 목록
+							String[] programmingTags = 
+									{"Java", "Spring", "Spring Boot", "JDBC", "JSTL", "Front-End", "Back-End", "웹 개발", "앱 개발", 
+									"HTML/CSS","JavaScript", "jQuery", "JSP", "Bootstrap", "Python", "Django", "Flask", "게임 개발", "Unity", 
+									"Android", "iOS", "Swift", "Node.js", "알고리즘", "React", "클라우드", "Linux",  "Git"};
+							String[] guardTags = {"정보보안", "블록체인", "DevOps", "해킹"};
+							String[] dataTags = {"데이터베이스", "인공지능", "SQL", "머신러닝", "R"};
+							String[] designTags = {"UI/UX", "3D 모델링", "After Effects", "Premiere Pro", "Photoshop", "Illustrator", "편집 디자인", "InDesign"};
+							for (int i = 0; i < programmingTags.length; i++) { %>
+								<a href="#" class="btn btn-sm btn-primary programmingTagBtn" style="margin-bottom: 5px;" onclick="addTag('<%=programmingTags[i]%>')"><%=programmingTags[i]%></a>
+							<% } 
+							for (int i = 0; i < guardTags.length; i++) { %>
+								<a href="#" class="btn btn-sm btn-success guardTagBtn" style="margin-bottom: 5px;" onclick="addTag('<%=guardTags[i]%>')"><%=guardTags[i]%></a>
+							<% } 
+							for (int i = 0; i < dataTags.length; i++) { %>
+								<a href="#" class="btn btn-sm btn-warning dataTagBtn" style="margin-bottom: 5px;" onclick="addTag('<%=dataTags[i]%>')"><%=dataTags[i]%></a>
+							<% } 
+							for (int i = 0; i < designTags.length; i++) { %>
+								<a href="#" class="btn btn-sm btn-danger designTagBtn" style="margin-bottom: 5px;" onclick="addTag('<%=designTags[i]%>')"><%=designTags[i]%></a>
+							<% } %>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="form-group">
@@ -145,7 +118,8 @@
 				height 		: "600px",
 				syncScrolling : "single",
 				path 		: "/static/js/lib/",
-				readOnly 	: false
+				readOnly 	: false,
+				placeholder : "내용을 입력하세요."
 			});
 		});
 		

@@ -48,6 +48,13 @@
 				<input type="text" id="title" name="title" class="form-control" value="${detail.title}" maxlength=50 readonly/>
 			</div>
 		</div>
+		<div class="form-group form-inline">
+			<label class="control-label col-sm-2">태&nbsp;&nbsp;&nbsp;&nbsp;그</label>
+			<div class="col-sm-8" align="left">
+				<input type="hidden" id="isDetail" name="isDetail" value="yes"/>
+				<input type="text" id="tags" name="tags" class="form-control" data-role="tagsinput" value="${detail.tags}" disabled/>
+			</div>
+		</div>
 		<div class="form-group">
 			<div id="test-markdown-view" style="display: block; width: 85%; margin: 0px auto; padding: 20px;">
 				<textarea style="display:none;" id="content" name="content">${detail.content}</textarea>

@@ -294,8 +294,8 @@ public class ClassboardController {
 		// 화면에 보여줄 전체 게시글 건수를 구하기. 
 		// 말머리가 있으면 해당하는 게시글만 카운트한다.
 		int totalCount = viewCategory.equals("all") ? 
-				classboardService.getSearchCount(lectureNo, "%" + keyword + "%") : 
-				classboardService.getSearchCount2(lectureNo, viewCategory, "%" + keyword + "%");
+				classboardService.getSearchCountAll(lectureNo, "%" + keyword + "%") : 
+				classboardService.getSearchCount(lectureNo, viewCategory, "%" + keyword + "%");
 		// 화면에 보여줄 게시글의 수
 		int numOfPage = 10;
 		// 키워드에 특수문자가 있으면 치환
@@ -310,9 +310,9 @@ public class ClassboardController {
 		int startNo = (pageNumber-1) * numOfPage;
 		// 클래스게시판 목록 화면에 보여줄 데이터를 검색해와서 담는다.
 		if (viewCategory.equals("all")) {
-			model.addAttribute("list", classboardService.search(lectureNo, "%" + keyword + "%", startNo, numOfPage));
+			model.addAttribute("list", classboardService.searchAll(lectureNo, "%" + keyword + "%", startNo, numOfPage));
 		} else { // 말머리가 선택되면 선택된 말머리의 게시글만 검색한다.
-			model.addAttribute("list", classboardService.search2(lectureNo, "%" + keyword + "%", viewCategory, startNo, numOfPage));
+			model.addAttribute("list", classboardService.search(lectureNo, "%" + keyword + "%", viewCategory, startNo, numOfPage));
 		}
 		return "/classboard/list";
 	}

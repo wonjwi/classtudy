@@ -50,7 +50,6 @@
 						<c:if test="${viewCategory == 'all'}">
 							<option value="all" selected>전체</option>
 							<option value="이야기">이야기</option>
-							<option value="공지사항">공지사항</option>
 							<option value="질문">질문</option>
 							<option value="정보">정보</option>
 							<option value="그룹홍보">그룹홍보</option>
@@ -58,15 +57,6 @@
 						<c:if test="${viewCategory == '이야기'}">
 							<option value="all">전체</option>
 							<option value="이야기" selected>이야기</option>
-							<option value="공지사항">공지사항</option>
-							<option value="질문">질문</option>
-							<option value="정보">정보</option>
-							<option value="그룹홍보">그룹홍보</option>
-						</c:if>
-						<c:if test="${viewCategory == '공지사항'}">
-							<option value="all">전체</option>
-							<option value="이야기">이야기</option>
-							<option value="공지사항" selected>공지사항</option>
 							<option value="질문">질문</option>
 							<option value="정보">정보</option>
 							<option value="그룹홍보">그룹홍보</option>
@@ -74,7 +64,6 @@
 						<c:if test="${viewCategory == '질문'}">	
 							<option value="all">전체</option>
 							<option value="이야기">이야기</option>
-							<option value="공지사항">공지사항</option>
 							<option value="질문" selected>질문</option>
 							<option value="정보">정보</option>
 							<option value="그룹홍보">그룹홍보</option>
@@ -82,7 +71,6 @@
 						<c:if test="${viewCategory == '정보'}">
 							<option value="all">전체</option>
 							<option value="이야기">이야기</option>
-							<option value="공지사항">공지사항</option>
 							<option value="질문" >질문</option>
 							<option value="정보"selected>정보</option>
 							<option value="그룹홍보">그룹홍보</option>
@@ -90,7 +78,6 @@
 						<c:if test="${viewCategory == '그룹홍보'}">
 							<option value="all">전체</option>
 							<option value="이야기">이야기</option>
-							<option value="공지사항">공지사항</option>
 							<option value="질문">질문</option>
 							<option value="정보">정보</option>
 							<option value="그룹홍보" selected>그룹홍보</option>
@@ -115,6 +102,45 @@
 				<th style="text-align: center; width: 60px;"><span class="glyphicon glyphicon-thumbs-up"></span></th>
 			</tr>
 		</thead>
+		<tbody>
+			<c:forEach var="board" items="${noticeListfirst}">
+				<tr style="background-color: #f2f2f2;">
+					<td>${board.boardNo}</td>
+					<td>${board.category}</td>
+					<td>
+						<b><a href="${path}/community/freeboard/detail/${board.boardNo}">${board.title}</a></b>&nbsp;
+						<a href="${path}/community/freeboard/detail/${board.boardNo}/comment"><span class="badge">${board.commentNum}</span></a>
+					</td>
+					<td>${board.writerName} (${board.writer})</td>
+					<td><fmt:formatDate value="${board.writeDate}" pattern="yyyy-MM-dd"/></td>
+					<td>${board.views}</td>
+					<td>${board.likes}</td>
+				</tr>
+			</c:forEach>
+			<tr style="background-color: #e2e2e2;">
+				<td colspan="7">
+					<div class="accordion-heading">
+						<b><a style="color: #444444" class="accordion-toggle" data-toggle="collapse" href="#accordion_notice">더보기</a></b>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+		<tbody id="accordion_notice" class="accordion-body collapse">
+			<c:forEach var="board" items="${noticeList}">
+				<tr style="background-color: #f2f2f2;">
+					<td>${board.boardNo}</td>
+					<td>${board.category}</td>
+					<td>
+						<b><a href="${path}/community/freeboard/detail/${board.boardNo}">${board.title}</a></b>&nbsp;
+						<a href="${path}/community/freeboard/detail/${board.boardNo}/comment"><span class="badge">${board.commentNum}</span></a>
+					</td>
+					<td>${board.writerName} (${board.writer})</td>
+					<td><fmt:formatDate value="${board.writeDate}" pattern="yyyy-MM-dd"/></td>
+					<td>${board.views}</td>
+					<td>${board.likes}</td>
+				</tr>
+			</c:forEach>
+		</tbody>
 		<tbody>
 			<c:forEach var="board" items="${list}">
 				<tr>

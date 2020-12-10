@@ -102,7 +102,8 @@
 				height 		: 640,
 				syncScrolling : "single",
 				path 		: "/static/js/lib/",
-				readOnly 	: false
+				readOnly 	: false,
+				placeholder : "내용을 입력하세요."
 			});
 		});
 		
