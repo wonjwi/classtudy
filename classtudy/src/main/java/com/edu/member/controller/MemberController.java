@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.edu.classboard.domain.ClassboardDTO;
 import com.edu.common.CommonUtils;
 import com.edu.freeboard.domain.FreeboardDTO;
+import com.edu.groupboard.domain.GroupboardDTO;
 import com.edu.member.domain.LectureDTO;
 import com.edu.member.domain.MemberDTO;
 import com.edu.member.service.MemberService;
@@ -265,6 +266,35 @@ public class MemberController {
 			rttr.addFlashAttribute("msgLogin", false);
 			return "redirect:/member/login";
 		}
+		// session에서 memberDTO를 저장한다.
+		MemberDTO member = (MemberDTO)session.getAttribute("member");
+		// memberDTO에서 아이디를 찾아 저장한다.
+		String memberId = member.getMemberId();
+		LOGGER.info("MemberController myPage() memberId : " + memberId);
+		
+		// 마이포인트에 포인트 내역을 출력
+		// 포인트 내역 개수를 카운트한다.
+		int pointListCount = memberService.getPointListCount(memberId);
+		model.addAttribute("pointListCount", pointListCount);
+		// 처음에 출력할 포인트 내역 개수
+		int numOfPointList = 5;
+		model.addAttribute("numOfPointList", numOfPointList);
+		// 처음에 보여줄 포인트 내역 가져오기
+		model.addAttribute("pointListFirst", memberService.pointListFirst(memberId, numOfPointList));
+		// 더보기 아래로 보여줄 포인트 내역 가져오기
+		model.addAttribute("pointListSecond", memberService.pointListSecond(memberId, numOfPointList, pointListCount));
+		
+		// 마이적립금에 적립금 내역을 출력
+		// 적립금 내역 개수를 카운트한다.
+		int rewardListCount = memberService.getRewardListCount(memberId);
+		model.addAttribute("rewardListCount", rewardListCount);
+		// 처음에 출력할 적립금 내역 개수
+		int numOfRewardList = 5;
+		model.addAttribute("numOfRewardList", numOfRewardList);
+		// 처음에 보여줄 적립금 내역 가져오기
+		model.addAttribute("rewardListFirst", memberService.rewardListFirst(memberId, numOfRewardList));
+		// 더보기 아래로 보여줄 적립금 내역 가져오기
+		model.addAttribute("rewardListSecond", memberService.rewardListSecond(memberId, numOfRewardList, rewardListCount));
 		return "/member/myPage";
 	}
 	
@@ -281,6 +311,13 @@ public class MemberController {
 	private List<FreeboardDTO> freeboardList(String memberId) throws Exception {
 		LOGGER.info("MemberController freeboardList().....");
 		return memberService.freeboardList(memberId);
+	}
+	// 마이페이지 내가 쓴 글 - 그룹게시판
+	@ResponseBody
+	@RequestMapping(value="/groupboardList")
+	private List<GroupboardDTO> groupboardList(String memberId) throws Exception {
+		LOGGER.info("MemberController groupboardList().....");
+		return memberService.groupboardList(memberId);
 	}
 	
 }

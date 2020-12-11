@@ -630,7 +630,8 @@ function changeBoard(boardName) {
 					if (key == numOfPage+0) {
 						str1 += '<tr><td colspan="6">';
 						str1 += '<div class="accordion-heading" style="height: 10px; position: relative; top: -3px;">';
-						str1 += '<a class="accordion-toggle" data-toggle="collapse" href="#myBoardListSecond" onclick="viewSecond();"';
+						str1 += '<a class="accordion-toggle" data-toggle="collapse" href="#myBoardListSecond"';
+						str1 += ' onclick="viewSecondList(\'#myBoardListSecond\', \'#viewSecondBtn\');"';
 						str1 += 'style="color: #444444"><span id="viewSecondBtn" class="glyphicon glyphicon-chevron-down"></span></a>';
 						str1 += '</div></td></tr>';
 					}
@@ -643,12 +644,12 @@ function changeBoard(boardName) {
 }
 
 //---------------------------------------------------------------------
-// 마이페이지 내가 쓴 글 더보기 버튼 누를 때마다 모양을 바꿔줌
+// 더보기 버튼 누를 때 모양을 바꿔주기
 //---------------------------------------------------------------------
-	function viewSecond() {
-		if ($("#myBoardListSecond").is(":visible")) { 
-			$("#viewSecondBtn").attr('class', 'glyphicon glyphicon-chevron-down');
-		} else {
-			$("#viewSecondBtn").attr('class', 'glyphicon glyphicon-chevron-up');
-		}
+function viewSecondList(visibleId, btnId) {
+	if ($(visibleId).is(":visible")) { 
+		$(btnId).attr('class', 'glyphicon glyphicon-chevron-down');
+	} else {
+		$(btnId).attr('class', 'glyphicon glyphicon-chevron-up');
 	}
+}
