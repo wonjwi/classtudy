@@ -13,7 +13,9 @@ import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.edu.classboard.domain.ClassboardDTO;
 import com.edu.common.CommonUtils;
+import com.edu.freeboard.domain.FreeboardDTO;
 import com.edu.member.domain.LectureDTO;
 import com.edu.member.domain.MemberDTO;
 import com.edu.member.service.MemberService;
@@ -252,6 +254,33 @@ public class MemberController {
 		session.invalidate();
 		
 		return "redirect:/member/login";
+	}
+	
+	// 마이페이지
+	@RequestMapping(value="/myPage")
+	private String myPage(HttpSession session, RedirectAttributes rttr, Model model) throws Exception {
+		LOGGER.info("MemberController myPage().....");
+		// 로그인을 하지 않았으면 로그인 화면으로 보낸다.
+		if (session.getAttribute("member") == null) {
+			rttr.addFlashAttribute("msgLogin", false);
+			return "redirect:/member/login";
+		}
+		return "/member/myPage";
+	}
+	
+	// 마이페이지 내가 쓴 글 - 클래스게시판
+	@ResponseBody
+	@RequestMapping(value="/classboardList")
+	private List<ClassboardDTO> classboardList(String memberId) throws Exception {
+		LOGGER.info("MemberController classboardList().....");
+		return memberService.classboardList(memberId);
+	}
+	// 마이페이지 내가 쓴 글 - 자유게시판
+	@ResponseBody
+	@RequestMapping(value="/freeboardList")
+	private List<FreeboardDTO> freeboardList(String memberId) throws Exception {
+		LOGGER.info("MemberController freeboardList().....");
+		return memberService.freeboardList(memberId);
 	}
 	
 }

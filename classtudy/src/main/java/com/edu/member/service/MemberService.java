@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.*;
 
+import com.edu.classboard.domain.ClassboardDTO;
+import com.edu.freeboard.domain.FreeboardDTO;
 import com.edu.member.domain.LectureDTO;
 import com.edu.member.domain.MemberDTO;
 import com.edu.member.mapper.MemberMapper;
@@ -68,6 +70,15 @@ public class MemberService {
 	// 강의 번호에 해당하는 회원 찾기
 	public List<String> getLectureMembers(int lectureNo) throws Exception {
 		return memberMapper.getLectureMembers(lectureNo);
+	}
+	
+	// 마이페이지 내가 쓴 글 - 클래스게시판
+	public List<ClassboardDTO> classboardList(String memberId) throws Exception {
+		return memberMapper.classboardList(memberId);
+	}
+	// 마이페이지 내가 쓴 글 - 자유게시판
+	public List<FreeboardDTO> freeboardList(String memberId) throws Exception {
+		return memberMapper.freeboardList(memberId);
 	}
 	
 }

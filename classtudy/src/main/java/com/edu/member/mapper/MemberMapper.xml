@@ -70,4 +70,17 @@
 		WHERE 	lectureNo = #{lectureNo} 
 	</select>
 	
+	<!-- 마이페이지 내가 쓴 글 - 클래스게시판 -->
+	<select id="classboardList" resultType="com.edu.classboard.domain.ClassboardDTO">
+	SELECT 	c.*, (SELECT COUNT(commentNo) FROM cbcomment WHERE boardNo = c.boardNo) commentNum 
+	FROM 	classboard c 
+	WHERE 	writer = #{memberId} 
+	</select>
+	<!-- 마이페이지 내가 쓴 글 - 자유게시판 -->
+	<select id="freeboardList" resultType="com.edu.freeboard.domain.FreeboardDTO">
+	SELECT 	f.*, (SELECT COUNT(commentNo) FROM fbcomment WHERE boardNo = f.boardNo) commentNum 
+	FROM 	freeboard f 
+	WHERE 	writer = #{memberId} 
+	</select>
+	
 </mapper>
