@@ -11,7 +11,6 @@
 <!-- Bootstrap Tags Input -->
 <link rel="stylesheet" type="text/css" href="/static/css/bootstrap-tagsinput.css"/>
 <style>
-<%-- Fonts --%>
 @font-face {
 	font-family: 'MaplestoryOTFBold';
 	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/MaplestoryOTFBold.woff') format('woff');
@@ -25,41 +24,40 @@
 	font-style: normal;
 }
 
-<%-- Body --%>
 body {
-	font-family: 'IBMPlexSansKR-Regular', sans-serif;
-	font-size: 15px;
-	color: #666;
-	background: #fff;
-	text-align: center;
+	font-family: 	'IBMPlexSansKR-Regular', sans-serif;
+	font-size: 		15px;
+	color: 			#666666;
+	background: 	#FFFFFF;
+	text-align: 	center;
 }
-
-<%-- Navigation Bar --%>
+.table > tbody > tr > td {
+	vertical-align: middle;
+}
+.glyphicon {
+	top: 2px;
+}
 .navbar-brand {
-	font-family: 'MaplestoryOTFBold', sans-serif;
-	font-size: 28px;
-	padding-top: 6px;
+	font-family: 	'MaplestoryOTFBold', sans-serif;
+	font-size: 		28px;
+	padding-top: 	6px;
 }
 .navbar-nav {
-	font-family: 'IBMPlexSansKR-Regular', sans-serif;
-	font-size: 16px;
+	font-family: 	'IBMPlexSansKR-Regular', sans-serif;
+	font-size: 		16px;
 }
-
-<%-- Multi Dropdown Menu --%>
 .dropdown-submenu {
 	position: relative;
 }
 .dropdown-submenu .dropdown-menu {
-	top: 	0px;
-	left: 	100%;
+	top: 		-5px;
+	left: 		100%;
+	width: 		100%;
 }
-
-<%-- CommentList --%>
-#commentList {
-	font-size: 14px;
+.dropdown-menu, .dropdown-menu > li {
+	text-align: center;
+	min-width: 	0px;
 }
-
-<%-- NotiList --%>
 @media (min-width: 768px) {
 	#notiList {
 		width: 			500px;
@@ -68,5 +66,13 @@ body {
 		padding-bottom: 15px;
 		font-size: 		14px;
 	}
+}
+@media (max-width: 992px) {
+	.myPageMenu, .myPageContent {
+		width: 	100%;
+	}
+}
+#commentList {
+	font-size: 14px;
 }
 </style>

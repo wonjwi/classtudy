@@ -10,7 +10,7 @@
 </head>
 <body>
 	<%@ include file="../include/topmenu.jsp" %>
-	<div class="container">
+	<div class="container" style="padding-bottom: 20px;">
 		<form class="form-horizontal" action="/member/memberDelete" method="post">
 			<div class="form-group">
 				<div class="col-sm-12">
