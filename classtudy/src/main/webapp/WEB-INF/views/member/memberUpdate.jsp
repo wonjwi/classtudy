@@ -167,8 +167,8 @@
 				<div class="col-sm-4">
 					<!-- 강의번호가 NULL일 때(int형이라 0으로 비교) -->
 					<c:if test="${member.lectureNo == '0'}">
-						<input type="text" id="lectureNoState" name="lectureNoState" class="form-control" placeholder="종료된 강의" readonly/>
 						<input type="hidden" id="lectureNo" name="lectureNo" class="form-control" value="${member.lectureNo}" readonly/>
+						<input type="text" id="lectureNoState" name="lectureNoState" class="form-control" placeholder="종료된 강의" readonly/>
 					</c:if>
 					<!-- 강의번호가 있을 때 -->
 					<c:if test="${member.lectureNo != '0'}">

@@ -21,14 +21,14 @@
 				<h3 class="panel-title"><b>마이페이지</b></h3>
 			</div>
 			<div class="list-group">
-				<a class="list-group-item" href="#myAttendance">출석현황</a>
+				<a class="list-group-item" href="#myHistory">활동내역</a>
 				<a class="list-group-item" href="#myPoint">마이포인트</a>
 				<a class="list-group-item" href="#myReward">마이적립금</a>
 				<a class="list-group-item" data-toggle="collapse" href="#accordion_submenu">
 					내가 쓴 글 <span class="caret"></span>
 				</a>
 				<div class="collapse" id="accordion_submenu" style="border-top: 1px solid #ddd;">
-					<a class="list-group-item" href="#myPost" onclick="changeBoard('class');">클래스게시판</a>
+					<a class="list-group-item" href="#myPost" onclick="changeBoard('class');">클래스룸</a>
 					<a class="list-group-item" href="#myPost" onclick="changeBoard('free');">자유게시판</a>
 					<a class="list-group-item" href="#myPost" onclick="changeBoard('group');">그룹게시판</a>
 				</div>
@@ -42,21 +42,83 @@
 	</div>
 	<!-- 내용 영역 -->
 	<div class="col-sm-10 myPageContent" style="margin: 0; padding: 0;">
-		<!-- 출석현황 -->
+		<!-- 활동내역 -->
 		<div class="col-sm-12">
-			<div id="myAttendance" class="panel panel-default">
-				<div class="panel-heading"><h4><span class="glyphicon glyphicon-calendar"></span>&nbsp;&nbsp;<b>출석현황</b></h4></div>
+			<div id="myHistory" class="panel panel-default">
+				<div class="panel-heading">
+					<h4><span class="glyphicon glyphicon-calendar"></span>&nbsp;&nbsp;<b>활동내역</b></h4>
+				</div>
 				<div class="panel-body">
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					<div class="content-wrap">
+						<div class="content-calendar" align="center">
+							<table id="calendar" class="clearfix">
+								<thead>
+									<tr class="btn-wrap">
+										<td><label id="prev">&lt;</label></td>
+										<td id="current-year-month" colspan="5"></td>
+										<td><label id="next">&gt;</label></td>
+									</tr>
+									<tr>
+										<td class="sun">일</td>
+										<td>월</td>
+										<td>화</td>
+										<td>수</td>
+										<td>목</td>
+										<td>금</td>
+										<td class="sat">토</td>
+									</tr>
+								</thead>
+								<tbody id="calendar-body" class="calendar-body"></tbody>
+							</table>
+						</div> <!-- content-calendar -->
+						<div class="content-history">
+							<div class="main-wrap">
+								<div id="main-date" class="main-date"></div>
+								<div id="main-status" class="main-status"></div>
+							</div>
+							<div class="history-wrap">
+								<!-- 작성한 게시글 -->
+								<div class="history-title">작성한 게시글</div>
+								<div id="history-board" class="history-board">
+									<table class="table table-hover table-bordered" style="font-size: 13px;">
+										<thead>
+											<tr>
+												<th style="text-align: center; width: 70px;" >게시판</th>
+												<th style="text-align: center; width: 300px;">게시글 제목</th>
+											</tr>
+										</thead>
+										<!-- 출력될 게시글 목록 -->
+										<tbody id="myTodayBoardFirst"></tbody>
+										<tbody id="myTodayBoardSecond" class="accordion-body collapse"></tbody>
+									</table>
+								</div>
+								<!-- 작성한 댓글 -->
+								<div class="history-title">작성한 댓글</div>
+								<div id="history-comment" class="history-comment">
+									<table class="table table-hover table-bordered" style="font-size: 13px;">
+										<thead>
+											<tr>
+												<th style="text-align: center; width: 70px;" >게시판</th>
+												<th style="text-align: center; width: 300px;">댓글 내용</th>
+											</tr>
+										</thead>
+										<!-- 출력될 댓글 목록 -->
+										<tbody id="myTodayCommentFirst"></tbody>
+										<tbody id="myTodayCommentSecond" class="accordion-body collapse"></tbody>
+									</table>
+								</div>
+							</div> <!-- history-wrap -->
+						</div> <!-- content-history -->
+					</div> <!-- content-wrap -->
 				</div>
 			</div>
 		</div>
 		<!-- 마이포인트 -->
 		<div class="col-sm-6">
 			<div id="myPoint" class="panel panel-default">
-				<div class="panel-heading"><h4><span class="glyphicon glyphicon-tree-deciduous"></span>&nbsp;&nbsp;<b>마이포인트</b></h4></div>
+				<div class="panel-heading">
+					<h4><span class="glyphicon glyphicon-tree-deciduous"></span>&nbsp;&nbsp;<b>마이포인트</b></h4>
+				</div>
 				<div class="panel-body" style="padding-bottom: 0;">
 					<table class="table table-hover table-bordered" style="font-size: 13px;">
 						<thead>
@@ -102,6 +164,12 @@
 								</tr>
 							</c:forEach>
 						</tbody>
+						<!-- 포인트 총 합계 -->
+						<tbody id="myPointSum">
+							<tr>
+								<td colspan="3"><b>총 ${myPointSum} 포인트</b></td>
+							</tr>
+						</tbody>
 					</table>
 				</div>
 			</div>
@@ -109,7 +177,9 @@
 		<!-- 마이적립금 -->
 		<div class="col-sm-6">
 			<div id="myReward" class="panel panel-default">
-				<div class="panel-heading"><h4><span class="glyphicon glyphicon-piggy-bank"></span>&nbsp;&nbsp;<b>마이적립금</b></h4></div>
+				<div class="panel-heading">
+					<h4><span class="glyphicon glyphicon-piggy-bank"></span>&nbsp;&nbsp;<b>마이적립금</b></h4>
+				</div>
 				<div class="panel-body" style="padding-bottom: 0;">
 					<table class="table table-hover table-bordered" style="font-size: 13px;">
 						<thead>
@@ -155,6 +225,12 @@
 								</tr>
 							</c:forEach>
 						</tbody>
+						<!-- 적립금 총 합계 -->
+						<tbody id="myRewardSum">
+							<tr>
+								<td colspan="3"><b>총 <fmt:formatNumber value="${myRewardSum}" type="number"/> 원</b></td>
+							</tr>
+						</tbody>
 					</table>
 				</div>
 			</div>
@@ -167,7 +243,7 @@
 				</div>
 				<div class="panel-body" style="padding-bottom: 0;">
 					<div class="btn-group" style="padding-bottom: 10px;">
-						<a href="#myPost" id="classBtn" onclick="changeBoard('class');" class="btn btn-sm btn-info">클래스게시판</a>
+						<a href="#myPost" id="classBtn" onclick="changeBoard('class');" class="btn btn-sm btn-info">클래스룸</a>
 						<a href="#myPost" id="freeBtn" onclick="changeBoard('free');" class="btn btn-sm btn-default">자유게시판</a>
 						<a href="#myPost" id="groupBtn" onclick="changeBoard('group');" class="btn btn-sm btn-default">그룹게시판</a>
 					</div>

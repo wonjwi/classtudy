@@ -125,8 +125,8 @@ function dupCheck(memberForm) {
 function openLecturePopup() {
 	// 강의번호 검색창 열기
 	// window.open("open할 window", "자식창 이름", "팝업창 옵션");
-	var openWin = window.open(path + "/member/openLecturePopup", "강의번호 검색",
-			"width=600, height=500, resizable=no, scrollbars=yes, left=100, top=70, status=no");
+	window.open(path + "/member/openLecturePopup", "강의번호 검색",
+		"width=600, height=500, resizable=no, scrollbars=yes, left=100, top=70, status=no");
 }
 // 강의번호 검색
 function searchLectureNo(keyword) {
