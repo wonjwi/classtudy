@@ -1,4 +1,4 @@
-package com.edu.member.domain;
+package com.edu.admin.domain;
 
 import lombok.Data;
 
