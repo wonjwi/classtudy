@@ -9,15 +9,10 @@
 <meta charset="UTF-8">
 <title>자유게시판</title>
 <%@ include file="../include/header.jsp"%>
-<style>
-#tags {
-  text-align: left;
-}
-</style>
 </head>
 <body>
 	<%@ include file="../include/topmenu.jsp"%>
-	<%
+		<%
 	// 현재 페이지의 번호를 저장하는 변수
 	// pageNum에 값이 없으면 1, 있으면 해당하는 페이지를 가져온다.
 	int pageNumber = (int)request.getAttribute("pageNumber");
@@ -39,59 +34,116 @@
 	// 선택된 tag를 저장
 	String tags = (String)request.getAttribute("tags");
 	// 검색 여부에 따라 페이지 이동 버튼의 경로 다르게 설정
-	String paging = "tags/" + tags;
+	String paging = "mainsearch";
 	if (request.getAttribute("nowKeyword") != null) {
 		paging = "/search/" + (int)request.getAttribute("searchCode") + "/" + (String)request.getAttribute("nowKeyword");
 	}
 	%>
 	<div class="container">
 		<header>
-			<h1><%=tags %></h1>
-			<input type="hidden" id="thisTag" name="thisTag" value="<%=tags%>">
+			<h1>전체 게시글</h1>
 		</header>
 		<!-- 상단 부분 테이블 형태로 구성 -->
-		<table style="width: 100%;">
-			<tr>
-				<td align="left" style="padding-bottom: 15px; padding-left: 20px;">
-				</td>
-				<td align=right style="padding-bottom: 15px; padding-right: 20px;">
-				</td>
-			</tr>
-		</table>
+	<table style="width: 100%;">
+		<tr>
+			<td align="left" style="padding-bottom: 15px; padding-left: 20px;">
+				
+			</td>
+			<td align=right style="padding-bottom: 15px; padding-right: 20px;">
+				<button class="btn btn-default" onclick="location.href='${path}/community/freeboard/all'">전체보기</button>&nbsp;
+				<button class="btn btn-success" onclick="location.href='${path}/community/freeboard/write'">작성</button>
+			</td>
+		</tr>
+	</table>
 		<table class="table table-hover table-bordered">
 			<thead>
 				<tr>
 					<th style="text-align: center; width: 70px;">게시판</th>
-					<th style="text-align: center; width: 280px;">제목</th>
-					<th style="text-align: center; width: 90px;">태그</th>
-					<th style="text-align: center; width: 90px;">작성자</th>
-					<th style="text-align: center; width: 80px;">작성일</th>
-					<th style="text-align: center; width: 40px;">조회</th>
-					<th style="text-align: center; width: 40px;"><span class="glyphicon glyphicon-thumbs-up"></span></th>
+					<th style="text-align: center; width: 300px;">제목</th>
+					<th style="text-align: center; width: 100px;">작성자</th>
+					<th style="text-align: center; width: 100px;">작성일</th>
+					<th style="text-align: center; width: 60px;">조회</th>
+					<th style="text-align: center; width: 60px;"><span
+						class="glyphicon glyphicon-thumbs-up"></span></th>
 				</tr>
 			</thead>
-			<!-- 게시글 목록 -->
 			<tbody>
-				<c:if test="${empty list}">
+				<!-- 먼저 보여질 공지사항 목록 -->
+				<c:forEach var="board" items="${noticeListFirst}">
+					<tr style="background-color: #f2f2f2;">
+						<td>${board.boardNo}</td>
+						<td><span class="glyphicon glyphicon-info-sign"></span></td>
+						<td><b><a
+								href="${path}/community/freeboard/detail/${board.boardNo}">${board.title}</a></b>&nbsp;
+							<a
+							href="${path}/community/freeboard/detail/${board.boardNo}/comment"><span
+								class="badge">${board.commentNum}</span></a></td>
+						<td>${board.writerName}(${board.writer})</td>
+						<td><fmt:formatDate value="${board.writeDate}"
+								pattern="yyyy-MM-dd" /></td>
+						<td>${board.views}</td>
+						<td>${board.likes}</td>
+					</tr>
+				</c:forEach>
+				<!-- 더보기 버튼 : 총 개수가 보여질 개수보다 많으면 표시 -->
+				<c:if test="${noticeCount+0 > numOfNotice+0}">
+					<tr>
+						<td colspan="7">
+							<div class="accordion-heading"
+								style="height: 10px; position: relative; top: -3px;">
+								<a class="accordion-toggle" data-toggle="collapse"
+									href="#accordion_notice"
+									onclick="viewSecondList('#accordion_notice', '#viewNoticeBtn');"
+									style="color: #444444"><span id="viewNoticeBtn"
+									class="glyphicon glyphicon-chevron-down"></span></a>
+							</div>
+						</td>
+					</tr>
+				</c:if>
+			</tbody>
+			<!-- 더보기 누르면 나오는 공지사항 목록 -->
+			<tbody id="accordion_notice" class="accordion-body collapse">
+				<c:forEach var="board" items="${noticeList}">
+					<tr style="background-color: #f2f2f2;">
+						<td>${board.boardNo}</td>
+						<td><span class="glyphicon glyphicon-info-sign"></span></td>
+						<td><b><a
+								href="${path}/community/freeboard/detail/${board.boardNo}">${board.title}</a></b>&nbsp;
+							<a
+							href="${path}/community/freeboard/detail/${board.boardNo}/comment"><span
+								class="badge">${board.commentNum}</span></a></td>
+						<td>${board.writerName}(${board.writer})</td>
+						<td><fmt:formatDate value="${board.writeDate}"
+								pattern="yyyy-MM-dd" /></td>
+						<td>${board.views}</td>
+						<td>${board.likes}</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+			<!-- 그외 게시글 목록 -->
+			<tbody>
+				<c:if test="${empty listall}">
 					<tr style="background-color: #FFFFFF;">
 						<td colspan="7">게시글이 없습니다.</td>
 					</tr>
 				</c:if>
 				
-				<c:forEach var="board" items="${list}">
+				<c:forEach var="board" items="${listall}">
 					<tr>
 						<c:if test= "${board.tblName == 'groupboard'}">
-						<td>그룹찾기</td>
+						<td>그룹게시판</td>
 						</c:if>
 						<c:if test= "${board.tblName == 'freeboard'}">
 						<td>자유게시판</td>
 						</c:if>
-						<td style="text-align:left; padding-left: 15px; padding-right: 10px;">
+						<td style="text-align:left;">
 							<c:if test= "${board.tblName == 'freeboard'}">
-								<a href="${path}/community/freeboard/detail/${board.boardNo}">${board.title}</a>
+								<a href="${path}/community/freeboard/detail/${board.boardNo}">&nbsp;&nbsp;&nbsp;${board.title}
+								</a>&nbsp;
 							</c:if>
 							<c:if test= "${board.tblName == 'groupboard'}">
-								<a href="${path}/community/groupboard/detail/${board.boardNo}">${board.title}</a>
+								<a href="${path}/community/groupboard/detail/${board.boardNo}">&nbsp;&nbsp;&nbsp;${board.title}
+								</a>&nbsp;
 							</c:if>
 							<c:if test= "${board.tblName == 'freeboard'}">
 								<a href="${path}/community/freeboard/detail/${board.boardNo}/comment"><span class="badge">${board.commentNum}</span></a>
@@ -99,13 +151,10 @@
 							<c:if test= "${board.tblName == 'groupboard'}">
 								<a href="${path}/community/groupboard/detail/${board.boardNo}/comment"><span class="badge">${board.commentNum}</span></a>
 							</c:if>
-								<input  type="hidden" id="isDetail" name="isDetail" value="yes"/>
+								<input type="hidden" id="isDetail" name="isDetail" value="yes"/>
+								<input type="text" id="tags" name="tags" class="form-control" data-role="tagsinput" value="${board.tags}" disabled/>
 						</td>
-						<td style="font-size: 10px; !important;">
-							<input type="text" id="tags" name="tags" class="form-control" data-role="tagsinput" value="${board.tags}" disabled/>
-							<input type="hidden" id="isDetail" name="isDetail" value="yes"/>
-						</td>
-						<td>${board.writerName} (${board.writer})</td>
+						<td>${board.writerName}(${board.writer})</td>
 						<td><fmt:formatDate value="${board.writeDate}" pattern="yyyy-MM-dd" /></td>
 						<td>${board.views}</td>
 						<td>${board.likes}</td>
@@ -206,6 +255,7 @@
 			}
 			%>
 			</div>
+			<div class="container" style="height: 100px;"> </div>
 		</footer>
 	</div>
 	
@@ -227,11 +277,11 @@
 		 */
 		// 검색 버튼이 눌렸을 경우
 		$("#searchBtn").on("click", function() {
-			searchfTagBoard($("#keyword").val(), $("#searchCode").val(), $("#thisTag").val());
+			searchAllBoard($("#keyword").val(), $("#searchCode").val(), $("#tags").val());
 		});
 		// 검색창에서 엔터키를 입력할 경우
 		$("#keyword").keyup(function(e) {if (e.keyCode == 13) {
-			searchfTagBoard($("#keyword").val(), $("#searchCode").val(), $("#thisTag").val());
+			searchAllBoard($("#keyword").val(), $("#searchCode").val(), $("#tags").val());
 		}});
 		
 	});
