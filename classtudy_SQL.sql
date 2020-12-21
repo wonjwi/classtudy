@@ -87,6 +87,30 @@ CREATE TABLE reward (
 	CONSTRAINT rewardReceiver FOREIGN KEY (member) REFERENCES member(memberId) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- 이력서 테이블
+CREATE TABLE resume (
+	resumeNo			INT			PRIMARY KEY AUTO_INCREMENT,
+	writer				VARCHAR(16)	NOT NULL,
+	title				VARCHAR(30)	NOT NULL,
+	writeDate			timestamp	NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	schoolName			VARCHAR(30)	NOT NULL,
+	schoolLevel			VARCHAR(30)	NOT NULL,   
+	univMajor			VARCHAR(30)	NOT NULL,
+	schoolGrade			VARCHAR(5)	NOT NULL,
+	companyName			VARCHAR(30)	NOT NULL,
+	companyPart			VARCHAR(30)	NOT NULL,
+	position			VARCHAR(30)	NOT NULL,
+	workPeriod			int			NOT NULL,
+	salary				int			NOT NULL,
+	license				VARCHAR(30)	NOT NULL,
+	certificateAgency	VARCHAR(30)	NOT NULL,
+	certificateDay		VARCHAR(30)	NOT NULL,
+	content1			TEXT		NOT NULL,
+	content2			TEXT		NOT NULL,
+	content3			text		NOT NULL,
+	CONSTRAINT resumeWriter FOREIGN KEY (writer) REFERENCES member(memberId) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 ---------------------------------------------------
 -- 게시판 테이블
 ---------------------------------------------------
@@ -229,4 +253,11 @@ CREATE TABLE registerlist (
 	checked 	BOOLEAN 		NOT NULL DEFAULT false,
 	CONSTRAINT registerMemberId FOREIGN KEY (member) REFERENCES member(memberId) ON DELETE CASCADE,
 	CONSTRAINT registerLectureNo FOREIGN KEY (lectureNo) REFERENCES lecture(lectureNo) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- main 방문자수             
+CREATE TABLE visit (
+   hitNo 		INT(11) 		PRIMARY KEY AUTO_INCREMENT,
+   hitDate 		DATE 			NOT NULL,
+   hit 			INT(11) 		NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
