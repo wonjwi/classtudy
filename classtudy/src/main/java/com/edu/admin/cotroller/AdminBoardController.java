@@ -90,6 +90,10 @@ public class AdminBoardController {
 		} else if (viewTable.equals("groupboard")) {
 			model.addAttribute("detail", adminBoardService.groupboardDetail(boardNo));
 		}
+		// comment 옵션이 있으면 commentList 위치로 이동하기 위해 값을 설정한다.
+		if (comment.isPresent()) {
+			model.addAttribute("comment", "yes");
+		}
 		return "/adboard/boardDetail";
 	}
 	// 게시글 삭제

@@ -21,12 +21,18 @@
 	WHERE 	member = #{member} 
 	AND 	content = #{content} 
 	</select>
-	<!-- 포인트 지급 -->
+	<!-- 포인트 지급 내역 추가 -->
 	<insert id="addPoint">
 	INSERT 	INTO point 
 			(member, content, changeVal, accrDate) 
 	VALUES 	(#{member}, #{content}, #{changeVal}, SYSDATE()) 
 	</insert>
+	<!-- 회원에게 포인트 지급 -->
+	<update id="addPointToMember">
+	UPDATE 	member 
+	SET 	point = point + #{changeVal} 
+	WHERE 	memberId = #{member} 
+	</update>
 	<!-- 멤버 등급 업데이트 -->
 	<update id="setMemberGrade">
 	UPDATE 	member 

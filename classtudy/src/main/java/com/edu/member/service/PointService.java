@@ -27,9 +27,13 @@ public class PointService {
 	public int getNumOfSearchPointContent(PointDTO pointDTO) throws Exception {
 		return pointMapper.getNumOfSearchPointContent(pointDTO);
 	}
-	// 포인트 지급
+	// 포인트 지급 내역 추가
 	public int addPoint(PointDTO pointDTO) throws Exception {
 		return pointMapper.addPoint(pointDTO);
+	}
+	// 회원에게 포인트 지급
+	public int addPointToMember(PointDTO pointDTO) throws Exception {
+		return pointMapper.addPointToMember(pointDTO);
 	}
 	// 멤버 등급 업데이트
 	public int setMemberGrade(String memberId, int memberGrade) throws Exception {

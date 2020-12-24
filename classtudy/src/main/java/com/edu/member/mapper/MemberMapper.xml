@@ -84,46 +84,52 @@
 	WHERE 	member = #{memberId} 
 	AND 	accrDate LIKE #{today}
 	</select>
-	<!-- 마이페이지 활동내역 - 클래스게시판 -->
-	<select id="classboardToday" resultType="com.edu.classboard.domain.ClassboardDTO">
-	SELECT 	c.*, (SELECT COUNT(commentNo) FROM cbcomment WHERE boardNo = c.boardNo) commentNum 
-	FROM 	classboard c 
+	<!-- 마이페이지 활동내역 - 작성한 게시글 -->
+	<select id="todayBoardList" resultType="com.edu.admin.domain.AdminBoardDTO">
+	SELECT 	'classboard' tableName, boardNo, writer, title, content, views, likes, writeDate,
+			(SELECT COUNT(commentNo) FROM cbcomment WHERE boardNo = c.boardNo) commentNum,
+			m.name writerName, c.category specialInfo, '' tags 
+	FROM 	classboard c INNER JOIN member m ON c.writer = m.memberId 
 	WHERE 	writer = #{memberId} 
-	AND 	writeDate LIKE #{today} 
-	ORDER BY boardNo DESC 
+	AND 	writeDate LIKE CONCAT(#{today},'%') 
+	UNION 
+	SELECT 	'freeboard' tableName, boardNo, writer, title, content, views, likes, writeDate,
+			(SELECT COUNT(commentNo) FROM fbcomment WHERE boardNo = f.boardNo) commentNum,
+			m.name writerName, f.category specialInfo, tags 
+	FROM 	freeboard f INNER JOIN member m ON f.writer = m.memberId 
+	WHERE 	writer = #{memberId} 
+	AND 	writeDate LIKE CONCAT(#{today},'%') 
+	UNION 
+	SELECT 	'groupboard' tableName, boardNo, writer, title, content, views, likes, writeDate,
+			(SELECT COUNT(commentNo) FROM gbcomment WHERE boardNo = g.boardNo) commentNum,
+			m.name writerName, gl.groupName specialInfo, tags 
+	FROM 	groupboard g INNER JOIN member m ON g.writer = m.memberId 
+			INNER JOIN grouplist gl ON g.groupNo = gl.groupNo 
+	WHERE 	writer = #{memberId} 
+	AND 	writeDate LIKE CONCAT(#{today},'%') 
+	ORDER BY writeDate DESC 
 	</select>
-	<!-- 마이페이지 활동내역 - 자유게시판 -->
-	<select id="freeboardToday" resultType="com.edu.freeboard.domain.FreeboardDTO">
-	SELECT 	f.*, (SELECT COUNT(commentNo) FROM fbcomment WHERE boardNo = f.boardNo) commentNum 
-	FROM 	freeboard f 
+	<!-- 마이페이지 활동내역 - 작성한 댓글 -->
+	<select id="todayCommentList" resultType="com.edu.admin.domain.AdminCommentDTO">
+	SELECT 	'classboard' tableName, commentNo, boardNo, writer, content, writeDate,
+			m.name writerName, 0 likes, 0 commentLikesNum 
+	FROM 	cbcomment c INNER JOIN member m ON c.writer = m.memberId 
 	WHERE 	writer = #{memberId} 
-	AND 	writeDate LIKE #{today} 
-	ORDER BY boardNo DESC 
-	</select>
-	<!-- 마이페이지 활동내역 - 그룹게시판 -->
-	<select id="groupboardToday" resultType="com.edu.groupboard.domain.GroupboardDTO">
-	SELECT 	g.*, (SELECT COUNT(commentNo) FROM gbcomment WHERE boardNo = g.boardNo) commentNum 
-	FROM 	groupboard g 
+	AND 	writeDate LIKE CONCAT(#{today},'%') 
+	UNION 
+	SELECT 	'freeboard' tableName, commentNo, boardNo, writer, content, writeDate,
+			m.name writerName, likes, 
+			(SELECT COUNT(likesNo) FROM fbcommentlikes WHERE commentNo = f.commentNo) commentLikesNum 
+	FROM 	fbcomment f INNER JOIN member m ON f.writer = m.memberId 
 	WHERE 	writer = #{memberId} 
-	AND 	writeDate LIKE #{today} 
-	ORDER BY boardNo DESC 
-	</select>
-	<!-- 마이페이지 활동내역 - 클래스게시판 댓글 -->
-	<select id="classboardCommentToday" resultType="com.edu.classboard.domain.CbcommentDTO">
-	SELECT 	* 
-	FROM 	cbcomment 
+	AND 	writeDate LIKE CONCAT(#{today},'%') 
+	UNION 
+	SELECT 	'groupboard' tableName, commentNo, boardNo, writer, content, writeDate,
+			m.name writerName, 0 likes, 0 commentLikesNum 
+	FROM 	gbcomment g INNER JOIN member m ON g.writer = m.memberId 
 	WHERE 	writer = #{memberId} 
-	AND 	writeDate LIKE #{today} 
-	ORDER BY commentNo 
-	</select>
-	<!-- 마이페이지 활동내역 - 자유게시판 댓글 -->
-	<select id="freeboardCommentToday" resultType="com.edu.freeboard.domain.FbcommentDTO">
-	SELECT 	*, 
-			(SELECT COUNT(likesNo) FROM fbcommentlikes WHERE commentNo = f.commentNo AND memberId = #{memberId}) commentLikesNum 
-	FROM 	fbcomment f 
-	WHERE 	writer = #{memberId} 
-	AND 	writeDate LIKE #{today} 
-	ORDER BY commentNo 
+	AND 	writeDate LIKE CONCAT(#{today},'%') 
+	ORDER BY writeDate DESC 
 	</select>
 	
 	<!-- 마이페이지 포인트 내역 개수 추출 -->

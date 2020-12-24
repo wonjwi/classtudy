@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!-- 다른 mapper와 중복되지 않도록 네임스페이스를 기재한다. -->
+<mapper namespace="com.edu.member.mapper.RewardMapper">
+	
+	<!-- 중복된 적립금 지급 내역이 있는지 확인 -->
+	<select id="getNumOfSearchRewardContent" resultType="int">
+	SELECT 	COUNT(*) 
+	FROM 	reward 
+	WHERE 	member = #{member} 
+	AND 	content = #{content} 
+	</select>
+	<!-- 적립금 지급 -->
+	<insert id="addReward">
+	INSERT 	INTO reward 
+			(member, content, changeVal, accrDate) 
+	VALUES 	(#{member}, #{content}, #{changeVal}, SYSDATE()) 
+	</insert>
+	<!-- 회원에게 적립금 지급 -->
+	<update id="addRewardToMember">
+	UPDATE 	member 
+	SET 	reward = reward + #{changeVal} 
+	WHERE 	memberId = #{member} 
+	</update>
+	
+</mapper>

@@ -15,18 +15,13 @@
 <script src="/static/js/bootstrap-tagsinput.js"></script>
 <script>
 $(document).ready(function(){
-	
 	// Multi Dropdown Menu
 	$('.dropdown-submenu a.test').on("click", function(e){
 		$(this).next('ul').toggle();
 		e.stopPropagation();
 		e.preventDefault();
 	});
-	
-	$(window).on("load", function(){
-		// 알림 새로 읽어오기
-		notiLoad();
-	});
-	
+	// 알림 새로 읽어오기
+	notiLoad();
 });
 </script>

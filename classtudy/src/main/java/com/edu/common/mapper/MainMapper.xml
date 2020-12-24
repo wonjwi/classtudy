@@ -270,7 +270,6 @@
 	SELECT 	hit
 	FROM 	visit
 	WHERE 	DATE(hitDate) = DATE(now())
-	
 	</select>
 	
 	<!-- 메인 페이지 방문자수(총방문자수) -->
@@ -299,6 +298,5 @@
 	FROM 	visit 
 	ORDER BY hitDate DESC LIMIT 1
 	</select>
-	
 	
 </mapper>

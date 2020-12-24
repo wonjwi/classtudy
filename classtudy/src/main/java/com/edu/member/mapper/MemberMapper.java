@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.*;
 
+import com.edu.admin.domain.AdminBoardDTO;
+import com.edu.admin.domain.AdminCommentDTO;
 import com.edu.admin.domain.LectureDTO;
 import com.edu.classboard.domain.CbcommentDTO;
 import com.edu.classboard.domain.ClassboardDTO;
@@ -44,16 +46,10 @@ public interface MemberMapper {
 	
 	// 마이페이지 활동내역 - 출석여부 확인
 	public int checkTodayStatus(String memberId, String today) throws Exception;
-	// 마이페이지 활동내역 - 특정 날짜에 작성한 게시글(클래스게시판)
-	public List<ClassboardDTO> classboardToday(String memberId, String today) throws Exception;
-	// 마이페이지 활동내역 - 특정 날짜에 작성한 게시글(자유게시판)
-	public List<FreeboardDTO> freeboardToday(String memberId, String today) throws Exception;
-	// 마이페이지 활동내역 - 특정 날짜에 작성한 게시글(그룹게시판)
-	public List<GroupboardDTO> groupboardToday(String memberId, String today) throws Exception;
-	// 마이페이지 활동내역 - 특정 날짜에 작성한 댓글(클래스게시판)
-	public List<CbcommentDTO> classboardCommentToday(String memberId, String today) throws Exception;
-	// 마이페이지 활동내역 - 특정 날짜에 작성한 댓글(자유게시판)
-	public List<FbcommentDTO> freeboardCommentToday(String memberId, String today) throws Exception;
+	// 마이페이지 활동내역 - 특정 날짜에 작성한 게시글
+	public List<AdminBoardDTO> todayBoardList(String memberId, String today) throws Exception;
+	// 마이페이지 활동내역 - 특정 날짜에 작성한 댓글
+	public List<AdminCommentDTO> todayCommentList(String memberId, String today) throws Exception;
 	
 	// 마이페이지 포인트 내역 개수 추출
 	public int getPointListCount(String memberId) throws Exception;

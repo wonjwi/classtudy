@@ -116,5 +116,4 @@ public class MainService {
 		return mainMapper.getRegdate();
 	}
 	
-	
 }

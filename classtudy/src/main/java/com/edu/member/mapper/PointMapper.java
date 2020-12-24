@@ -11,8 +11,10 @@ public interface PointMapper {
 	public int isTodayPointCheck(String memberId, String pointContent) throws Exception;
 	// 중복된 포인트 지급 내역이 있는지 확인
 	public int getNumOfSearchPointContent(PointDTO pointDTO) throws Exception;
-	// 포인트 지급
+	// 포인트 지급 내역 추가
 	public int addPoint(PointDTO pointDTO) throws Exception;
+	// 회원에게 포인트 지급
+	public int addPointToMember(PointDTO pointDTO) throws Exception;
 	// 멤버 등급 업데이트
 	public int setMemberGrade(String member, int memberGrade);
 	

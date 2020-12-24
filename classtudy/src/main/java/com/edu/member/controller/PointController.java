@@ -15,8 +15,10 @@ import com.edu.common.domain.NotiDTO;
 import com.edu.common.service.NotiService;
 import com.edu.member.domain.MemberDTO;
 import com.edu.member.domain.PointDTO;
+import com.edu.member.domain.RewardDTO;
 import com.edu.member.service.MemberService;
 import com.edu.member.service.PointService;
+import com.edu.member.service.RewardService;
 
 @Controller // 컨트롤러 빈으로 등록하는 어노테이션
 @RequestMapping("/point/*") // PointController에서 공통적으로 사용될 url mapping
@@ -34,23 +36,45 @@ public class PointController {
 	@Inject
 	NotiService notiService;
 	
+	@Inject
+	RewardService rewardService;
+	
 	// 포인트 지급
+	// ajax로 호출할 때 return 값이 있는데 @ResponseBody 붙이지 않았을 때
+	// java.lang.IllegalArgumentException: Unknown return value type: java.lang.Integer 오류 발생
+	// @ResponseBody 붙이거나 반환타입을 void로 바꾸면 해결 됨
+	@ResponseBody
 	@RequestMapping(value="/insert", method=RequestMethod.POST)
-	private int addNewPoint(String pointContent, String member, int changeVal) throws Exception {
+	private int addNewPoint(HttpSession session, String pointContent, String member, int changeVal) throws Exception {
 		logger.info("PointController addNewPoint()....");
 		// 포인트 객체 만들어 전달 받은 내용 입력
 		PointDTO pointDTO = new PointDTO();
 		pointDTO.setContent(pointContent);
 		pointDTO.setMember(member);
 		pointDTO.setChangeVal(changeVal);
+		logger.info("PointController addNewPoint() pointDTO: " + pointDTO);
 		// 중복된 포인트 지급 내역이 있는지 확인하기 위해 내용을 담아 서비스에 의뢰한다.
-		int numOfSearchPointContent = pointService.getNumOfSearchPointContent(pointDTO);
 		// 같은 내용의 포인트 지급 내역이 있으면 포인트를 지급하지 않는다.
-		if (numOfSearchPointContent > 0) {
-			return -1;
-		} else { // 결과값이 없을 경우 포인트를 지급한다.
+		int numOfSearchPointContent = pointService.getNumOfSearchPointContent(pointDTO);
+		// TIL이나 출석 포인트라면 같은 날짜에 지급 내역이 있는지 비교한다.
+		if (pointContent.equals("TIL 작성") || pointContent.equals("출석 포인트")) {
+			int todayPointCheck = pointService.isTodayPointCheck(member, pointContent);
+			// 오늘 TIL이나 출석 포인트를 지급 받지 않았다면
+			// 아래와 같은 내용으로 10포인트 지급해준다.
+			// (count값이 1 이상이면 이미 포인트를 지급 받은 것)
+			if (todayPointCheck < 1) {
+				logger.info("PointController addNewPoint() TIL/출석 포인트 지급");
+				// 포인트를 지급하고 포인트 테이블에 기록한다.
+				pointService.addPointToMember(pointDTO);
+				return pointService.addPoint(pointDTO);
+			}
+		} else if (numOfSearchPointContent < 1) {
+			logger.info("PointController addNewPoint() 포인트 지급");
+			// 포인트를 지급하고 포인트 테이블에 기록한다.
+			pointService.addPointToMember(pointDTO);
 			return pointService.addPoint(pointDTO);
 		}
+		return -1;
 	}
 	
 	// 회원등급 산정
@@ -96,17 +120,26 @@ public class PointController {
 				session = req.getSession();
 				MemberDTO login = memberService.login(memberDTO);
 				session.setAttribute("member", login);
-				// 등급 변경 내역을 알림으로 발송한다.
-				NotiDTO notiDTO = new NotiDTO();
-				String notiContent = "";
-				notiContent += memberGrade + "등급";
-				notiContent += "<img src='/static/img/icon/level_" + memberGrade + ".png' width='20' height='20'>";
-				notiContent += " 이 되었습니다.";
-				notiDTO.setContent(notiContent);
-				notiDTO.setReceiver(memberId);
-				notiDTO.setChecked(false);
-				notiService.notiInsert(notiDTO);
-				return 1;
+				// 등급 변경에 따른 적립금을 지급한다.
+				// 등급이 위로 올라갔을 때만 지급한다.
+				if (memberGrade < memberDTO.getGrade()) {
+					RewardDTO rewardDTO = new RewardDTO();
+					String rewardContent = memberGrade + "등급 승급 축하";
+					// 적립금 지급액은 등급별로 차등 지급하는데
+					// 등급이 높을수록 적립금을 많이 지급한다.
+					int changeVal = (10 - memberGrade) * 5000;
+					rewardDTO.setContent(rewardContent);
+					rewardDTO.setMember(memberId);
+					rewardDTO.setChangeVal(changeVal);
+					// 같은 내용의 적립금 지급 내역이 있으면 적립금을 지급하지 않는다.
+					int numOfSearchRewardContent = rewardService.getNumOfSearchRewardContent(rewardDTO);
+					if (numOfSearchRewardContent < 1) {
+						logger.info("PointController setGrade() 적립금 지급: " + rewardContent);
+						rewardService.addReward(rewardDTO);
+						rewardService.addRewardToMember(rewardDTO);
+					}
+				}
+				return memberGrade;
 			}
 		}
 		return -1;

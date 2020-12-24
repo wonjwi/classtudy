@@ -14,6 +14,8 @@ import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.edu.admin.domain.AdminBoardDTO;
+import com.edu.admin.domain.AdminCommentDTO;
 import com.edu.admin.domain.LectureDTO;
 import com.edu.classboard.domain.CbcommentDTO;
 import com.edu.classboard.domain.ClassboardDTO;
@@ -163,24 +165,6 @@ public class MemberController {
 		} else {
 			//해당하는 회원의 정보가 있으면
 			session.setAttribute("member", login);
-			// 넘겨받은 회원정보에서 memberId값을 추출한다.
-			String memberId = login.getMemberId();
-			// 오늘 로그인으로 포인트를 지급 받았는지 확인하는 작업을 서비스에게 의뢰한다.
-			String loginPointContent = "출석 포인트";
-			int loginPointCheck = pointService.isTodayPointCheck(memberId, loginPointContent);
-			LOGGER.info("loginPointCheck: " + loginPointCheck);
-			// 오늘 로그인으로 포인트를 지급 받지 않았다면
-			// 아래와 같은 내용으로 10포인트 지급해준다.
-			// (count값이 0보다 크면 이미 포인트를 지급 받은 것)
-			if (loginPointCheck == 0) {
-				// 포인트 객체에 내용 입력
-				PointDTO pointDTO = new PointDTO();
-				pointDTO.setContent(loginPointContent);
-				pointDTO.setMember(memberId);
-				pointDTO.setChangeVal(10);
-				// pointDTO 내용으로 포인트 지급
-				pointService.addPoint(pointDTO);
-			}
 		}
 		return "redirect:/member/login";
 	}
@@ -287,7 +271,7 @@ public class MemberController {
 	
 	// 마이페이지
 	@RequestMapping(value="/myPage")
-	private String myPage(HttpSession session, RedirectAttributes rttr, Model model) throws Exception {
+	private String myPage(HttpSession session, HttpServletRequest req, RedirectAttributes rttr, Model model) throws Exception {
 		LOGGER.info("MemberController myPage().....");
 		// 로그인을 하지 않았으면 로그인 화면으로 보낸다.
 		if (session.getAttribute("member") == null) {
@@ -296,6 +280,12 @@ public class MemberController {
 		}
 		// session에서 memberDTO를 저장한다.
 		MemberDTO member = (MemberDTO)session.getAttribute("member");
+		// 바뀐 회원정보를 반영하기 위해 회원정보를 새로 가져온다.
+		// 현재 있는 세션 해제 후 세션을 새로 발급
+		session.invalidate();
+		session = req.getSession();
+		MemberDTO login = memberService.login(member);
+		session.setAttribute("member", login);
 		// memberDTO에서 아이디를 찾아 저장한다.
 		String memberId = member.getMemberId();
 		LOGGER.info("MemberController myPage() memberId : " + memberId);
@@ -321,8 +311,8 @@ public class MemberController {
 		model.addAttribute("pointListFirst", memberService.pointListFirst(memberId, numOfPointList));
 		// 더보기 아래로 보여줄 포인트 내역 가져오기
 		model.addAttribute("pointListSecond", memberService.pointListSecond(memberId, numOfPointList, pointListCount));
-		// 현재 총 포인트 구하기
-		model.addAttribute("myPointSum", memberService.getMyPointSum(memberId));
+		// 현재 포인트 구하기
+		//model.addAttribute("myPointSum", memberService.getMyPointSum(memberId));
 		
 		// 마이적립금에 적립금 내역을 출력
 		// 적립금 내역 개수를 카운트한다.
@@ -336,7 +326,7 @@ public class MemberController {
 		// 더보기 아래로 보여줄 적립금 내역 가져오기
 		model.addAttribute("rewardListSecond", memberService.rewardListSecond(memberId, numOfRewardList, rewardListCount));
 		// 현재 총 적립금 구하기
-		model.addAttribute("myRewardSum", memberService.getMyRewardSum(memberId));
+		//model.addAttribute("myRewardSum", memberService.getMyRewardSum(memberId));
 		return "/member/myPage";
 	}
 	
@@ -348,50 +338,20 @@ public class MemberController {
 		// 해당날짜의 포인트 적립내역 개수를 확인
 		return memberService.checkTodayStatus(memberId, today + " %");
 	}
-	// 마이페이지 활동내역 - 특정 날짜에 작성한 게시글(클래스게시판)
+	// 마이페이지 활동내역 - 특정 날짜에 작성한 게시글
 	@ResponseBody
-	@RequestMapping(value="/classboardToday")
-	private List<ClassboardDTO> classboardToday(String memberId, String today) throws Exception {
-		LOGGER.info("MemberController classboardToday().....");
-		return memberService.classboardToday(memberId, today + "%");
+	@RequestMapping(value="/todayBoardList")
+	private List<AdminBoardDTO> todayBoardList(String memberId, String today) throws Exception {
+		LOGGER.info("MemberController todayBoardList().....");
+		return memberService.todayBoardList(memberId, today);
 	}
-	// 마이페이지 활동내역 - 특정 날짜에 작성한 게시글(자유게시판)
+	// 마이페이지 활동내역 - 특정 날짜에 작성한 댓글
 	@ResponseBody
-	@RequestMapping(value="/freeboardToday")
-	private List<FreeboardDTO> freeboardToday(String memberId, String today) throws Exception {
-		LOGGER.info("MemberController freeboardToday().....");
-		return memberService.freeboardToday(memberId, today + "%");
+	@RequestMapping(value="/todayCommentList")
+	private List<AdminCommentDTO> todayCommentList(String memberId, String today) throws Exception {
+		LOGGER.info("MemberController todayCommentList().....");
+		return memberService.todayCommentList(memberId, today);
 	}
-	// 마이페이지 활동내역 - 특정 날짜에 작성한 게시글(그룹게시판)
-	@ResponseBody
-	@RequestMapping(value="/groupboardToday")
-	private List<GroupboardDTO> groupboardToday(String memberId, String today) throws Exception {
-		LOGGER.info("MemberController groupboardToday().....");
-		return memberService.groupboardToday(memberId, today + "%");
-	}
-	// 마이페이지 활동내역 - 특정 날짜에 작성한 댓글(클래스게시판)
-	@ResponseBody
-	@RequestMapping(value="/classboardCommentToday")
-	private List<CbcommentDTO> classboardCommentToday(String memberId, String today) throws Exception {
-		LOGGER.info("MemberController classboardCommentToday().....");
-		return memberService.classboardCommentToday(memberId, today + "%");
-	}
-	// 마이페이지 활동내역 - 특정 날짜에 작성한 댓글(자유게시판)
-	@ResponseBody
-	@RequestMapping(value="/freeboardCommentToday")
-	private List<FbcommentDTO> freeboardCommentToday(String memberId, String today) throws Exception {
-		LOGGER.info("MemberController freeboardCommentToday().....");
-		return memberService.freeboardCommentToday(memberId, today + "%");
-	}
-	/*
-	// 마이페이지 활동내역 - 특정 날짜에 작성한 댓글(그룹게시판)
-	@ResponseBody
-	@RequestMapping(value="/groupboardCommentToday")
-	private List<GbcommentDTO> groupboardCommentToday(String memberId, String today) throws Exception {
-		LOGGER.info("MemberController groupboardCommentToday().....");
-		return memberService.groupboardCommentToday(memberId, today + "%");
-	}
-	*/
 	
 	// 마이페이지 내가 쓴 글 - 클래스게시판
 	@ResponseBody

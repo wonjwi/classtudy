@@ -427,7 +427,7 @@ function notiTofbLikes(likes) {
 		var pointContent = '';
 		pointContent += '<a href="' + path + '/community/freeboard/detail/' + boardNo + '">게시글</a> 좋아요 ' + likes + ' 돌파';
 		// 게시글 작성자에게 포인트를 지급한다.
-		var changeVal = 1;
+		var changeVal = 10;
 		$.ajax({
 			url: 	"/point/insert/",
 			type: 	"post",
@@ -468,7 +468,7 @@ function notiTofbcLikes(likes, commentWriter) {
 		var pointContent = '';
 		pointContent += '<a href="' + path + '/community/freeboard/detail/' + boardNo + '/comment">댓글</a> 좋아요 ' + likes + ' 돌파';
 		// 댓글 작성자에게 포인트를 지급한다.
-		var changeVal = 1;
+		var changeVal = 10;
 		$.ajax({
 			url: 	"/point/insert/",
 			type: 	"post",

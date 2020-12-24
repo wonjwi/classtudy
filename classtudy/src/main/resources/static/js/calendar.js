@@ -182,56 +182,63 @@ function next(){
 
 // 활동내역을 다시 출력
 function reshowingHistory(){
-	var todayStr = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
+	var todayStr = today.getFullYear() + '-' + (today.getMonth()+1) + '-';
+	todayStr += today.getDate() < 10 ? '0' : '';
+	todayStr += today.getDate();
 	// 로그인한 회원 아이디와 이름을 저장
 	var loginId = document.getElementById("loginId").value;
 	// 처음에 보여줄 내역 개수
 	var numOfPage = 3;
 	// 현재 출력된 내역 개수
 	var numOfShowPage = 0;
-	// 게시글에 연결될 상세보기 링크
-	var boardName = ['class', 'free', 'group'];
-	var boardKoreanName = ['클래스', '자유', '그룹'];
-	var detailPath = [path + '/class/classboard/detail/', path + '/community/freeboard/detail/', path + '/community/groupboard/detail/'];
 	// 작성한 게시글에 보여지는 내용 변경
 	var result1 = '';
 	var result2 = '';
-	for (var i=0; i<boardName.length+0; i++) {
-		$.ajax({
-			url:	"/member/" + boardName[i] + "boardToday",
-			type:	"get",
-			data:	{"memberId": loginId, "today": todayStr},
-			async:	false,
-			success: function(data) {
-				var str1 = '';
-				var str2 = '';
-				$.each(data, function(key, value){
-					if (key+numOfShowPage < numOfPage+0) {
-						str1 += '<tr><td>' + boardKoreanName[i] + '</td>';
-						str1 += '<td><a href="' + detailPath[i] + value.boardNo + '">'+ value.title + '</a>&nbsp;';
-						str1 += '<a href="' + detailPath[i] + value.boardNo + '/comment">';
-						str1 += '<span class="badge">' + value.commentNum + '</span></a></td></tr>';
-					} else {
-						str2 += '<tr><td>' + boardKoreanName[i] + '</td>';
-						str2 += '<td><a href="' + detailPath[i] + value.boardNo + '">'+ value.title + '</a>&nbsp;';
-						str2 += '<a href="' + detailPath[i] + value.boardNo + '/comment">';
-						str2 += '<span class="badge">' + value.commentNum + '</span></a></td></tr>';
-					}
-					if (key == numOfPage+0) {
-						str1 += '<tr><td colspan="2">';
-						str1 += '<div class="accordion-heading" style="height: 10px; position: relative; top: -3px;">';
-						str1 += '<a class="accordion-toggle" data-toggle="collapse" href="#myTodayBoardSecond"';
-						str1 += ' onclick="viewSecondList(\'#myTodayBoardSecond\', \'#viewTodayBoardBtn\');"';
-						str1 += 'style="color: #444444"><span id="viewTodayBoardBtn" class="glyphicon glyphicon-chevron-down"></span></a>';
-						str1 += '</div></td></tr>';
-					}
-				});
-				numOfShowPage += data.length+0;
-				result1 += str1;
-				result2 += str2;
-			}
-		});
-	} //End - for
+	$.ajax({
+		url:	"/member/todayBoardList",
+		type:	"get",
+		data:	{"memberId": loginId, "today": todayStr},
+		async:	false,
+		success: function(data) {
+			var str1 = '';
+			var str2 = '';
+			$.each(data, function(key, value){
+				// 게시판에 따라 이름과 상세보기 링크를 다르게 함
+				if (value.tableName == 'classboard') {
+					var tableName = '클래스';
+					var detailPath = path + '/class/classboard/detail/';
+				} else if (value.tableName == 'freeboard') {
+					var tableName = '자유';
+					var detailPath = path + '/community/freeboard/detail/';
+				} else if (value.tableName == 'groupboard') {
+					var tableName = '그룹';
+					var detailPath = path + '/community/groupboard/detail/';
+				}
+				if (key+numOfShowPage < numOfPage+0) {
+					str1 += '<tr><td>' + tableName + '</td>';
+					str1 += '<td><a href="' + detailPath + value.boardNo + '">'+ value.title + '</a>&nbsp;';
+					str1 += '<a href="' + detailPath + value.boardNo + '/comment">';
+					str1 += '<span class="badge">' + value.commentNum + '</span></a></td></tr>';
+				} else {
+					str2 += '<tr><td>' + tableName + '</td>';
+					str2 += '<td><a href="' + detailPath + value.boardNo + '">'+ value.title + '</a>&nbsp;';
+					str2 += '<a href="' + detailPath + value.boardNo + '/comment">';
+					str2 += '<span class="badge">' + value.commentNum + '</span></a></td></tr>';
+				}
+				if (key == numOfPage+0) {
+					str1 += '<tr><td colspan="2">';
+					str1 += '<div class="accordion-heading" style="height: 10px; position: relative; top: -3px;">';
+					str1 += '<a class="accordion-toggle" data-toggle="collapse" href="#myTodayBoardSecond"';
+					str1 += ' onclick="viewSecondList(\'#myTodayBoardSecond\', \'#viewTodayBoardBtn\');"';
+					str1 += 'style="color: #444444"><span id="viewTodayBoardBtn" class="glyphicon glyphicon-chevron-down"></span></a>';
+					str1 += '</div></td></tr>';
+				}
+			});
+			numOfShowPage += data.length+0;
+			result1 += str1;
+			result2 += str2;
+		}
+	});
 	if (numOfShowPage+0 < 1) { //게시글이 없을 때
 		result1 += '<tr style="background-color: #FFFFFF;">';
 		result1 += '<td colspan="2">게시글이 없습니다.</td></tr>';
@@ -239,46 +246,56 @@ function reshowingHistory(){
 	$("#myTodayBoardFirst").html(result1);
 	$("#myTodayBoardSecond").html(result2);
 	$("#myTodayBoardSecond").hide();
+	
 	// 작성한 댓글에 보여지는 내용 변경
 	result1 = '';
 	result2 = '';
 	numOfShowPage = 0;
-	for (var i=0; i<boardName.length+0; i++) {
-		$.ajax({
-			url:	"/member/" + boardName[i] + "boardCommentToday",
-			type:	"get",
-			data:	{"memberId": loginId, "today": todayStr},
-			async:	false,
-			success: function(data) {
-				var str1 = '';
-				var str2 = '';
-				$.each(data, function(key, value){
-					var showContent = value.content;
-					if (value.content.length+0 > 50) {
-						showContent = value.content.substring(0, 50) + '&hellip; &hellip;';
-					}
-					if (key+numOfShowPage < numOfPage+0) {
-						str1 += '<tr><td>' + boardKoreanName[i] + '</td>';
-						str1 += '<td><a href="' + detailPath[i] + value.boardNo + '/comment">' + showContent + '</a></td></tr>';
-					} else {
-						str2 += '<tr><td>' + boardKoreanName[i] + '</td>';
-						str2 += '<td><a href="' + detailPath[i] + value.boardNo + '/comment">' + showContent + '</a></td></tr>';
-					}
-					if (key == numOfPage+0) {
-						str1 += '<tr><td colspan="2">';
-						str1 += '<div class="accordion-heading" style="height: 10px; position: relative; top: -3px;">';
-						str1 += '<a class="accordion-toggle" data-toggle="collapse" href="#myTodayCommentSecond"';
-						str1 += ' onclick="viewSecondList(\'#myTodayCommentSecond\', \'#viewTodayCommentBtn\');"';
-						str1 += 'style="color: #444444"><span id="viewTodayCommentBtn" class="glyphicon glyphicon-chevron-down"></span></a>';
-						str1 += '</div></td></tr>';
-					}
-				});
-				numOfShowPage += data.length+0;
-				result1 += str1;
-				result2 += str2;
-			}
-		});
-	} //End - for
+	$.ajax({
+		url:	"/member/todayCommentList",
+		type:	"get",
+		data:	{"memberId": loginId, "today": todayStr},
+		async:	false,
+		success: function(data) {
+			var str1 = '';
+			var str2 = '';
+			$.each(data, function(key, value){
+				// 게시판에 따라 이름과 상세보기 링크를 다르게 함
+				if (value.tableName == 'classboard') {
+					var tableName = '클래스';
+					var detailPath = path + '/class/classboard/detail/';
+				} else if (value.tableName == 'freeboard') {
+					var tableName = '자유';
+					var detailPath = path + '/community/freeboard/detail/';
+				} else if (value.tableName == 'groupboard') {
+					var tableName = '그룹';
+					var detailPath = path + '/community/groupboard/detail/';
+				}
+				var showContent = value.content;
+				if (value.content.length+0 > 50) {
+					showContent = value.content.substring(0, 50) + '&hellip; &hellip;';
+				}
+				if (key+numOfShowPage < numOfPage+0) {
+					str1 += '<tr><td>' + tableName + '</td>';
+					str1 += '<td><a href="' + detailPath + value.boardNo + '/comment">' + showContent + '</a></td></tr>';
+				} else {
+					str2 += '<tr><td>' + tableName + '</td>';
+					str2 += '<td><a href="' + detailPath + value.boardNo + '/comment">' + showContent + '</a></td></tr>';
+				}
+				if (key == numOfPage+0) {
+					str1 += '<tr><td colspan="2">';
+					str1 += '<div class="accordion-heading" style="height: 10px; position: relative; top: -3px;">';
+					str1 += '<a class="accordion-toggle" data-toggle="collapse" href="#myTodayCommentSecond"';
+					str1 += ' onclick="viewSecondList(\'#myTodayCommentSecond\', \'#viewTodayCommentBtn\');"';
+					str1 += 'style="color: #444444"><span id="viewTodayCommentBtn" class="glyphicon glyphicon-chevron-down"></span></a>';
+					str1 += '</div></td></tr>';
+				}
+			});
+			numOfShowPage += data.length+0;
+			result1 += str1;
+			result2 += str2;
+		}
+	});
 	if (numOfShowPage+0 < 1) { //댓글이 없을 때
 		result1 += '<tr style="background-color: #FFFFFF;">';
 		result1 += '<td colspan="2">댓글이 없습니다.</td></tr>';

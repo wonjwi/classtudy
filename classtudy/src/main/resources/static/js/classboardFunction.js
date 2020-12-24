@@ -59,6 +59,19 @@ function checkClassboardForm(classboardForm) {
 			data: 	{"notiContent" : notiContent, "lectureNo" : lectureNo, "writer" : writer},
 			success: function(data) { }
 		});
+		// ----- 포인트 지급 -----
+		// 작성자에게 보낼 포인트 텍스트를 만든다.
+		var pointContent = '';
+		pointContent += 'TIL 작성';
+		// 게시글 작성자에게 포인트를 지급한다.
+		var changeVal = 10;
+		$.ajax({
+			url: 	"/point/insert/",
+			type: 	"post",
+			dataType: "json",
+			data: 	{"pointContent" : pointContent, "member" : writer, "changeVal" : changeVal},
+			success: function(data) { }
+		});
 	}
 }
 
@@ -399,7 +412,7 @@ function notiToLikes(likes) {
 		var pointContent = '';
 		pointContent += '<a href="' + path + '/class/classboard/detail/' + boardNo + '">게시글</a> 좋아요 ' + likes + ' 돌파';
 		// 게시글 작성자에게 포인트를 지급한다.
-		var changeVal = 1;
+		var changeVal = 10;
 		$.ajax({
 			url: 	"/point/insert/",
 			type: 	"post",

@@ -71,27 +71,6 @@ public class ClassboardController {
 			cbDTO.setTitle(commonUtils.htmlConverter(cbDTO.getTitle()));
 			cbDTO.setContent(commonUtils.htmlConverter(cbDTO.getContent()));
 			classboardService.write(cbDTO);
-			// 작성된 게시글이 TIL이라면 포인트를 지급한다.
-			if (cbDTO.getCategory().equals("TIL")) {
-				// session에서 memberId값을 추출한다.
-				MemberDTO member = (MemberDTO)session.getAttribute("member");
-				String memberId = member.getMemberId();
-				// 오늘 TIL 작성으로 포인트를 지급 받았는지 확인하는 작업을 서비스에게 의뢰한다.
-				String TILPointContent = "TIL 작성";
-				int TILPointCheck = pointService.isTodayPointCheck(memberId, TILPointContent);
-				// 오늘 TIL 작성으로 포인트를 지급 받지 않았다면
-				// 아래와 같은 내용으로 1포인트 지급해준다.
-				// (count값이 0보다 크면 이미 TIL 작성 포인트를 지급 받은 것)
-				if (TILPointCheck == 0) {
-					// 포인트 객체에 내용 입력
-					PointDTO pointDTO = new PointDTO();
-					pointDTO.setContent(TILPointContent);
-					pointDTO.setMember(memberId);
-					pointDTO.setChangeVal(1);
-					// pointDTO 내용으로 포인트 지급
-					pointService.addPoint(pointDTO);
-				}
-			}
 		}
 		return "redirect:/class/classboard/all";
 	}

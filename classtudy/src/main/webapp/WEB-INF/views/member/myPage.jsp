@@ -224,7 +224,7 @@
 						<!-- 포인트 총 합계 -->
 						<tbody id="myPointSum">
 							<tr>
-								<td colspan="3"><b>총 ${myPointSum} 포인트</b></td>
+								<td colspan="3"><b>총 ${member.point} 포인트</b></td>
 							</tr>
 						</tbody>
 					</table>
@@ -285,7 +285,7 @@
 						<!-- 적립금 총 합계 -->
 						<tbody id="myRewardSum">
 							<tr>
-								<td colspan="3"><b>총 <fmt:formatNumber value="${myRewardSum}" type="number"/> 원</b></td>
+								<td colspan="3"><b>총 <fmt:formatNumber value="${member.reward}" type="number"/> 원</b></td>
 							</tr>
 						</tbody>
 					</table>

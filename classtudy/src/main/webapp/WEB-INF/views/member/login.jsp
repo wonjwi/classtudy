@@ -88,14 +88,39 @@
 				// 멤버 regDate값을 가지고 평일수를 구한다.
 				var workDay = getWorkDay(document.getElementById("regDate").value);
 				var memberId = document.getElementById("loginId").value;
-				
 				$.ajax({
 					url:	"/point/setGrade",
 					type:	"post",
 					data:	{"workDay": workDay},
 					success: function(data) {
-						if (data > 0) location.href = path + "/member/login";
+						if (data > 0) {
+							// 등급이 변경되면 회원에게 알림을 보낸다.
+							var notiContent = '';
+							notiContent += data + "등급";
+							notiContent += "<img src='/static/img/icon/level_" + data + ".png' width='20' height='20'>";
+							notiContent += " 이 되었습니다.";
+							$.ajax({
+								url: 	"/noti/insert/",
+								type: 	"post",
+								dataType: "json",
+								data: 	{"notiContent" : notiContent, "receiver" : memberId},
+								success: function(data) { location.href = path + "/member/login"; }
+							});
+						}
 					}
+				});
+				// ----- 포인트 지급 -----
+				// 회원에게 보낼 포인트 텍스트를 만든다.
+				var pointContent = '';
+				pointContent += '출석 포인트';
+				// 로그인한 회원에게 출석 포인트를 지급한다.
+				var changeVal = 10;
+				$.ajax({
+					url: 	"/point/insert/",
+					type: 	"post",
+					dataType: "json",
+					data: 	{"pointContent" : pointContent, "member" : memberId, "changeVal" : changeVal},
+					success: function(data) { notiLoad(); }
 				});
 			}
 		});
