@@ -6,8 +6,6 @@ import org.springframework.stereotype.*;
 
 import com.edu.admin.domain.AdminBoardDTO;
 import com.edu.admin.domain.AdminCommentDTO;
-import com.edu.admin.domain.PagingDTO;
-import com.edu.member.domain.MemberDTO;
 
 @Repository("com.edu.admin.mapper.AdminBoardMapper")
 public interface AdminBoardMapper {

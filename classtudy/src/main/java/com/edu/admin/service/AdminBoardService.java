@@ -11,9 +11,7 @@ import java.util.List;
 import com.edu.admin.cotroller.AdminController;
 import com.edu.admin.domain.AdminBoardDTO;
 import com.edu.admin.domain.AdminCommentDTO;
-import com.edu.admin.domain.PagingDTO;
 import com.edu.admin.mapper.AdminBoardMapper;
-import com.edu.member.domain.MemberDTO;
 
 @Service("com.edu.admin.service.AdminBoardService")
 public class AdminBoardService {

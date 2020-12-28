@@ -232,7 +232,7 @@ public class AdminService {
 		return adminMapper.memberCount();
 	}
 	// 날짜별 카운트 
-	public List<AdminDTO> getDaycount() throws Exception {		
+	public List<AdminDTO> getDaycount() throws Exception {
 		return adminMapper.getDaycount();
 	}
 	public String getMonday() throws Exception {

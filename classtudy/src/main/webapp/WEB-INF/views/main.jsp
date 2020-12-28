@@ -14,22 +14,16 @@
 	<input type="hidden" value="${ insertMainhits}">
 	<!-- 방문자수(오늘) 증가 -->
 	<input type="hidden" value="${ addMainhits}">
-	<div class="container-fluid" id="main" style="text-align: center;">
-		<!-- 여백 -->
-		<div class="container-fluid" id="space"></div>
-		<!-- 여백 -->
+	<div class="container-fluid" id="main" style="text-align: center; padding: 50px 0;">
 		<!-- 로고 -->
 		<img src="/static/img/classtudy_logo.png" alt="classtydy_logo" width="320" height="90">
 		<!-- <img src="/static/img/logo.png" alt="logo" style="width: 180px; height: 180px;"> -->
 		<!-- 로고 -->
-		<!-- 여백 -->
-		<div class="container-fluid" id="space"></div>
-		<!-- 여백 -->
 		<!-- 검색창 -->
 		<table style="width: 100%;">
 			<tr>
 				<!-- 검색 -->
-				<td align=center style="padding-bottom: 15px;">
+				<td align=center style="padding-top: 50px;">
 					<div class="input-group col-sm-5">
 						<div class="input-group-btn btn-group">
 							<!-- 검색 범위 선택 : 제목+내용, 제목, 내용, 작성자 -->
@@ -74,9 +68,6 @@
 			</tr>
 		</table>
 		<!-- 검색창 -->
-		<!-- 여백 -->
-		<div class="container-fluid" id="space"></div>
-		<!-- 여백 -->
 	</div>
 	<br>
 	<br>

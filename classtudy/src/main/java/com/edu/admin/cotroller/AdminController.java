@@ -20,7 +20,6 @@ import com.edu.admin.service.AdminBoardService;
 import com.edu.admin.service.AdminService;
 import com.edu.common.CommonUtils;
 import com.edu.common.service.MainService;
-import com.edu.member.domain.MemberDTO;
 
 @Controller // 컨트롤러 빈으로 등록하는 어노테이션
 @RequestMapping("/admin/*") // AdminController에서 공통적으로 사용될 url mapping
@@ -456,16 +455,12 @@ public class AdminController {
 		int totalcommentCount = freeboardComment + groupsearchComment + classboardComment + groupboardComment;
 		model.addAttribute("totalcommentCount", totalcommentCount);
 		
-		
 		// 신규회원
-		int memberCount = adminService.memberCount();
 		model.addAttribute("memberCount", adminService.memberCount());
-		
 		//메인 페이지 방문자수(오늘)
 		model.addAttribute("getMainhits", mainService.getMainhits());
 		// 메인 페이지 방문자수(총방문자수)
 		model.addAttribute("getMainhitsall", mainService.getMainhitsall());
-		
 		// 메인 페이지 방문자수(날짜별 카운트)
 		//model.addAttribute("getDaycount", adminService.getDaycount());
 		model.addAttribute("getMonday", adminService.getMonday());

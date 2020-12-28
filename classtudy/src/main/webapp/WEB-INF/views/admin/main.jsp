@@ -79,6 +79,9 @@
 										<c:if test="${list.gender == 'F'}">
 											<td>여성</td>
 										</c:if>
+										<c:if test="${list.gender != 'M' && list.gender != 'F'}">
+											<td>관리자</td>
+										</c:if>
 										<c:if test="${list.lectureNo == 0}">
 											<td>종료된 강의</td>
 										</c:if>
@@ -130,7 +133,6 @@
 							<thead>
 								<tr>
 									<th style="text-align: center; width: 80px;" >게시판</th>
-									<th style="text-align: center; width: 70px;" >번호</th>
 									<th style="text-align: center; width: 400px;">제목</th>
 									<th style="text-align: center; width: 100px;">작성자</th>
 									<th style="text-align: center; width: 100px;">작성일</th>
@@ -155,7 +157,6 @@
 										<c:if test="${board.tableName == 'groupboard'}">
 											<td>그룹</td>
 										</c:if>
-										<td>${board.boardNo}</td>
 										<td>
 											<a href="${path}/adboard/detail/${board.tableName}/${board.boardNo}">${board.title}</a>&nbsp;
 											<a href="${path}/adboard/detail/${board.tableName}/${board.boardNo}/comment"><span class="badge">${board.commentNum}</span></a>
@@ -178,7 +179,6 @@
 							<thead>
 								<tr>
 									<th style="text-align: center; width: 80px;" >게시판</th>
-									<th style="text-align: center; width: 70px;" >번호</th>
 									<th style="text-align: center; width: 400px;">내용</th>
 									<th style="text-align: center; width: 100px;">작성자</th>
 									<th style="text-align: center; width: 100px;">작성일</th>
@@ -201,7 +201,6 @@
 										<c:if test="${comment.tableName == 'groupboard'}">
 											<td>그룹</td>
 										</c:if>
-										<td>${comment.commentNo}</td>
 										<td>
 											<a href="${path}/adboard/detail/${comment.tableName}/${comment.boardNo}/comment">${comment.content}</a>
 											<c:if test="${comment.tableName == 'freeboard'}">

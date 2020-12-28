@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.edu.common.domain.NotiDTO;
 import com.edu.common.service.NotiService;
 import com.edu.member.domain.MemberDTO;
 import com.edu.member.domain.PointDTO;
