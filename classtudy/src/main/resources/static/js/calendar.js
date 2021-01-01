@@ -84,7 +84,11 @@ showMain();
 function checkTodayStatus(thisToday){
 	// 로그인한 회원 아이디와 이름을 저장
 	var loginId = document.getElementById("loginId").value;
-	var todayStr = thisToday.getFullYear() + '-' + (thisToday.getMonth()+1) + '-' + thisToday.getDate();
+	var todayStr = thisToday.getFullYear() + '-';
+	todayStr += (thisToday.getMonth()+1) < 10 ? '0' : '';
+	todayStr += (thisToday.getMonth()+1) + '-';
+	todayStr += thisToday.getDate() < 10 ? '0' : '';
+	todayStr += thisToday.getDate();
 	var result = false;
 	$.ajax({
 		url:	"/member/checkTodayStatus/",
@@ -182,7 +186,9 @@ function next(){
 
 // 활동내역을 다시 출력
 function reshowingHistory(){
-	var todayStr = today.getFullYear() + '-' + (today.getMonth()+1) + '-';
+	var todayStr = today.getFullYear() + '-';
+	todayStr += (today.getMonth()+1) < 10 ? '0' : '';
+	todayStr += (today.getMonth()+1) + '-';
 	todayStr += today.getDate() < 10 ? '0' : '';
 	todayStr += today.getDate();
 	// 로그인한 회원 아이디와 이름을 저장

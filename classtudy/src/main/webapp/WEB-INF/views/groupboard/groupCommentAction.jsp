@@ -16,7 +16,7 @@
 			return false;
 		} else {
 			$.ajax({    
-			      url : '${path}/community/groupsearch/join',
+			      url : '/community/groupsearch/join',
 			      type : 'post',
 			      data : {'groupNo': groupNo},
 			      success : function(data){
